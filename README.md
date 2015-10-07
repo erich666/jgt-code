@@ -26,4 +26,4 @@ DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
 FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 ```
 
-A bibliography organized by technical terms [is available](ftp://ftp.math.utah.edu/pub/tex/bib/jgraphtools.pdf) from Nelson H. F. Beebe's site.
+A bibliography organized by technical terms is available from [Nelson H. F. Beebe's site](http://www.math.utah.edu/~beebe/bibliographies.html); we [mirror it here](https://github.com/erich666/jgt-code/blob/master/jgraphtools.pdf).
