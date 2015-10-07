@@ -1,0 +1,1 @@
+See http://fileadmin.cs.lth.se/cs/Personal/Tomas_Akenine-Moller/raytri/ for the related work, and http://fileadmin.cs.lth.se/cs/Personal/Tomas_Akenine-Moller/code/ for still more information.
