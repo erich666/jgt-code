@@ -9,17 +9,17 @@ This is a repository of code developed for [articles](http://ftp.math.utah.edu/p
 
 The following articles have related code; look in the Volume, Number, and last name of the first author for the code itself.
 
-* Tomas Möller and Ben Trumbore, "Fast, minimum storage ray-triangle intersection," *Journal of Graphics Tools*, 2(1):21-28, 1997.
+* Möller, Tomas, and Ben Trumbore, "Fast, minimum storage ray-triangle intersection," *Journal of Graphics Tools*, 2(1):21-28, 1997.
 
-* Tomas Möller, "A fast triangle-triangle intersection test," *Journal of Graphics Tools*, 2(2):25-30, 1997.
+* Möller, Tomas, "A fast triangle-triangle intersection test," *Journal of Graphics Tools*, 2(2):25-30, 1997.
 
-* Tomas Möller and John F. Hughes, "Efficiently building a matrix to rotate one vector to another," *Journal of Graphics Tools*, 4(4):1-4, 1999.
+* Möller, Tomas, and John F. Hughes, "Efficiently building a matrix to rotate one vector to another," *Journal of Graphics Tools*, 4(4):1-4, 1999.
 
-* Eric Haines, "A shaft culling tool," *Journal of Graphics Tools*, 5(1):23-26, 2000.
+* Haines, Eric, "A shaft culling tool," *Journal of Graphics Tools*, 5(1):23-26, 2000.
 
-* Amy Williams, Steve Barrus, R. Keith Morley, and Peter Shirley, "An efficient and robust ray-box intersection algorithm," *Journal of Graphics Tools*, 10(1):49-54, 2005.
+* Williams, Amy, Steve Barrus, R. Keith Morley, and Peter Shirley, "An efficient and robust ray-box intersection algorithm," *Journal of Graphics Tools*, 10(1):49-54, 2005.
 
-* Ares Lagae and Philip Dutré, "An efficient ray-quadrilateral intersection test," Journal of Graphics Tools: JGT, 10(4):23-32, 2005.
+* Lagae, Ares, and Philip Dutré, "An efficient ray-quadrilateral intersection test," Journal of Graphics Tools: JGT, 10(4):23-32, 2005.
 
 It would be a courtesy to the authors that the relevant paper is cited when the code is used.
 
