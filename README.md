@@ -19,6 +19,8 @@ The following articles have related code; look in the Volume, Number, and last n
 
 * Williams, Amy, Steve Barrus, R. Keith Morley, and Peter Shirley, "An efficient and robust ray-box intersection algorithm," *Journal of Graphics Tools*, 10(1):49-54, 2005.
 
+* Guigue, Philippe, and Olivier Devillers, "Fast and robust triangle-triangle overlap test using orientation predicates," *Journal of Graphics Tools*, 8(1):25-32, 2003.
+
 * Lagae, Ares, and Philip Dutré, "An efficient ray-quadrilateral intersection test," Journal of Graphics Tools: JGT, 10(4):23-32, 2005.
 
 It would be a courtesy to the authors that the relevant paper is cited when the code is used.
@@ -44,4 +46,4 @@ DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
 FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 ```
 
-A bibliography organized by technical terms is available from [Nelson H. F. Beebe's site](http://www.math.utah.edu/~beebe/bibliographies.html); we [mirror it here](https://github.com/erich666/jgt-code/blob/master/jgraphtools.pdf).
+A bibliography organized by technical terms is available from [Nelson H. F. Beebe's site](http://www.math.utah.edu/~beebe/bibliographies.html); we [mirror it here](https://github.com/erich666/jgt-code/blob/master/jgraphtools.pdf). That site also maintains a [list of articles](http://ftp.math.utah.edu/pub/tex/bib/toc/jgraphtools.html).
