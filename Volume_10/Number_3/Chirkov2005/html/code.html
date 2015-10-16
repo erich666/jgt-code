@@ -1,0 +1,90 @@
+<title>jgt: intersect_triangle()</title>
+<BODY BGCOLOR="#fff9f6">
+  <pre>
+
+struct RAYTRI
+{
+	double org[3];
+	double end[3];
+	double dir[3];
+	double v0[3],v1[3],v2[3];
+
+	struct PLANE
+	{
+		double x, y, z, d;
+		enum MAIN_AXIS { X, Y, Z };
+		MAIN_AXIS type;
+	};
+	PLANE plane;
+};
+
+int c2005(const RAYTRI* rt)
+{
+	double signSrc = rt-&gt;plane.x*rt-&gt;org[0] + rt-&gt;plane.y*rt-&gt;org[1] + rt-&gt;plane.z*rt-&gt;org[2] - rt-&gt;plane.d;
+	double signDst = rt-&gt;plane.x*rt-&gt;end[0] + rt-&gt;plane.y*rt-&gt;end[1] + rt-&gt;plane.z*rt-&gt;end[2] - rt-&gt;plane.d;
+	if(signSrc*signDst &gt; 0.0)	return 0;
+
+	double d = signSrc - signDst;
+
+	if(rt-&gt;plane.type==RAYTRI::PLANE::X)
+	{
+		double e0y = rt-&gt;v1[1] - rt-&gt;v0[1];
+		double e0z = rt-&gt;v1[2] - rt-&gt;v0[2];
+		double e1y = rt-&gt;v2[1] - rt-&gt;v0[1];
+		double e1z = rt-&gt;v2[2] - rt-&gt;v0[2];
+		double basey = rt-&gt;org[1] - rt-&gt;v0[1];
+		double basez = rt-&gt;org[2] - rt-&gt;v0[2];
+
+		double adelx = signSrc*(e0y * rt-&gt;dir[2] - e0z * rt-&gt;dir[1]);
+		if( (adelx + d*(e0y*basez - e0z*basey)) * ( signSrc*(rt-&gt;dir[1]*e1z - rt-&gt;dir[2]*e1y) + d*(basey*e1z - basez*e1y)) &gt; 0.0)
+		{
+			double e2y = rt-&gt;v1[1] - rt-&gt;v2[1];
+			double e2z = rt-&gt;v1[2] - rt-&gt;v2[2];
+			basey = rt-&gt;org[1] - rt-&gt;v1[1];
+			basez = rt-&gt;org[2] - rt-&gt;v1[2];
+			if( (adelx + d*(e0y*basez - e0z*basey)) * ( signSrc*(rt-&gt;dir[1]*e2z - rt-&gt;dir[2]*e2y) + d*(basey*e2z - basez*e2y)) &gt; 0.0)	return 1;
+		}
+	}
+	else
+		if(rt-&gt;plane.type==RAYTRI::PLANE::Y)
+		{
+			double e0x = rt-&gt;v1[0] - rt-&gt;v0[0];
+			double e0z = rt-&gt;v1[2] - rt-&gt;v0[2];
+			double e1x = rt-&gt;v2[0] - rt-&gt;v0[0];
+			double e1z = rt-&gt;v2[2] - rt-&gt;v0[2];
+			double basex = rt-&gt;org[0] - rt-&gt;v0[0];
+			double basez = rt-&gt;org[2] - rt-&gt;v0[2];
+			double adely = signSrc*(e0z * rt-&gt;dir[0] - e0x * rt-&gt;dir[2]);
+			if( (adely + d*(e0z*basex - e0x*basez)) * ( signSrc*(rt-&gt;dir[2]*e1x - rt-&gt;dir[0]*e1z) + d*(basez*e1x - basex*e1z)) &gt; 0.0)
+			{
+				double e2x = rt-&gt;v1[0] - rt-&gt;v2[0];
+				double e2z = rt-&gt;v1[2] - rt-&gt;v2[2];
+				basex = rt-&gt;org[0] - rt-&gt;v1[0];
+				basez = rt-&gt;org[2] - rt-&gt;v1[2];
+				if( (adely + d*(e0z*basex - e0x*basez)) * ( signSrc*(rt-&gt;dir[2]*e2x - rt-&gt;dir[0]*e2z) + d*(basez*e2x - basex*e2z)) &gt; 0.0)	return 1;
+			}
+		}
+		else
+		{
+			double e0x = rt-&gt;v1[0] - rt-&gt;v0[0];
+			double e0y = rt-&gt;v1[1] - rt-&gt;v0[1];
+			double e1x = rt-&gt;v2[0] - rt-&gt;v0[0];
+			double e1y = rt-&gt;v2[1] - rt-&gt;v0[1];
+			double basex = rt-&gt;org[0] - rt-&gt;v0[0];
+			double basey = rt-&gt;org[1] - rt-&gt;v0[1];
+			double adelz = signSrc*(e0x * rt-&gt;dir[1] - e0y * rt-&gt;dir[0]);
+
+			if( (adelz + d*(e0x*basey - e0y*basex)) * ( signSrc*(rt-&gt;dir[0]*e1y - rt-&gt;dir[1]*e1x) + d*(basex*e1y - basey*e1x)) &gt; 0.0)
+			{
+				double e2x = rt-&gt;v1[0] - rt-&gt;v2[0];
+				double e2y = rt-&gt;v1[1] - rt-&gt;v2[1];
+				basex = rt-&gt;org[0] - rt-&gt;v1[0];
+				basey = rt-&gt;org[1] - rt-&gt;v1[1];
+				if( (adelz + d*(e0x*basey - e0y*basex)) * ( signSrc*(rt-&gt;dir[0]*e2y - rt-&gt;dir[1]*e2x) + d*(basex*e2y - basey*e2x)) &gt; 0.0)	return 1;
+			}
+		}
+
+	return 0;
+}
+</pre>
+</BODY>

@@ -1,0 +1,62 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+	<HEAD>
+		<TITLE>Ray/Triangle Intersection Statistics</TITLE>
+		<META NAME="GENERATOR" CONTENT="Mozilla/3.0Gold (X11; I; IRIX64 6.4 IP30) [Netscape]">
+		<meta http-equiv="Content-Type" content="text/html;charset=windows-1252">
+	</HEAD>
+	<BODY BGCOLOR="#ffffff">
+		<H2 ALIGN="center">Fast Line-Segment Triangle Intersection</H2>
+		<P>
+			To be sure that C2005 performes well&nbsp;it is desireble to test this 
+			algorithm compare to MT97 on different&nbsp;computers with different hardware 
+			configuration. The algorithms was compiled using MSDEV 7.1 C++ compiler.
+			All diagrams shows time in ns of one call to procedure.
+		</P>
+		<P>
+			&nbsp;
+		</P>
+		<P>The first test&nbsp;was done for different size of test data on Athlon 
+			2800&nbsp;XP+ with DDR400 memory. Athlon has 512Kb of L2 cache memory so when 
+			data size is larger then CPU accesses main memory that takes a lot of time.
+		</P>
+		<CENTER>
+			<IMG SRC="athlon.gif" WIDTH="463" HEIGHT="348"></CENTER>
+		<P>&nbsp;</P>
+		<P>&nbsp;</P>
+		<CENTER></CENTER>
+		Pentium-4 2.8 GHz has 512Kb L2 cache. The main memory is DDR400.<br>
+		<CENTER>
+			<IMG SRC="p4.gif" WIDTH="465" HEIGHT="326"> &nbsp;&nbsp;
+		</CENTER>
+		<CENTER>&nbsp;</CENTER>
+		<CENTER>&nbsp;</CENTER>
+		<CENTER>&nbsp;</CENTER>
+		This diagram shows C2005 algorithm for Athlon XP 2800+, DDR400, Pentium-4 
+		2.8 GHz, DDR400 and Pentium 4 (Prescott) 2.8 GHz DDR400 performance.<br>
+		<CENTER>
+			<IMG SRC="ath-p4-press.gif" WIDTH="463" HEIGHT="334"></CENTER>
+		<P>&nbsp;&nbsp;
+		</P>
+		<P>&nbsp;</P>
+		<CENTER></CENTER>
+		The next test with 368 Kb of data involves many different configurations. The 
+		diagram shows computation power without accessing main memory.<br>
+		<CENTER>
+			<IMG SRC="cpu.gif" WIDTH="345" HEIGHT="330"></CENTER>
+		<P>&nbsp;&nbsp;
+		</P>
+		<P>&nbsp;</P>
+		<CENTER></CENTER>
+		This test uses C2005 with different probability of intersection<br>
+		<CENTER>
+			<IMG SRC="percent.gif" WIDTH="472" HEIGHT="335"><br>
+		</CENTER>
+		<P>&nbsp;</P>
+		<CENTER></CENTER>
+		This last test shows SSE and SSE2 performance<br>
+		<CENTER>
+			<IMG SRC="sse.gif" WIDTH="475" HEIGHT="315"><br>
+		</CENTER>
+	</BODY>
+</HTML>

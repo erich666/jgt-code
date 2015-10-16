@@ -1,0 +1,72 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+  <HEAD>
+    <TITLE>jgt: Fast Line-Segment Triangle Intersection</TITLE>
+    <META NAME="GENERATOR" CONTENT="Mozilla/3.0Gold (X11; I; IRIX64 6.4 IP30) [Netscape]">
+    <meta http-equiv="Content-Type" content="text/html;charset=windows-1252">
+  </HEAD>
+  <BODY BGCOLOR="#fff9f6">
+    <P><FONT SIZE="-1">Nick Chirkov. Fast Line-Segment Triangle Intersection. Journal 
+        of graphics tools, 2(1):21-28, 2005</FONT></P>
+    <P><BR>
+    </P>
+    <H2 ALIGN="center">Fast 3D Line-Segment Triangle Intersection Test</H2>
+    <CENTER>
+      <P><BR>
+        Nick Chirkov
+        <BR>
+        <A HREF="http://www.artyshock.net">ArtyShock LLC</A>
+        <BR>
+        <A HREF="mailto:nickchir@artyshock.net">nickchir@artyshock.net</A></P>
+      <P>&nbsp;</P>
+    </CENTER>
+    <DL>
+      <DT><B>Abstract:</B>
+        <DD>
+          I present a clean algorithm for determining if a line-segment intersects a 
+          triangle or not. The algorithm performs a few binary tests that check if a 
+          point of intersection of the line-segment and triangle plane is inside the 
+          triangle. Then I present some essential optimizations for this algorithm that 
+          reduce overall computation complexity. The algorithm does not compute an 
+          intersection point.The algorithm is comparable with others but I believe it is 
+          the fastest one when additional memory storage is available.&nbsp;
+          <DD>
+            <BR>
+            <B>Source code:</B>
+            <DD>
+              <A HREF="code.html">Downloadable C++ source code</a> implements
+                the algorithm described in <A HREF="http://www.tandfonline.com/doi/abs/10.1080/2151237X.2005.10129201">this paper</A><DT>
+                <BR>
+                <B>Statistical Analysis:</B>
+                <DD>
+                  A <A HREF="stats.html">report</A> on 
+                  the efficiency of this algorithm as compared with Moller-Trumbore algorithm. <DT>
+                    <BR>
+                    <B>Images:</B>
+                    <CENTER><TABLE>
+                        <TR>
+                          <TD><A HREF="kitchen.jpg"><IMG SRC="kitchen_.jpg" HEIGHT="129" WIDTH="172"></A>
+                          </TD>
+                          <TD><A HREF="cornellbox.jpg"><IMG SRC="cornellbox_.jpg" HEIGHT="129" WIDTH="128"></A>
+                          </TD>
+                        </TR>
+                        <TR>
+                          <TD align="center">Kitchen Scene from
+                            <br>
+                            ArtyShock&nbsp;Engine
+                          </TD>
+                          <TD align="center">Cornell Box Global
+                            <br>
+                            Illumination test scene
+                          </TD>
+                        </TR>
+                      </TABLE>
+                    </CENTER>
+                    <DT></DT>
+    </DL>
+    <P>
+      <HR>
+    <P></P>
+    <P><A HREF="http://www.tandfonline.com/loi/ujgt21">Return to <I>jgt</I> home page</A></P>
+  </BODY>
+</HTML>
