@@ -19,7 +19,7 @@ The following articles have related code; look in the corresponding folder by Vo
 
 * Haines, Eric, ["A Shaft Culling Tool,"](http://www.tandfonline.com/doi/abs/10.1080/10867651.2000.10487518) *Journal of Graphics Tools*, 5(1):23-26, 2000.
 
-* Guigue, Philippe, and Olivier Devillers, []"Fast and Robust Triangle-Triangle Overlap Test Using Orientation Predicates,"](http://www.tandfonline.com/doi/abs/10.1080/10867651.2003.10487580) *Journal of Graphics Tools*, 8(1):25-32, 2003.
+* Guigue, Philippe, and Olivier Devillers, ["Fast and Robust Triangle-Triangle Overlap Test Using Orientation Predicates,"](http://www.tandfonline.com/doi/abs/10.1080/10867651.2003.10487580) *Journal of Graphics Tools*, 8(1):25-32, 2003.
 
 * Williams, Amy, Steve Barrus, R. Keith Morley, and Peter Shirley, ["An Efficient and Robust Ray-Box Intersection Algorithm,"](http://www.tandfonline.com/doi/abs/10.1080/2151237X.2005.10129188) *Journal of Graphics, GPU, and Game Tools*, 10(1):49-54, 2005.
 
