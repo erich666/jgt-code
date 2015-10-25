@@ -7,23 +7,25 @@ This is a repository of code developed for [articles](http://ftp.math.utah.edu/p
 
 ##### Code in the repository
 
-The following articles have related code; look in the Volume, Number, and last name of the first author for the code itself.
+The following articles have related code; look in the corresponding folder by Volume, Number, and last name of the first author for the code itself.
 
-* Möller, Tomas, and Ben Trumbore, "Fast, Minimum Storage Ray-Triangle Intersection," *Journal of Graphics Tools*, 2(1):21-28, 1997.
+* Möller, Tomas, and Ben Trumbore, ["Fast, Minimum Storage Ray-Triangle Intersection,"](http://www.tandfonline.com/doi/abs/10.1080/10867651.1997.10487468) *Journal of Graphics Tools*, 2(1):21-28, 1997.
 
-* Möller, Tomas, "A Fast Triangle-Triangle Intersection Test," *Journal of Graphics Tools*, 2(2):25-30, 1997.
+* Möller, Tomas, ["A Fast Triangle-Triangle Intersection Test,"](http://www.tandfonline.com/doi/abs/10.1080/10867651.1997.10487472) *Journal of Graphics Tools*, 2(2):25-30, 1997.
 
-* Möller, Tomas, and John F. Hughes, "Efficiently Building a Matrix to Rotate One Vector to Another," *Journal of Graphics Tools*, 4(4):1-4, 1999.
+* Shirley, Peter, and Kenneth Chiu, ["A Low Distortion Map Between Disk and Square,"](http://www.tandfonline.com/doi/abs/10.1080/10867651.1997.10487479) *Journal of Graphics Tools*, 2(3):45-52, 1997.
 
-* Haines, Eric, "A Shaft Culling Tool," *Journal of Graphics Tools*, 5(1):23-26, 2000.
+* Möller, Tomas, and John F. Hughes, ["Efficiently Building a Matrix to Rotate One Vector to Another,"](http://www.tandfonline.com/doi/abs/10.1080/10867651.1999.10487509) *Journal of Graphics Tools*, 4(4):1-4, 1999.
 
-* Guigue, Philippe, and Olivier Devillers, "Fast and Robust Triangle-Triangle Overlap Test Using Orientation Predicates," *Journal of Graphics Tools*, 8(1):25-32, 2003.
+* Haines, Eric, ["A Shaft Culling Tool,"](http://www.tandfonline.com/doi/abs/10.1080/10867651.2000.10487518) *Journal of Graphics Tools*, 5(1):23-26, 2000.
 
-* Williams, Amy, Steve Barrus, R. Keith Morley, and Peter Shirley, "An Efficient and Robust Ray-Box Intersection Algorithm," *Journal of Graphics, GPU, and Game Tools*, 10(1):49-54, 2005.
+* Guigue, Philippe, and Olivier Devillers, []"Fast and Robust Triangle-Triangle Overlap Test Using Orientation Predicates,"](http://www.tandfonline.com/doi/abs/10.1080/10867651.2003.10487580) *Journal of Graphics Tools*, 8(1):25-32, 2003.
 
-* Chirkov, Nick, "Fast Line-Segment Triangle Intersection," *Journal of Graphics, GPU, and Game Tools*, 10(3):21-28, 2005.
+* Williams, Amy, Steve Barrus, R. Keith Morley, and Peter Shirley, ["An Efficient and Robust Ray-Box Intersection Algorithm,"](http://www.tandfonline.com/doi/abs/10.1080/2151237X.2005.10129188) *Journal of Graphics, GPU, and Game Tools*, 10(1):49-54, 2005.
 
-* Lagae, Ares, and Philip Dutré, "An Efficient Ray-Quadrilateral Intersection Test," *Journal of Graphics, GPU, and Game Tools*, 10(4):23-32, 2005.
+* Chirkov, Nick, ["Fast Line-Segment Triangle Intersection,"](http://www.tandfonline.com/doi/abs/10.1080/2151237X.2005.10129201) *Journal of Graphics, GPU, and Game Tools*, 10(3):21-28, 2005.
+
+* Lagae, Ares, and Philip Dutré, ["An Efficient Ray-Quadrilateral Intersection Test,"](http://www.tandfonline.com/doi/abs/10.1080/2151237X.2005.10129208) *Journal of Graphics, GPU, and Game Tools*, 10(4):23-32, 2005.
 
 It would be a courtesy to the authors that the relevant paper is cited when the code is used.
 
