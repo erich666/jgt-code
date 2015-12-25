@@ -21,7 +21,7 @@ The following articles have related code; look in the corresponding folder by Vo
 
 * Guigue, Philippe, and Olivier Devillers, ["Fast and Robust Triangle-Triangle Overlap Test Using Orientation Predicates,"](http://www.tandfonline.com/doi/abs/10.1080/10867651.2003.10487580) *Journal of Graphics Tools*, 8(1):25-32, 2003. [**Code**](Volume_08/Number_1/Guigue2003)
 
-* Mahovsky, Jeffrey, and Brian Wyvill, ["Fast Ray-Axis Aligned Bounding Box Overlap Tests with Plucker Coordinates,"](http://www.tandfonline.com/doi/abs/10.1080/10867651.2004.10487597) *Journal of Graphics, GPU, and Game Tools*, 9(1):35-46, 2004. [**Code**](Volume_9/Number_1/Mahovsky2004)
+* Mahovsky, Jeffrey, and Brian Wyvill, ["Fast Ray-Axis Aligned Bounding Box Overlap Tests with Plucker Coordinates,"](http://www.tandfonline.com/doi/abs/10.1080/10867651.2004.10487597) *Journal of Graphics, GPU, and Game Tools*, 9(1):35-46, 2004. [**Code**](Volume_09/Number_1/Mahovsky2004)
 
 * Williams, Amy, Steve Barrus, R. Keith Morley, and Peter Shirley, ["An Efficient and Robust Ray-Box Intersection Algorithm,"](http://www.tandfonline.com/doi/abs/10.1080/2151237X.2005.10129188) *Journal of Graphics, GPU, and Game Tools*, 10(1):49-54, 2005. [**Code**](Volume_10/Number_1/Williams2005)
 
