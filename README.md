@@ -9,11 +9,11 @@ This is a repository of code developed for [articles](http://ftp.math.utah.edu/p
 
 The following articles have related code; look in the corresponding folder by Volume, Number, and last name of the first author for the code itself.
 
-* Möller, Tomas, and Ben Trumbore, ["Fast, Minimum Storage Ray-Triangle Intersection,"](http://www.tandfonline.com/doi/abs/10.1080/10867651.1997.10487468) *Journal of Graphics Tools*, 2(1):21-28, 1997. [code](http:Volume_02/Number_1/Moller1997a)
+* Möller, Tomas, and Ben Trumbore, ["Fast, Minimum Storage Ray-Triangle Intersection,"](http://www.tandfonline.com/doi/abs/10.1080/10867651.1997.10487468) *Journal of Graphics Tools*, 2(1):21-28, 1997. [*Code*](Volume_02/Number_1/Moller1997a)
 
-* Möller, Tomas, ["A Fast Triangle-Triangle Intersection Test,"](http://www.tandfonline.com/doi/abs/10.1080/10867651.1997.10487472) *Journal of Graphics Tools*, 2(2):25-30, 1997. [code](http:Volume_02/Number_2/Moller1997b)
+* Möller, Tomas, ["A Fast Triangle-Triangle Intersection Test,"](http://www.tandfonline.com/doi/abs/10.1080/10867651.1997.10487472) *Journal of Graphics Tools*, 2(2):25-30, 1997. [*Code*](Volume_02/Number_2/Moller1997b)
 
-* Shirley, Peter, and Kenneth Chiu, ["A Low Distortion Map Between Disk and Square,"](http://www.tandfonline.com/doi/abs/10.1080/10867651.1997.10487479) *Journal of Graphics Tools*, 2(3):45-52, 1997. [code](http:Volume_02/Number_3/Shirley1997)
+* Shirley, Peter, and Kenneth Chiu, ["A Low Distortion Map Between Disk and Square,"](http://www.tandfonline.com/doi/abs/10.1080/10867651.1997.10487479) *Journal of Graphics Tools*, 2(3):45-52, 1997. [*Code*](Volume_02/Number_3/Shirley1997)
 
 * Möller, Tomas, and John F. Hughes, ["Efficiently Building a Matrix to Rotate One Vector to Another,"](http://www.tandfonline.com/doi/abs/10.1080/10867651.1999.10487509) *Journal of Graphics Tools*, 4(4):1-4, 1999.
 
