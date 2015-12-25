@@ -9,25 +9,25 @@ This is a repository of code developed for [articles](http://ftp.math.utah.edu/p
 
 The following articles have related code; look in the corresponding folder by Volume, Number, and last name of the first author for the code itself.
 
-* Möller, Tomas, and Ben Trumbore, ["Fast, Minimum Storage Ray-Triangle Intersection,"](http://www.tandfonline.com/doi/abs/10.1080/10867651.1997.10487468) *Journal of Graphics Tools*, 2(1):21-28, 1997. [*Code*](Volume_02/Number_1/Moller1997a)
+* Möller, Tomas, and Ben Trumbore, ["Fast, Minimum Storage Ray-Triangle Intersection,"](http://www.tandfonline.com/doi/abs/10.1080/10867651.1997.10487468) *Journal of Graphics Tools*, 2(1):21-28, 1997. [**Code**](Volume_02/Number_1/Moller1997a)
 
-* Möller, Tomas, ["A Fast Triangle-Triangle Intersection Test,"](http://www.tandfonline.com/doi/abs/10.1080/10867651.1997.10487472) *Journal of Graphics Tools*, 2(2):25-30, 1997. [*Code*](Volume_02/Number_2/Moller1997b)
+* Möller, Tomas, ["A Fast Triangle-Triangle Intersection Test,"](http://www.tandfonline.com/doi/abs/10.1080/10867651.1997.10487472) *Journal of Graphics Tools*, 2(2):25-30, 1997. [**Code**](Volume_02/Number_2/Moller1997b)
 
-* Shirley, Peter, and Kenneth Chiu, ["A Low Distortion Map Between Disk and Square,"](http://www.tandfonline.com/doi/abs/10.1080/10867651.1997.10487479) *Journal of Graphics Tools*, 2(3):45-52, 1997. [*Code*](Volume_02/Number_3/Shirley1997)
+* Shirley, Peter, and Kenneth Chiu, ["A Low Distortion Map Between Disk and Square,"](http://www.tandfonline.com/doi/abs/10.1080/10867651.1997.10487479) *Journal of Graphics Tools*, 2(3):45-52, 1997. [**Code**](Volume_02/Number_3/Shirley1997)
 
-* Möller, Tomas, and John F. Hughes, ["Efficiently Building a Matrix to Rotate One Vector to Another,"](http://www.tandfonline.com/doi/abs/10.1080/10867651.1999.10487509) *Journal of Graphics Tools*, 4(4):1-4, 1999.
+* Möller, Tomas, and John F. Hughes, ["Efficiently Building a Matrix to Rotate One Vector to Another,"](http://www.tandfonline.com/doi/abs/10.1080/10867651.1999.10487509) *Journal of Graphics Tools*, 4(4):1-4, 1999. [**Code**](Volume_04/Number_4/Moller1999)
 
-* Haines, Eric, ["A Shaft Culling Tool,"](http://www.tandfonline.com/doi/abs/10.1080/10867651.2000.10487518) *Journal of Graphics Tools*, 5(1):23-26, 2000.
+* Haines, Eric, ["A Shaft Culling Tool,"](http://www.tandfonline.com/doi/abs/10.1080/10867651.2000.10487518) *Journal of Graphics Tools*, 5(1):23-26, 2000. [**Code**](Volume_05/Number_1/Haines2000)
 
-* Guigue, Philippe, and Olivier Devillers, ["Fast and Robust Triangle-Triangle Overlap Test Using Orientation Predicates,"](http://www.tandfonline.com/doi/abs/10.1080/10867651.2003.10487580) *Journal of Graphics Tools*, 8(1):25-32, 2003.
+* Guigue, Philippe, and Olivier Devillers, ["Fast and Robust Triangle-Triangle Overlap Test Using Orientation Predicates,"](http://www.tandfonline.com/doi/abs/10.1080/10867651.2003.10487580) *Journal of Graphics Tools*, 8(1):25-32, 2003. [**Code**](Volume_08/Number_1/Guigue2003)
 
-* Williams, Amy, Steve Barrus, R. Keith Morley, and Peter Shirley, ["An Efficient and Robust Ray-Box Intersection Algorithm,"](http://www.tandfonline.com/doi/abs/10.1080/2151237X.2005.10129188) *Journal of Graphics, GPU, and Game Tools*, 10(1):49-54, 2005.
+* Williams, Amy, Steve Barrus, R. Keith Morley, and Peter Shirley, ["An Efficient and Robust Ray-Box Intersection Algorithm,"](http://www.tandfonline.com/doi/abs/10.1080/2151237X.2005.10129188) *Journal of Graphics, GPU, and Game Tools*, 10(1):49-54, 2005. [**Code**](Volume_10/Number_1/Williams2005)
 
-* Chirkov, Nick, ["Fast Line-Segment Triangle Intersection,"](http://www.tandfonline.com/doi/abs/10.1080/2151237X.2005.10129201) *Journal of Graphics, GPU, and Game Tools*, 10(3):21-28, 2005.
+* Chirkov, Nick, ["Fast Line-Segment Triangle Intersection,"](http://www.tandfonline.com/doi/abs/10.1080/2151237X.2005.10129201) *Journal of Graphics, GPU, and Game Tools*, 10(3):21-28, 2005. [**Code**](Volume_10/Number_3/Chirkov2005)
 
-* Lagae, Ares, and Philip Dutré, ["An Efficient Ray-Quadrilateral Intersection Test,"](http://www.tandfonline.com/doi/abs/10.1080/2151237X.2005.10129208) *Journal of Graphics, GPU, and Game Tools*, 10(4):23-32, 2005.
+* Lagae, Ares, and Philip Dutré, ["An Efficient Ray-Quadrilateral Intersection Test,"](http://www.tandfonline.com/doi/abs/10.1080/2151237X.2005.10129208) *Journal of Graphics, GPU, and Game Tools*, 10(4):23-32, 2005. [**Code**](Volume_10/Number_4/Lagae2005)
 
-It would be a courtesy to the authors that the relevant paper is cited when the code is used.
+It would be a kind courtesy to the authors that the relevant paper is cited when the code is used.
 
 Code in this repository is under this form of the [MIT License](https://en.wikipedia.org/wiki/MIT_License#License_terms) unless otherwise stated:
 
