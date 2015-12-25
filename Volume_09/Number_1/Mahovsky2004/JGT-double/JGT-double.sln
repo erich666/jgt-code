@@ -1,0 +1,21 @@
+Microsoft Visual Studio Solution File, Format Version 8.00
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "JGT", "JGT.vcproj", "{FF4C7581-E757-4DD8-882A-3B62118FE55C}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfiguration) = preSolution
+		Debug = Debug
+		Release = Release
+	EndGlobalSection
+	GlobalSection(ProjectConfiguration) = postSolution
+		{FF4C7581-E757-4DD8-882A-3B62118FE55C}.Debug.ActiveCfg = Debug|Win32
+		{FF4C7581-E757-4DD8-882A-3B62118FE55C}.Debug.Build.0 = Debug|Win32
+		{FF4C7581-E757-4DD8-882A-3B62118FE55C}.Release.ActiveCfg = Release|Win32
+		{FF4C7581-E757-4DD8-882A-3B62118FE55C}.Release.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+	EndGlobalSection
+	GlobalSection(ExtensibilityAddIns) = postSolution
+	EndGlobalSection
+EndGlobal
