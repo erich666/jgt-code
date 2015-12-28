@@ -1,0 +1,117 @@
+# data file for the Fltk User Interface Designer (fluid)
+version 1.0100 
+header_name {UserInterface.h} 
+code_name {UserInterface.cpp}
+class UserInterface {open
+} {
+  Function {make_window()} {open
+  } {
+    Fl_Window m_mainWindow {
+      label {Mesh viewer} open
+      xywh {277 70 797 595} type Double resizable
+      code0 {\#include "StdAfx.H"} visible
+    } {
+      Fl_Group {} {
+        label {Camera controls} open selected
+        xywh {0 22 125 506} box ENGRAVED_BOX
+      } {
+        Fl_Slider m_sldZoom {
+          label Zoom
+          callback {const double dZ = M_PI - M_PI * m_sldZoom->value();
+Camera().SetZoom( dZ );
+m_view->redraw();}
+          tooltip {Zoom camera in and out} xywh {16 29 95 25} type Horizontal minimum 0.0001 maximum 0.999 step 0.01 value 0.5 slider_size 0.040404
+        }
+        Fl_Roller m_rolRotAmt {
+          label {Rot. }
+          callback {m_view->SetCamera().SetRotAmount( M_PI * m_rolRotAmt->value() * 2.0 * M_PI );
+m_view->redraw();}
+          tooltip {Set rotation amount for key (j,k,i,m,r,R)} xywh {45 333 75 20} type Horizontal align 4 value 0.2
+        }
+        Fl_Dial m_dialSpin {
+          label Spin
+          callback {m_view->Spin( m_dialSpin->value() * 2.0 * M_PI );
+m_view->redraw();}
+          tooltip {Spin camera} xywh {74 91 31 30} step 0.05
+        }
+        Fl_Adjuster m_adjXTrans {
+          label {Move horiz}
+          callback {Camera().PanLeft( m_adjXTrans->value() );
+m_view->redraw();}
+          tooltip {Pan left/right} xywh {5 223 105 17} minimum -5 maximum 5
+        }
+        Fl_Adjuster m_adjYTrans {
+          label {Move vertical}
+          callback {const R3Pt ptFrom = Camera().From();
+
+Camera().SetTranslation( R3Vec(ptFrom[0], m_adjYTrans->value(), ptFrom[2] ) );
+m_view->redraw();}
+          tooltip {Camera up/down} xywh {5 257 105 17} minimum -5 maximum 5
+        }
+        Fl_Adjuster m_adjInOut {
+          label {In/Out}
+          callback {Camera().PanIn( m_adjInOut->value() );
+m_view->redraw();}
+          tooltip {Move camera in and out} xywh {5 296 105 17} minimum -5 maximum 5
+        }
+        Fl_Roller m_rolTransAmt {
+          label {Trans.}
+          callback {m_view->SetCamera().SetPanAmount( m_rolTransAmt->value() );
+m_view->redraw();}
+          tooltip {Change translation amount} xywh {45 358 75 15} type Horizontal align 4 maximum 10 value 0.1
+        }
+        Fl_Button {} {
+          label Reset
+          callback {Camera().Reset();
+m_view->redraw();}
+          tooltip {Reset camera} xywh {24 378 65 25}
+        }
+        Fl_Roller m_rolUpDown {
+          label {Up/down}
+          callback {m_view->Tilt( m_rolUpDown->value() );
+m_view->redraw();}
+          tooltip {Rotate the camera up/down} xywh {15 68 20 70} minimum -1 step 0.01
+        }
+        Fl_Roller m_rolLeftRight {
+          label {Rot left/rignt}
+          callback {m_view->Pan( m_rolLeftRight->value() );
+m_view->redraw();}
+          tooltip {Rotate left to right} xywh {16 158 85 20} type Horizontal minimum -1 step 0.01
+        }
+        Fl_Button {} {
+          label Zero
+          callback {m_adjXTrans->value(0);
+m_adjYTrans->value(0);
+m_adjInOut->value(0);}
+          tooltip {Zero trans sliders} xywh {5 194 35 25}
+        }
+        Fl_Check_Button {} {
+          label IBar
+          callback {m_view->ToggleIBar();
+m_view->redraw();}
+          xywh {0 462 20 25} down_box DOWN_BOX value 1
+        }
+        Fl_Check_Button {} {
+          label {Center obj}
+          callback {m_view->ToggleCenterObject();
+m_view->redraw();}
+          xywh {0 483 25 20} down_box DOWN_BOX
+        }
+      }
+      Fl_Box m_view {
+        xywh {135 3 560 557} resizable
+        code0 {\#include "JofGTIBar.H"}
+        class JofGTIBar
+      }
+    }
+  }
+  Function {Camera()} {open return_type {OGLObjsCamera &}
+  } {
+    codeblock {return m_view->SetCamera();} {open
+    } {}
+  }
+  Function {UserInterface()} {open
+  } {
+    code {m_mainWindow = make_window();} {}
+  }
+} 

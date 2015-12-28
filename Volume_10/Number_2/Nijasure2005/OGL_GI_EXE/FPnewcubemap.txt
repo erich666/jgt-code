@@ -1,0 +1,70 @@
+!!ARBfp1.0
+
+OPTION ATI_draw_buffers;
+
+# Fragment attributes  (inputs)
+#------------------------------
+ATTRIB in_p	= fragment.position;
+ATTRIB in_Tex 	= fragment.texcoord[0];
+
+
+# Result variables  (outputs)
+#----------------------------
+OUTPUT  out_Col = result.color;
+
+# Light Parameters
+#-----------------
+PARAM light_1_pos = state.light[1].position;
+PARAM light_1_dir = state.light[1].spot.direction;
+PARAM light_1_att = state.light[1].attenuation;
+PARAM zero ={0.0, 0.0, 0.0, 0.0};
+
+TEMP valuex,valuey,valuez;
+TEMP in_Pos,v,tmp,vd,tcol;
+
+TEX valuex, in_Tex, texture[0],2D;
+TEX valuey, in_Tex, texture[1],2D;
+TEX valuez, in_Tex, texture[2],2D;
+
+MOV in_Pos.x, valuex.w;
+MOV in_Pos.y, valuey.w;
+MOV in_Pos.z, valuez.w;
+
+
+# Calculate v = ( pixel - spot position ) and normalize this
+#-----------------------------------------------------------
+ADD v, in_Pos, -light_1_pos;
+DP3 v.w, v,  v;
+RSQ v.w,  v.w;
+MUL v.xyz, v, v.w;
+
+
+# Normalize the light direction
+#------------------------------
+MOV tmp, light_1_dir;
+DP3 tmp.w, tmp, tmp;
+RSQ tmp.w, tmp.w;
+MUL tmp.xyz, tmp, tmp.w;
+
+# Calculate ( v.d ) where d is the spotlight direction
+#-----------------------------------------------------
+DP3 vd, v, tmp;
+
+# calculate max( v.d, 0 )
+#------------------------
+MAX vd, vd, zero;
+
+
+# Calculate ligthing inside the cone = max(v.d, 0) ^ exponent
+#------------------------------------------------------------
+POW tmp, vd.x, light_1_att.w;
+
+SGE tcol, vd, light_1_dir.wwww;
+ADD vd, tmp, -zero;
+MAD tcol, tcol, vd, zero;
+
+
+MUL out_Col, tcol, valuey;
+
+
+END

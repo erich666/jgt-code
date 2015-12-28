@@ -1,0 +1,140 @@
+// t0 -> surface texture coordinates
+// t1 -> shadow map coordinates
+// t2 -> world space position
+// t3 -> normal
+// t4 -> light depth in z coordinate
+// t5 -> volume map coordinates
+
+ps_2_0
+
+def c3, 0.0, 0.0, 0.0, 0.0
+def c5, 1.0, 1.0, 1.0, 1.0
+def c6, 0.4, 0.4, 0.4, 1.0
+def c16, -2.0, 5.0, 2.0, 0.0
+
+dcl_2d s0
+dcl_2d s1
+
+dcl_volume s7
+dcl_volume s8
+dcl_volume s9
+dcl_volume s10
+dcl_volume s11
+dcl_volume s12
+dcl_volume s13
+dcl_volume s14
+dcl_volume s15
+
+dcl t0.xy
+dcl t1
+dcl t2
+dcl t3
+dcl t4
+dcl t5.xyz
+
+// Normalize interpolated normal.
+nrm r6, t3				// 3A
+
+// r5 = L pixel position - spot position 
+sub r1, t2, c0			// 1A
+nrm r5, r1				// 3A
+
+// compute spot light intensity
+//dp4 r0, r5, c1			// 1A // r0 = cos alpha
+//max r0, r0, c3			// 1A
+//sub r1, r0, c7.x		// 1A // compute intensity
+//mul r1, r1, c8.x		// 1A
+//max_sat r4, r1, c3		// 1A // cap at [0,1]
+//pow r4, r1.x, c2.x		// 3A // falloff
+dp4 r0, r5, c1 
+sub r2, r0, c9.x			// 1A
+mov r3, c3
+cmp r4, r2, c5, r3
+
+// diffuse intensity = spotlight factor * L.D * diffuse color * light color
+dp4 r3, -r5, r6			// 1A // normal * -L
+max r3, r3, c3
+mul r1, r4, r3			// 1A // * spotlight factor
+mul r1, r1,	c11			// 1A // * diffuse color
+//mul r1, r1, c4			// 1A // * light color
+
+// specular intensity 
+dp4 r2, -r5, r6 // 2*L*N-L // phong model
+mul r2, r2, r6
+mad r2, r2, c16.z, r5
+//nrm r2, r3
+
+sub r3, c15, t2 // camera_pos - world_pos
+nrm r7, r3
+
+dp4 r3, r2, r7			// 1A // R*N
+max r3, r3, c3
+pow r2, r3.x, c14.x		// 3A // ^material power
+mul r2, r2, r4			// 1A // * spot factor
+mad r1, r2, c12, r1		// 1A // * specular color
+//mad r1, r2, c4, r1			// 1A // * light color and add to diffuse
+
+// shadow map
+texldp r0, t1, s1		// 1T
+//mov r0, r0.x			// 1A // cmp is per channel
+sub r2, t4, r0.x			// 1A
+cmp r0, r2, c3, r1		// 1A
+
+//mov oC0, r0
+
+// compute ambient - normal = r6 // 1T
+texld r1, t5, s7		// L0 +
+mad r1, r1, c16.y, c16.x
+						
+texld r2, t5, s8		// n.x * L1 +
+mad r2, r2, c16.y, c16.x
+mad r1, r6.x, r2, r1
+
+texld r3, t5, s9		// n.y * L2 +
+mad r3, r3, c16.y, c16.x
+mad r1, r6.y, r3, r1
+
+texld r2, t5, s10		// n.z * L3 +
+mad r2, r2, c16.y, c16.x
+mad r1, r6.z, r2, r1
+
+texld r3, t5, s11		// n.x * n.y * L4 +
+mad r3, r3, c16.y, c16.x
+mul r2, r3, r6.y
+mad r1, r6.x, r2, r1
+
+texld r4, t5, s12		// n.x * n.z * L5 +
+mad r4, r4, c16.y, c16.x
+mul r2, r6.z, r4
+mad r1, r6.x, r2, r1
+
+texld r3, t5, s13		// n.y * n.z * L6 +
+mad r3, r3, c16.y, c16.x
+mul r2, r6.z, r3
+mad r1, r6.y, r2, r1
+
+texld r4, t5, s14		// (n.x^2 - n.y^2) * L7 +
+mad r4, r4, c16.y, c16.x
+mul r2, r6.x, r6.x
+mul r3, r6.y, r6.y
+sub r2, r2, r3
+mad r1, r2, r4, r1
+
+texld r5, t5, s15		// (n.z^2) * L8
+mad r5, r5, c16.y, c16.x
+mul r2, r6.z, r6.z
+mad r1, r2, r5, r1
+ 
+// modulate ambient with roe and add to direct light
+mul r1, r1, c19.y
+mad r1, r1, c19.x, r0
+//mov r1, r0
+
+// lookup texture
+texld r0, t0, s0
+// modulate texture with final intensity
+mul r0, r0, r1
+//mov oC0, r0
+
+// output color
+mov oC0, r0

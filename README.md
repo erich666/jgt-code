@@ -25,7 +25,19 @@ The following articles have related code; look in the corresponding folder by Vo
 
 * Williams, Amy, Steve Barrus, R. Keith Morley, and Peter Shirley, ["An Efficient and Robust Ray-Box Intersection Algorithm,"](http://www.tandfonline.com/doi/abs/10.1080/2151237X.2005.10129188) *Journal of Graphics, GPU, and Game Tools*, 10(1):49-54, 2005. [**Code**](Volume_10/Number_1/Williams2005)
 
-* Chirkov, Nick, ["Fast Line-Segment Triangle Intersection,"](http://www.tandfonline.com/doi/abs/10.1080/2151237X.2005.10129201) *Journal of Graphics, GPU, and Game Tools*, 10(3):21-28, 2005. [**Code**](Volume_10/Number_3/Chirkov2005)
+* Bærentzen, J. Andreas, ["Hardware-Accelerated Point Generation and Rendering of Point-Based Impostors,"](http://www.tandfonline.com/doi/abs/10.1080/2151237X.2005.10129197) *Journal of Graphics, GPU, and Game Tools*, 10(2):1-12, 2005. [**Code**](Volume_10/Number_2/Baerentzen2005)
+
+* Löfsted, Marta, and Tomas Akenine-Möller, ["An Evaluation Framework for Ray-Triangle Intersection Algorithms,"](http://www.tandfonline.com/doi/abs/10.1080/2151237X.2005.10129195) *Journal of Graphics, GPU, and Game Tools*, 10(2):13-26, 2005. [**Code**](Volume_10/Number_2/Lofsted2005)
+
+* Reuter, Patrick, Johannes Behr, and Marc Alexa, ["An Improved Adjacency Data Structure for Fast Triangle Stripping,"](http://www.tandfonline.com/doi/abs/10.1080/2151237X.2005.10129196) *Journal of Graphics, GPU, and Game Tools*, 10(2):41-50, 2005. [**Code**](Volume_10/Number_2/Reuter2005)
+
+* Nijasure, Mangesh, Sumanta N. Pattanaik, and Vineet Goel, ["Real-Time Global Illumination on GPUs,"](http://www.tandfonline.com/doi/abs/10.1080/2151237X.2005.10129194) *Journal of Graphics, GPU, and Game Tools*, 10(2):55-71, 2005. [**Code**](Volume_10/Number_2/Nijasure2005)
+
+* Chirkov, Nick, ["Fast Line-Segment Triangle Intersection,"](http://www.tandfonline.com/doi/abs/10.1080/2151237X.2005.10129201) *Journal of Graphics, GPU, and Game Tools*, 10(3):13-18, 2005. [**Code**](Volume_10/Number_3/Chirkov2005)
+
+* Buss, Samuel R., and Jin-Su Kim, ["Selectively Damped Least Squares for Inverse Kinematics,"](http://www.tandfonline.com/doi/abs/10.1080/2151237X.2005.10129202) *Journal of Graphics, GPU, and Game Tools*, 10(3):37-49, 2005. [**Code**](Volume_10/Number_3/Buss2005)
+
+* Singh, Karan, and Cindy Grimm, ["Implementing the IBar Camera Widget,"](http://www.tandfonline.com/doi/abs/10.1080/2151237X.2005.10129205) *Journal of Graphics, GPU, and Game Tools*, 10(3):51-64, 2005. [**Code**](Volume_10/Number_3/Singh2005)
 
 * Lagae, Ares, and Philip Dutré, ["An Efficient Ray-Quadrilateral Intersection Test,"](http://www.tandfonline.com/doi/abs/10.1080/2151237X.2005.10129208) *Journal of Graphics, GPU, and Game Tools*, 10(4):23-32, 2005. [**Code**](Volume_10/Number_4/Lagae2005)
 

@@ -1,0 +1,44 @@
+!!ARBvp1.0
+
+
+
+# Vertex attributes (Inputs)
+#---------------------------
+ATTRIB	in_Pos          = vertex.position;	# position	
+ATTRIB	in_Col          = vertex.color;		# color
+ATTRIB  in_Tex		= vertex.texcoord[0];	# tex coord
+
+# Result variables (Outputs)
+#---------------------------
+OUTPUT  out_Pos         = result.position;	# position
+OUTPUT  out_Col         = result.color;		# color
+
+OUTPUT  tex_Coord	= result.texcoord[0];	# tex coords
+
+# Program parameters
+#-------------------
+PARAM   MVP[4]        = { state.matrix.mvp };   # projection transformations
+
+# Temporary variables
+#--------------------
+TEMP temp;
+
+# Compute position
+#-----------------
+DP4     temp.x,        in_Pos,         MVP[0];
+DP4     temp.y,        in_Pos,         MVP[1];
+DP4     temp.z,        in_Pos,         MVP[2];
+DP4     temp.w,        in_Pos,         MVP[3];
+
+MOV 	out_Pos,	temp;		
+
+# Pass through color
+#-------------------
+MOV out_Col, in_Col;
+
+# Pass through Tex Coords
+#------------------------
+MOV tex_Coord, in_Tex;
+
+
+END

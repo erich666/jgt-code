@@ -1,0 +1,72 @@
+!!ARBvp1.0
+
+
+
+
+# Vertex attributes (Inputs)
+#---------------------------
+ATTRIB	in_Pos          = vertex.position;	# position	
+ATTRIB	in_Clr          = vertex.color;		# color
+ATTRIB  in_Norm		= vertex.normal;	# normal
+ATTRIB  in_Tex		= vertex.texcoord[0];	# texture coordinate
+
+# Result variables (Outputs)
+#---------------------------
+OUTPUT  out_Pos         = result.position;	# position
+OUTPUT  out_FrClr       = result.color;		# color
+OUTPUT  out_Tex		= result.texcoord[0];	# texture coordinate
+OUTPUT  out_Norm	= result.texcoord[1];	# normal
+OUTPUT  out_P		= result.texcoord[2];	# position in world space
+OUTPUT  tex_3d		= result.texcoord[3];	# 3d tex coords
+
+# Program parameters
+#-------------------
+PARAM   MVP[4]        = { state.matrix.mvp };   # projection transformations
+PARAM min  = program.env[0];			# values set in the program
+PARAM diff = program.env[1];			# these are bounding box extents
+
+# Local Variables
+#-----------------
+TEMP    temp, temp1, temp2,ans;
+
+
+# Normalize 3d coordinates
+#-------------------------
+ADD temp, in_Pos, - min;
+
+RCP ans.x, diff.x;
+MUL ans.x, temp.x, ans.x;
+ 
+RCP ans.y, diff.y;
+MUL ans.y, temp.y, ans.y; 
+
+RCP ans.z, diff.z;
+MUL ans.z, temp.z, ans.z; 
+
+MOV tex_3d, ans;
+
+# Compute position
+#-----------------
+DP4     temp2.x,        in_Pos,         MVP[0];
+DP4     temp2.y,        in_Pos,         MVP[1];
+DP4     temp2.z,        in_Pos,         MVP[2];
+DP4     temp2.w,        in_Pos,         MVP[3];
+
+MOV 	out_Pos,	temp2;		
+
+MOV 	out_P,		in_Pos;
+
+
+# Pass-through color
+#-------------------
+MOV out_FrClr, in_Clr;
+
+# Pass through Tex Coordinate
+#----------------------------
+MOV out_Tex, in_Tex; 
+
+# Pass through the normal
+#------------------------
+MOV out_Norm, in_Norm; 
+
+END

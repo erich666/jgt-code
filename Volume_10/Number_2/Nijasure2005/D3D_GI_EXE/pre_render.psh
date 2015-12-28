@@ -1,0 +1,98 @@
+// pre_render.psh
+
+// Saves constant information
+// for use in future passes.
+
+// Inputs:
+// t0 -> surface texture coordinates
+// t1 -> shadow map coordinates
+// t2 -> world space position
+// t3 -> normal
+// t4 -> light depth in z coordinate
+// t5 -> volume map coordinates
+
+// Outputs:
+// oC0 <- volume coordinates
+// oC1 <- normal
+// oC2 <- direct light intensity
+// oC3 <- surface color
+
+ps_2_0
+
+def c3, 0.0, 0.0, 0.0, 0.0
+def c5, 1.0, 1.0, 1.0, 1.0
+def c6, 0.4, 0.4, 0.4, 1.0
+def c16, -2.0, 5.0, 0.0, 0.0
+
+dcl_2d s0
+dcl_2d s1
+
+dcl t0
+dcl t1
+dcl t2
+dcl t3
+dcl t4
+dcl t5
+
+// output volume coordinates
+mov oC0, t5
+
+// Normalize interpolated normal.
+nrm r6, t3				// 3A
+
+// output normal
+mov oC1, r6
+
+// r5 = L pixel position - spot position
+sub r1, t2, c0
+nrm r5, r1				// 3A
+
+// compute spot light intensity
+//dp4 r0, r5, c1			// 1A // r0 = cos alpha
+//max r0, r0, c3			// 1A
+//sub r1, r0, c7.x		// 1A // compute intensity
+//mul r1, r1, c8.x		// 1A
+//max_sat r4, r1, c3		// 1A // cap at [0,1]
+//pow r4, r1.x, c2.x		// 3A // falloff
+dp4 r0, r5, c1 
+sub r2, r0, c9.x			// 1A
+mov r3, c3
+cmp r4, r2, c5, r3
+
+// diffuse intensity = spotlight factor * L.D * diffuse color * light color
+dp4 r3, -r5, r6			// 1A // normal * -L
+max r3, r3, c3
+mul r1, r4, r3			// 1A // * spotlight factor
+mul r1, r1,	c11			// 1A // * diffuse color
+//mul r1, r1, c4			// 1A // * light color
+
+// specular intensity 
+dp4 r2, -r5, r6 // 2*L*N-L // phong model
+mul r2, r2, r6
+mad r2, r2, c16.z, r5
+//nrm r2, r3
+
+sub r3, c15, t2 // camera_pos - world_pos
+nrm r7, r3
+
+dp4 r3, r2, r7			// 1A // R*E
+max r3, r3, c3
+pow r2, r3.x, c14.x		// 3A // ^material power
+mul r2, r2, r4			// 1A // * spot factor
+mad r1, r2, c12, r1		// 1A // * specular color
+//mad r1, r2, c4, r1			// 1A // * light color and add to diffuse
+
+// shadow map
+texldp r0, t1, s1		// 1T
+//mov r0, r0.x			// 1A // cmp is per channel
+sub r2, t4, r0.x			// 1A
+cmp r0, r2, c3, r1		// 1A
+
+// output direct light intensity
+mov oC2, r0
+
+// lookup texture
+texld r0, t0, s0
+// output texture color
+mov oC3, r0
+

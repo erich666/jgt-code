@@ -1,0 +1,47 @@
+ps.2.0
+//def c22, 50.0, 0.0, 0.0, 0.0
+
+dcl t0.xy // for getting cubemap color (t0.xy goes from 0->1.0)
+dcl t1.xy // for getting precomputed value (t1.xy goes from 0->8.0)
+
+// cubemap faces
+dcl_2d s0
+dcl_2d s1
+dcl_2d s2
+dcl_2d s3
+dcl_2d s4
+dcl_2d s5
+
+// precomputed faces
+dcl_2d s6
+dcl_2d s7
+dcl_2d s8
+dcl_2d s9
+dcl_2d s10
+dcl_2d s11
+
+texld r0, t0, s0
+texld r1, t1, s6
+mul r5, r0, r1
+
+texld r0, t0, s1
+texld r1, t1, s7
+mad r5, r0, r1, r5
+
+texld r0, t0, s2
+texld r1, t1, s8
+mad r5, r0, r1, r5
+
+texld r0, t0, s3
+texld r1, t1, s9
+mad r5, r0, r1, r5
+
+texld r2, t0, s4
+texld r3, t1, s10
+mad r5, r2, r3, r5
+
+texld r2, t0, s5
+texld r3, t1, s11
+mad r5, r2, r3, r5
+
+mov oC0, r5

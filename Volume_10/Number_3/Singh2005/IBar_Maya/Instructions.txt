@@ -1,0 +1,22 @@
+load plugins, execute.
+
+ibarToolContext ibarToolContext1;
+setParent General;
+toolButton	-cl toolCluster
+			-t ibarToolContext1
+			ibarTool1;
+
+
+createNode ibaruist;
+curve -n "ibarcurve" -d 1 -p 0.125 1 5 -p 0.125 0 1.0 -p 0.125 0
+5.723598 -p 0.125 0 5.964214 -p 0.125 0 6.002773 -p 0.125 0 4.882412 -p
+0.125 1 6.981023 -p 0.125 1 10.445744 -k 0 -k 1 -k 2 -k 3 -k 4 -k 5 -k 6 -k 7 ; connectAttr ibarcurve.ws[0] ibaruist1.mi; hide ibarcurve; select ibaruist;
+
+
+it will make a little tool icon in the general tab.
+an create an ibar obj. when you are in the tool you can treat ibar obj like a widget.
+
+to use the ibar select the ibarwidget: ibaruist	
+and invoke the tool.
+
+plugin .mll have been compiled for maya 4.5

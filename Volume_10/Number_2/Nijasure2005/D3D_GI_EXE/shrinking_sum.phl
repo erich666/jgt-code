@@ -1,0 +1,54 @@
+/*
+	shrinking_sum.phl
+*/
+
+sampler2D sCombinedFaces : register(s0);
+
+struct PS_INPUT
+{
+    float2 vTexCoords1	 : TEXCOORD0;
+	float2 vTexCoords2   : TEXCOORD1;
+	float2 vTexCoords3   : TEXCOORD2;
+	float2 vTexCoords4   : TEXCOORD3;
+
+};
+
+struct PS_OUTPUT
+{
+	float4 vPixelColor   : COLOR0;
+};
+
+
+PS_OUTPUT main(PS_INPUT i)
+{
+	PS_OUTPUT o;
+
+	o.vPixelColor.rgb = tex2D(sCombinedFaces, i.vTexCoords1) +
+						tex2D(sCombinedFaces, i.vTexCoords2) +
+						tex2D(sCombinedFaces, i.vTexCoords3) +
+						tex2D(sCombinedFaces, i.vTexCoords4);
+	o.vPixelColor.a = 1.0;
+
+	return o;
+}
+
+/*
+ps.2.0
+
+dcl t0
+dcl t1
+dcl t2
+dcl t3
+
+dcl_2d s0
+
+texld r0, t0, s0
+texld r1, t1, s0
+texld r2, t2, s0
+texld r3, t3, s0
+
+add r0, r0, r1
+add r0, r0, r2
+add r0, r0, r3
+mov oC0, r0
+*/

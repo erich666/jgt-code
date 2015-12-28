@@ -1,0 +1,123 @@
+/*
+	preg_render.phl
+
+	No shadow map or specular with cubemaps for this method.
+
+*/
+
+#include "common.phl"
+
+sampler2D sVolumeCoords 	: register(s0);
+sampler2D sNormal			: register(s1);
+
+struct PS_INPUT
+{
+	float2 vTexCoords		: TEXCOORD0;	
+};
+
+struct PS_OUTPUT
+{
+	float4 cDirectI			: COLOR0;
+};
+
+
+PS_OUTPUT main(PS_INPUT i)
+{
+	PS_OUTPUT o;
+	float3 vNormal;
+	float3 vVolumeCoords;
+	float3 vWorldPos;
+	float3 vDirFromLight;
+	float3 cDiffuseI;
+	float  fSpotIntensity;
+
+	vNormal = tex2D(sNormal, i.vTexCoords);
+	vVolumeCoords = tex2D(sVolumeCoords, i.vTexCoords);
+	
+	// Compute world space position from volume coords.
+	vWorldPos = vVolumeCoords*vInvVolumeScale + vVolumeShift;
+
+	// Compute direction from light.
+	vDirFromLight = normalize(vWorldPos-vLightPos);
+
+	// Compute spot light intensity.
+	//fSpotIntensity = saturate((max(dot(vLightDir, vDirFromLight),0.0)-fCosPhi.x)*fICTMCP.x);
+	if(dot(vLightDir, vDirFromLight) >= fCosTheta)
+		fSpotIntensity = 1.0;
+	else
+		fSpotIntensity = 0.0;
+
+	// Compute diffuse intensity.
+	cDiffuseI = max(dot(-vDirFromLight, vNormal), 0.0) * fSpotIntensity * vDiffuse;
+
+	// Output direct light intensity.
+	o.cDirectI.rgb = cDiffuseI;
+	o.cDirectI.a = 1.0;
+
+	return o;
+}
+
+
+/*
+// preg_render.psh
+// outputs direct lighting 
+
+ps_2_0
+
+def c3, 0.0, 0.0, 0.0, 0.0
+def c5, 1.0, 1.0, 1.0, 1.0
+def c6, 0.4, 0.4, 0.4, 1.0
+def c16, -2.0, 5.0, 0.0, 0.0
+//def c20, 0.0055, 0.0, 0.0, 0.0 // shadowmap bias
+
+dcl_2d s0 // volume coordinates
+dcl_2d s1 // normals
+
+dcl t0.xy
+
+texld r6, t0, s1 // retreive normal => r6
+texld r7, t0, s0 // retreive volume coordinates => r7
+
+// compute world space position from volume coordinates => r0
+mul r1, r7, c21
+add r8, r1, c17
+
+// r5 = L pixel position - spot position
+sub r1, r8, c0
+nrm r5, r1				// 3A
+
+// compute spot light intensity
+dp4 r0, r5, c1			// 1A // r0 = cos alpha
+max r0, r0, c3			// 1A
+sub r1, r0, c7.x		// 1A // compute intensity
+mul r1, r1, c8.x		// 1A
+max_sat r1, r1, c3		// 1A // cap at [0,1]
+pow r4, r1.x, c2.x		// 3A // falloff
+
+// diffuse intensity = spotlight factor * L.D * diffuse color * light color
+dp4 r3, -r5, r6			// 1A // normal * -L
+max r3, r3, c3
+mul r1, r4, r3			// 1A // * spotlight factor
+//mul r1, r1,	c11			// 1A // * diffuse color
+//mul r1, r1, c4			// 1A // * light color
+
+// specular intensity 
+//dp4 r2, -r5, r6 // 2*L*N-L // phong model
+//mul r2, r2, r6
+//mad r3, r2, c16.z, r5
+//nrm r2, r3
+
+//sub r3, c15, r8 // camera_pos - world_pos
+//nrm r7, r3
+
+//dp4 r3, r2, r7			// 1A // R*N
+//max r3, r3, c3
+//pow r2, r3.x, c14.x		// 3A // ^material power
+//mad r1, r2, r4, r1			// 1A // * spot factor
+//mad r1, r2, c12, r1		// 1A // * specular color
+
+
+// output direct light intensity
+mov oC0, r1
+
+*/

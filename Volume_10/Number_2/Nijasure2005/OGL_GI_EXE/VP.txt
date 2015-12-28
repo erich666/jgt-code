@@ -1,0 +1,80 @@
+!!ARBvp1.0
+
+
+
+
+# Vertex attributes (Inputs)
+#---------------------------
+ATTRIB	in_Pos          = vertex.position;	# position	
+ATTRIB	in_Clr          = vertex.color;		# color
+ATTRIB  in_Norm		= vertex.normal;	# normal
+ATTRIB  in_Tex		= vertex.texcoord[0];	# texture coordinate
+
+# Result variables (Outputs)
+#---------------------------
+OUTPUT  out_Pos         = result.position;	# position
+OUTPUT  out_FrClr       = result.color;		# color
+OUTPUT  out_Tex		= result.texcoord[0];	# texture coordinate
+OUTPUT  out_Norm	= result.texcoord[1];	# normal
+OUTPUT  out_P		= result.texcoord[2];	# position in world space
+OUTPUT  out_Tex_2	= result.texcoord[3];	# texture coordinate 2  - light space coord 
+
+# Program parameters
+#-------------------
+PARAM   MVP[4]       	= { state.matrix.mvp };   
+PARAM   lightMV[4]	= { state.matrix.program[0]}; 	
+PARAM   lightPROJ[4] 	= { state.matrix.program[1]}; 
+PARAM   trans[4]	= { state.matrix.program[2]}; 
+# Local Variables
+#-----------------
+TEMP    tmp, temp, temp2,temp3;
+
+# Compute position
+#-----------------
+
+DP4     temp3.x,        in_Pos,         trans[0];
+DP4     temp3.y,        in_Pos,         trans[1];
+DP4     temp3.z,        in_Pos,         trans[2];
+DP4     temp3.w,        in_Pos,         trans[3];
+
+DP4     temp2.x,        temp3,         MVP[0];
+DP4     temp2.y,        temp3,         MVP[1];
+DP4     temp2.z,        temp3,         MVP[2];
+DP4     temp2.w,        temp3,         MVP[3];
+
+MOV 	out_Pos,	temp2;		
+MOV 	out_P,		temp3;
+
+# Compute position (light space)
+#-------------------------------
+DP4     tmp.x,        	temp3,         lightMV[0];
+DP4     tmp.y,        	temp3,         lightMV[1];
+DP4     tmp.z,        	temp3,         lightMV[2];
+DP4     tmp.w,        	temp3,         lightMV[3];
+
+RCP     temp.w,        tmp.w;
+MUL   	tmp,	       tmp,           temp.w;
+
+DP4     temp2.x,        tmp,           lightPROJ[0];
+DP4     temp2.y,        tmp,           lightPROJ[1];
+DP4     temp2.z,        tmp,           lightPROJ[2];
+DP4     temp2.w,        tmp,           lightPROJ[3];
+
+RCP     temp.w,	       temp2.w;
+MUL  	temp2,	       temp2,          temp.w; 
+
+MOV out_Tex_2, temp2;
+
+# Pass-through color
+#-------------------
+MOV out_FrClr, in_Clr;
+
+# Pass through Tex Coordinate
+#----------------------------
+MOV out_Tex, in_Tex; 
+
+# Pass through the normal
+#------------------------
+MOV out_Norm, in_Norm; 
+
+END

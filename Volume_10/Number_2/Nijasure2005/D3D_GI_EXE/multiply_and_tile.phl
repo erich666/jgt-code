@@ -1,0 +1,95 @@
+/*
+	multiply_and_tile.phl
+*/
+
+sampler2D sCubemap1			: register(s0);
+sampler2D sCubemap2			: register(s1);
+sampler2D sCubemap3			: register(s2);
+sampler2D sCubemap4			: register(s3);
+sampler2D sCubemap5			: register(s4);
+sampler2D sCubemap6			: register(s5);
+
+sampler2D sPreComputed1		: register(s6);
+sampler2D sPreComputed2		: register(s7);
+sampler2D sPreComputed3		: register(s8);
+sampler2D sPreComputed4		: register(s9);
+sampler2D sPreComputed5		: register(s10);
+sampler2D sPreComputed6		: register(s11);
+
+struct PS_INPUT
+{
+    float2 tcCubemap	 : TEXCOORD0;
+	float2 tcPreComputed : TEXCOORD1;
+
+};
+
+struct PS_OUTPUT
+{
+	float4 vPixelColor:COLOR0;
+};
+
+
+PS_OUTPUT main(PS_INPUT i)
+{
+	PS_OUTPUT o;
+
+	o.vPixelColor.rgb = 
+		tex2D(sCubemap1, i.tcCubemap) * tex2D(sPreComputed1, i.tcPreComputed) +
+		tex2D(sCubemap2, i.tcCubemap) * tex2D(sPreComputed2, i.tcPreComputed) +
+		tex2D(sCubemap3, i.tcCubemap) * tex2D(sPreComputed3, i.tcPreComputed) +
+		tex2D(sCubemap4, i.tcCubemap) * tex2D(sPreComputed4, i.tcPreComputed) +
+		tex2D(sCubemap5, i.tcCubemap) * tex2D(sPreComputed5, i.tcPreComputed) +
+		tex2D(sCubemap6, i.tcCubemap) * tex2D(sPreComputed6, i.tcPreComputed);
+	o.vPixelColor.a = 1.0;
+
+	return o;
+}
+
+/*ps.2.0
+//def c22, 50.0, 0.0, 0.0, 0.0
+
+dcl t0.xy // for getting cubemap color (t0.xy goes from 0->1.0)
+dcl t1.xy // for getting precomputed value (t1.xy goes from 0->8.0)
+
+// cubemap faces
+dcl_2d s0
+dcl_2d s1
+dcl_2d s2
+dcl_2d s3
+dcl_2d s4
+dcl_2d s5
+
+// precomputed faces
+dcl_2d s6
+dcl_2d s7
+dcl_2d s8
+dcl_2d s9
+dcl_2d s10
+dcl_2d s11
+
+texld r0, t0, s0
+texld r1, t1, s6
+mul r5, r0, r1
+
+texld r0, t0, s1
+texld r1, t1, s7
+mad r5, r0, r1, r5
+
+texld r0, t0, s2
+texld r1, t1, s8
+mad r5, r0, r1, r5
+
+texld r0, t0, s3
+texld r1, t1, s9
+mad r5, r0, r1, r5
+
+texld r2, t0, s4
+texld r3, t1, s10
+mad r5, r2, r3, r5
+
+texld r2, t0, s5
+texld r3, t1, s11
+mad r5, r2, r3, r5
+
+mov oC0, r5
+*/

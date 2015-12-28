@@ -1,0 +1,22 @@
+!!ARBfp1.0
+
+
+# Fragment attributes  (inputs)
+#------------------------------
+ATTRIB in_p		= fragment.position;
+ATTRIB in_Col		= fragment.color;
+ATTRIB in_tex		= fragment.texcoord[0];
+
+# Result variables  (outputs)
+#----------------------------
+OUTPUT  out_Col = result.color;
+
+TEMP direct;
+
+TEX direct, 	in_tex, texture[0], 2D;
+
+
+MOV out_Col, direct;
+
+
+END

@@ -1,0 +1,66 @@
+Microsoft Visual Studio Solution File, Format Version 8.00
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PointGen", "PointGen\PointGen.vcproj", "{D641D931-4E43-432D-8118-C9F39BE53AA4}"
+	ProjectSection(ProjectDependencies) = postProject
+		{22E5BADE-CB6E-4AA4-8874-596135DBDF08} = {22E5BADE-CB6E-4AA4-8874-596135DBDF08}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PointViewer", "PointViewer\PointViewer.vcproj", "{E54A9963-C683-4AF9-B21B-E2A000B67C0F}"
+	ProjectSection(ProjectDependencies) = postProject
+		{82F0FC64-127D-4F0E-BBA5-46CFFC824DF4} = {82F0FC64-127D-4F0E-BBA5-46CFFC824DF4}
+		{22E5BADE-CB6E-4AA4-8874-596135DBDF08} = {22E5BADE-CB6E-4AA4-8874-596135DBDF08}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PointLib", "PointLib\PointLib.vcproj", "{22E5BADE-CB6E-4AA4-8874-596135DBDF08}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "glui", "glui\glui.vcproj", "{82F0FC64-127D-4F0E-BBA5-46CFFC824DF4}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfiguration) = preSolution
+		Debug = Debug
+		Debug MX = Debug MX
+		Release = Release
+		Release MX = Release MX
+	EndGlobalSection
+	GlobalSection(ProjectConfiguration) = postSolution
+		{D641D931-4E43-432D-8118-C9F39BE53AA4}.Debug.ActiveCfg = Debug|Win32
+		{D641D931-4E43-432D-8118-C9F39BE53AA4}.Debug.Build.0 = Debug|Win32
+		{D641D931-4E43-432D-8118-C9F39BE53AA4}.Debug MX.ActiveCfg = Debug|Win32
+		{D641D931-4E43-432D-8118-C9F39BE53AA4}.Debug MX.Build.0 = Debug|Win32
+		{D641D931-4E43-432D-8118-C9F39BE53AA4}.Release.ActiveCfg = Release|Win32
+		{D641D931-4E43-432D-8118-C9F39BE53AA4}.Release.Build.0 = Release|Win32
+		{D641D931-4E43-432D-8118-C9F39BE53AA4}.Release MX.ActiveCfg = Release|Win32
+		{D641D931-4E43-432D-8118-C9F39BE53AA4}.Release MX.Build.0 = Release|Win32
+		{E54A9963-C683-4AF9-B21B-E2A000B67C0F}.Debug.ActiveCfg = Debug|Win32
+		{E54A9963-C683-4AF9-B21B-E2A000B67C0F}.Debug.Build.0 = Debug|Win32
+		{E54A9963-C683-4AF9-B21B-E2A000B67C0F}.Debug MX.ActiveCfg = Debug|Win32
+		{E54A9963-C683-4AF9-B21B-E2A000B67C0F}.Debug MX.Build.0 = Debug|Win32
+		{E54A9963-C683-4AF9-B21B-E2A000B67C0F}.Release.ActiveCfg = Release|Win32
+		{E54A9963-C683-4AF9-B21B-E2A000B67C0F}.Release.Build.0 = Release|Win32
+		{E54A9963-C683-4AF9-B21B-E2A000B67C0F}.Release MX.ActiveCfg = Release|Win32
+		{E54A9963-C683-4AF9-B21B-E2A000B67C0F}.Release MX.Build.0 = Release|Win32
+		{22E5BADE-CB6E-4AA4-8874-596135DBDF08}.Debug.ActiveCfg = Debug|Win32
+		{22E5BADE-CB6E-4AA4-8874-596135DBDF08}.Debug.Build.0 = Debug|Win32
+		{22E5BADE-CB6E-4AA4-8874-596135DBDF08}.Debug MX.ActiveCfg = Debug|Win32
+		{22E5BADE-CB6E-4AA4-8874-596135DBDF08}.Debug MX.Build.0 = Debug|Win32
+		{22E5BADE-CB6E-4AA4-8874-596135DBDF08}.Release.ActiveCfg = Release|Win32
+		{22E5BADE-CB6E-4AA4-8874-596135DBDF08}.Release.Build.0 = Release|Win32
+		{22E5BADE-CB6E-4AA4-8874-596135DBDF08}.Release MX.ActiveCfg = Release|Win32
+		{22E5BADE-CB6E-4AA4-8874-596135DBDF08}.Release MX.Build.0 = Release|Win32
+		{82F0FC64-127D-4F0E-BBA5-46CFFC824DF4}.Debug.ActiveCfg = Debug|Win32
+		{82F0FC64-127D-4F0E-BBA5-46CFFC824DF4}.Debug.Build.0 = Debug|Win32
+		{82F0FC64-127D-4F0E-BBA5-46CFFC824DF4}.Debug MX.ActiveCfg = Debug|Win32
+		{82F0FC64-127D-4F0E-BBA5-46CFFC824DF4}.Debug MX.Build.0 = Debug|Win32
+		{82F0FC64-127D-4F0E-BBA5-46CFFC824DF4}.Release.ActiveCfg = Release|Win32
+		{82F0FC64-127D-4F0E-BBA5-46CFFC824DF4}.Release.Build.0 = Release|Win32
+		{82F0FC64-127D-4F0E-BBA5-46CFFC824DF4}.Release MX.ActiveCfg = Release|Win32
+		{82F0FC64-127D-4F0E-BBA5-46CFFC824DF4}.Release MX.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+	EndGlobalSection
+	GlobalSection(ExtensibilityAddIns) = postSolution
+	EndGlobalSection
+EndGlobal

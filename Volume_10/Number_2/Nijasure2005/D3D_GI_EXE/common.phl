@@ -1,0 +1,41 @@
+/*
+// Pixel shader constants
+#define PSC_LIGHT_POSITION 0
+#define PSC_LIGHT_DIRECTION 1
+#define PSC_LIGHT_FALLOFF 2
+//#define PSC_ZERO 3
+#define PSC_LIGHT_COLOR 4
+//#define PSC_ONE 5
+//#define PSC_CONSTANT_AMBIENT 6
+#define PSC_COS_PHI 7
+#define PSC_INV_COS_THETA_MINUS_COS_PHI 8
+#define PSC_COS_THETA 9
+#define PSC_LIGHT_SCALE 10
+#define PSC_MAT_DIFFUSE 11
+#define PSC_MAT_SPECULAR 12
+#define PSC_MAT_EMISSIVE 13
+#define PSC_MAT_POWER 14
+#define PSC_CAMERA_POSITION 15
+#define PSC_SCENE_EXTENT_SUB 17
+#define PSC_SCENE_EXTENT_SCALE 18
+#define PSC_AMBIENT_ADJUSTMENT 19
+#define PSC_SCENE_EXTENT_SCALE2 21
+*/
+
+float3 vLightPos		: register(c0);
+float3 vLightDir		: register(c1);
+float  fFalloff			: register(c2);
+float3 cLightColor		: register(c4);
+float  fCosPhi			: register(c7);
+float  fICTMCP			: register(c8);
+float  fCosTheta		: register(c9);
+float  fZScaleFactor	: register(c10);
+float3 vDiffuse			: register(c11);
+float3 vSpecular		: register(c12);
+float3 vEmissive		: register(c13);
+float  fPower			: register(c14);
+float3 vCameraPos		: register(c15);
+float3 vVolumeShift		: register(c17);
+float3 vVolumeScale		: register(c18);
+float2 vAmbientAdj		: register(c19);
+float3 vInvVolumeScale  : register(c21);

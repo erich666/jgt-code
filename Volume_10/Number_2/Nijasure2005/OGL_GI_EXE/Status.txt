@@ -1,0 +1,52 @@
+              Global Illumination on the Radeon 9800
+              --------------------------------------
+
+Author : Mangesh Nijasure    ( nijasure@cs.ucf.edu )
+
+This is the GPU based implementation of the algorithm.
+
+
+Major Differences from the CPU only version
+-------------------------------------------
+- The integration is done completley inside the GPU. Minimal data
+  transfer is involved between the CPU and GPU.
+- The cubemaps are updated by usinf multiple render targets
+  instead of re-rendering the vertex data
+- The calculations for Lindirect and Ldirect are both carried
+  out at a per-pixel level
+- The final render step is alsi multipass to allow for larger
+  pixel shaders.
+
+
+Status Log
+----------
+
+- The first implementation is complete. All basic functionality
+  is present.
+
+	* Rendering to pBuffers
+	* Perpixel direct lighting
+	* shadowing
+	* storing Llm in the 3D textures
+	* per object selection of specular properties
+	* per pixel indirect lighting (diffuse and specular)
+	* Faster update using multiple render targets
+	* Multipass final render stage for larger shader support 
+
+- I still need to clean up the code and add the following 
+  features which are already present in the CPU version.
+
+	* Detect the graphics hardware and move the code to a 
+	  more generic format
+
+	* Support better per stage timing parameters and the 
+          relevant output to a text file
+
+- These are the other things I have tried out and need to 
+  incorporate
+
+	* This version still lacks the faster integration. i.e.
+	  4x4 filtering as well as 32 filtering. I will add this 
+          as soon as possible
+
+	* The moving grid feature has to be added

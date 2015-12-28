@@ -1,0 +1,86 @@
+// quick_render.psh
+
+ps_2_0
+
+def c3, 0.0, 0.0, 0.0, 0.0
+def c5, 1.0, 1.0, 1.0, 1.0
+def c6, 0.4, 0.4, 0.4, 1.0
+def c16, -2.0, 5.0, 0.0, 0.0
+def c30, 0.0055, 0.0, 0.0, 0.0 
+
+dcl_2d s0 // volume coordinates
+dcl_2d s1 // normals
+dcl_2d s2 // direct light intensity
+dcl_2d s3 // surface color
+
+dcl_volume s7
+dcl_volume s8
+dcl_volume s9
+dcl_volume s10
+dcl_volume s11
+dcl_volume s12
+dcl_volume s13
+dcl_volume s14
+dcl_volume s15
+
+dcl t0.xy
+
+texld r6, t0, s1 // retreive normal => r6
+texld r7, t0, s0 // retreive volume coordinates => r7
+texld r0, t0, s2 // retreive intensity => r0
+texld r8, t0, s3 // retreive surface color => r8
+
+// compute ambient - normal = r6 
+texld r1, r7, s7		// L0 +
+mad r1, r1, c16.y, c16.x
+						
+texld r2, r7, s8		// n.x * L1 +
+mad r2, r2, c16.y, c16.x
+mad r1, r6.x, r2, r1
+
+texld r3, r7, s9		// n.y * L2 +
+mad r3, r3, c16.y, c16.x
+mad r1, r6.y, r3, r1
+
+texld r2, r7, s10		// n.z * L3 +
+mad r2, r2, c16.y, c16.x
+mad r1, r6.z, r2, r1
+
+texld r3, r7, s11		// n.x * n.y * L4 +
+mad r3, r3, c16.y, c16.x
+mul r2, r3, r6.y
+mad r1, r6.x, r2, r1
+
+texld r4, r7, s12		// n.x * n.z * L5 +
+mad r4, r4, c16.y, c16.x
+mul r2, r6.z, r4
+mad r1, r6.x, r2, r1
+
+texld r3, r7, s13		// n.y * n.z * L6 +
+mad r3, r3, c16.y, c16.x
+mul r2, r6.z, r3
+mad r1, r6.y, r2, r1
+
+texld r4, r7, s14		// (n.x^2 - n.y^2) * L7 +
+mad r4, r4, c16.y, c16.x
+mul r2, r6.x, r6.x
+mul r3, r6.y, r6.y
+sub r2, r2, r3
+mad r1, r2, r4, r1
+
+texld r5, r7, s15		// (n.z^2) * L8
+mad r5, r5, c16.y, c16.x
+mul r2, r6.z, r6.z
+mad r1, r2, r5, r1
+ 
+// modulate ambient with roe and add to direct light
+//mad r1, r1, c4, r0
+//add r1, r1, r0
+mad r1, r1, c19.x, r0
+
+// modulate texture with final intensity
+mul r0, r8, r1
+//mov oC0, r8 // test
+
+// output final color
+mov oC0, r0

@@ -1,0 +1,157 @@
+!!ARBfp1.0
+
+
+ATTRIB in_pos	= fragment.position;
+ATTRIB in_col	= fragment.color;
+ATTRIB in_tex	= fragment.texcoord[0];
+
+
+OUTPUT out_col	= result.color;
+
+
+PARAM offset1  = { 0.0,		0.0, 	0.0, 0.0 };
+PARAM offset2  = { 0.03125, 	0.0, 	0.0, 0.0 };
+PARAM offset3  = { 0.0625, 	0.0, 	0.0, 0.0 };
+PARAM offset4  = { 0.09375, 	0.0, 	0.0, 0.0 };
+
+PARAM offset5  = { 0.0,		0.0156, 0.0, 0.0 };
+PARAM offset6  = { 0.03125, 	0.0156, 0.0, 0.0 };
+PARAM offset7  = { 0.0625, 	0.0156, 0.0, 0.0 };
+PARAM offset8  = { 0.09375, 	0.0156, 0.0, 0.0 };
+
+PARAM offset9  = { 0.0, 	0.0312, 0.0, 0.0 };
+PARAM offset10 = { 0.03125, 	0.0312, 0.0, 0.0 };
+PARAM offset11 = { 0.0625, 	0.0312, 0.0, 0.0 };
+PARAM offset12 = { 0.09375, 	0.0312, 0.0, 0.0 };
+
+PARAM offset13 = { 0.0, 	0.0468, 0.0, 0.0 };
+PARAM offset14 = { 0.03125, 	0.0468, 0.0, 0.0 };
+PARAM offset15 = { 0.0625, 	0.0468, 0.0, 0.0 };
+PARAM offset16 = { 0.09375, 	0.0468, 0.0, 0.0 };
+
+PARAM offset17  = { 0.0, 	0.0625, 0.0, 0.0 };
+PARAM offset18  = { 0.03125, 	0.0625, 0.0, 0.0 };
+PARAM offset19  = { 0.0625, 	0.0625, 0.0, 0.0 };
+PARAM offset20  = { 0.09375,	0.0625, 0.0, 0.0 };
+
+PARAM offset21  = { 0.0, 	0.0781, 0.0, 0.0 };
+PARAM offset22  = { 0.03125, 	0.0781, 0.0, 0.0 };
+PARAM offset23  = { 0.0625, 	0.0781, 0.0, 0.0 };
+PARAM offset24  = { 0.09375,	0.0781, 0.0, 0.0 };
+
+PARAM offset25  = { 0.0,	0.0937, 0.0, 0.0 };
+PARAM offset26 = { 0.03125,  	0.0937, 0.0, 0.0 };
+PARAM offset27 = { 0.0625,  	0.0937, 0.0, 0.0 };
+PARAM offset28 = { 0.09375,  	0.0937, 0.0, 0.0 };
+
+PARAM offset29 = { 0.0, 	0.1093, 0.0, 0.0 };
+PARAM offset30 = { 0.03125, 	0.1093, 0.0, 0.0 };
+PARAM offset31 = { 0.0625, 	0.1093, 0.0, 0.0 };
+PARAM offset32 = { 0.09375, 	0.1093, 0.0, 0.0 };
+
+
+TEMP t1,t2,t3,t4,t5,t6,t7,t8,t9,t10,t11,t12,t13,t14,t15,t31,t32;
+TEMP t16,t17,t18,t19,t20,t21,t22,t23,t24,t25,t26,t27,t28,t29,t30;
+
+ADD t1, in_tex, offset1;
+ADD t2, in_tex, offset2;
+ADD t3, in_tex, offset3;
+ADD t4, in_tex, offset4;
+ADD t5, in_tex, offset5;
+ADD t6, in_tex, offset6;
+ADD t7, in_tex, offset7;
+ADD t8, in_tex, offset8;
+ADD t9, in_tex, offset9;
+ADD t10, in_tex, offset10;
+ADD t11, in_tex, offset11;
+ADD t12, in_tex, offset12;
+ADD t13, in_tex, offset13;
+ADD t14, in_tex, offset14;
+ADD t15, in_tex, offset15;
+ADD t16, in_tex, offset16;
+ADD t17, in_tex, offset17;
+ADD t18, in_tex, offset18;
+ADD t19, in_tex, offset19;
+ADD t20, in_tex, offset20;
+ADD t21, in_tex, offset21;
+ADD t22, in_tex, offset22;
+ADD t23, in_tex, offset23;
+ADD t24, in_tex, offset24;
+ADD t25, in_tex, offset25;
+ADD t26, in_tex, offset26;
+ADD t27, in_tex, offset27;
+ADD t28, in_tex, offset28;
+ADD t29, in_tex, offset29;
+ADD t30, in_tex, offset30;
+ADD t31, in_tex, offset31;
+ADD t32, in_tex, offset32;
+
+TEX t1, t1, texture[0], 2D;
+TEX t2, t2, texture[0], 2D;
+TEX t3, t3, texture[0], 2D;
+TEX t4, t4, texture[0], 2D;
+TEX t5, t5, texture[0], 2D;
+TEX t6, t6, texture[0], 2D;
+TEX t7, t7, texture[0], 2D;
+TEX t8, t8, texture[0], 2D;
+TEX t9, t9, texture[0], 2D;
+TEX t10, t10, texture[0], 2D;
+TEX t11, t11, texture[0], 2D;
+TEX t12, t12, texture[0], 2D;
+TEX t13, t13, texture[0], 2D;
+TEX t14, t14, texture[0], 2D;
+TEX t15, t15, texture[0], 2D;
+TEX t16, t16, texture[0], 2D;
+TEX t17, t17, texture[0], 2D;
+TEX t18, t18, texture[0], 2D;
+TEX t19, t19, texture[0], 2D;
+TEX t20, t20, texture[0], 2D;
+TEX t21, t21, texture[0], 2D;
+TEX t22, t22, texture[0], 2D;
+TEX t23, t23, texture[0], 2D;
+TEX t24, t24, texture[0], 2D;
+TEX t25, t25, texture[0], 2D;
+TEX t26, t26, texture[0], 2D;
+TEX t27, t27, texture[0], 2D;
+TEX t28, t28, texture[0], 2D;
+TEX t29, t29, texture[0], 2D;
+TEX t30, t30, texture[0], 2D;
+TEX t31, t31, texture[0], 2D;
+TEX t32, t32, texture[0], 2D;
+
+ADD t1,t2,t3;
+ADD t1,t1,t4;
+ADD t1,t1,t5;
+ADD t1,t1,t6;
+ADD t1,t1,t7;
+ADD t1,t1,t8;
+ADD t1,t1,t9;
+ADD t1,t1,t10;
+ADD t1,t1,t11;
+ADD t1,t1,t12;
+ADD t1,t1,t13;
+ADD t1,t1,t14;
+ADD t1,t1,t15;
+ADD t1,t1,t16;
+ADD t1,t1,t17;
+ADD t1,t1,t18;
+ADD t1,t1,t19;
+ADD t1,t1,t20;
+ADD t1,t1,t21;
+ADD t1,t1,t22;
+ADD t1,t1,t23;
+ADD t1,t1,t24;
+ADD t1,t1,t25;
+ADD t1,t1,t26;
+ADD t1,t1,t27;
+ADD t1,t1,t28;
+ADD t1,t1,t29;
+ADD t1,t1,t30;
+ADD t1,t1,t31;
+ADD t1,t1,t32;
+
+MOV out_col, t1;
+
+
+
+END

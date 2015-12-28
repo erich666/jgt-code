@@ -1,0 +1,28 @@
+/*
+	shadow.phl
+
+	Outputs interpolated z-value from vertex shader
+	to rgba render target.
+*/
+
+struct PS_INPUT
+{
+    float z_value :TEXCOORD0;
+};
+
+struct PS_OUTPUT
+{
+	float4 vPixelColor:COLOR0;
+};
+
+
+PS_OUTPUT main(PS_INPUT i)
+{
+	PS_OUTPUT o;
+
+	o.vPixelColor.rgb = i.z_value;
+	o.vPixelColor.a = 1.0;
+	
+	return o;
+}
+

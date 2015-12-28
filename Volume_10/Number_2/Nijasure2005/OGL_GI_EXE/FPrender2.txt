@@ -1,0 +1,117 @@
+!!ARBfp1.0
+
+
+# Fragment attributes  (inputs)
+#------------------------------
+ATTRIB in_p		= fragment.position;
+ATTRIB in_Col		= fragment.color;
+ATTRIB in_tex		= fragment.texcoord[0];
+
+# Result variables  (outputs)
+#----------------------------
+OUTPUT  out_Col = result.color;
+
+PARAM two = {-2,  -2,  -2,  -2};
+PARAM five= {5,5,5,5};
+
+PARAM c  = program.env[4];
+PARAM c2 = program.env[5];
+PARAM roe ={0.3,0.3,0.3,0.3};
+PARAM three={3,3,3,3};
+
+TEMP normal, tex3dcoord, mat, direct;
+TEMP v0,v1,v2,v3,v4,v5,v6,v7,v8;
+TEMP sum, tmp, tmp2;
+
+TEX direct, 	in_tex, texture[0], 2D;
+TEX normal, 	in_tex, texture[1], 2D;
+TEX mat,   	in_tex, texture[2], 2D;
+TEX tex3dcoord, in_tex, texture[3], 2D;
+
+TEX v0, 	 tex3dcoord,  texture[4],  3D;
+TEX v1, 	 tex3dcoord,  texture[5],  3D;
+TEX v2, 	 tex3dcoord,  texture[6],  3D;
+TEX v3, 	 tex3dcoord,  texture[7],  3D;
+TEX v4, 	 tex3dcoord,  texture[8],  3D;
+TEX v5, 	 tex3dcoord,  texture[9],  3D;
+TEX v6, 	 tex3dcoord,  texture[10],  3D;
+TEX v7, 	 tex3dcoord,  texture[11],  3D;
+TEX v8, 	 tex3dcoord,  texture[12],  3D;
+
+MAD v0,v0,five,two;
+MAD v1,v1,five,two;
+MAD v2,v2,five,two;
+MAD v3,v3,five,two;
+MAD v4,v4,five,two;
+MAD v5,v5,five,two;
+MAD v6,v6,five,two;
+MAD v7,v7,five,two;
+MAD v8,v8,five,two;
+
+# coeff 0
+#--------
+MUL tmp, direct.w, c.x;
+MUL tmp2, tex3dcoord, c.w;
+MUL tmp2, tmp2, v7;
+MUL sum, v0, tmp;
+ADD sum, sum, -tmp2;
+
+# coeff 1
+#--------
+MUL tmp, mat.w, c.y;
+MUL v1, v1, tmp;						
+MAD sum, v1,normal.x, sum;				
+
+# coeff 2
+#--------
+MUL v2, v2, tmp;
+MAD sum, v2, normal.y, sum;				
+
+# coeff 3
+#--------
+MUL v3, v3, tmp;
+MAD sum, v3, normal.z, sum;				
+
+# coeff 4
+#--------
+MUL tmp, normal.x, normal.y;
+MUL tmp, tmp, tex3dcoord.w;
+MUL tmp, tmp, c.z;
+MAD sum, tmp, v4, sum;					
+
+# coeff 5
+#--------
+MUL tmp, normal.z, normal.x;
+MUL tmp, tmp, tex3dcoord.w;
+MUL tmp, tmp, c.z;
+MAD sum, tmp, v5, sum;					
+
+# coeff 6
+#--------
+MUL tmp, normal.y, normal.z;
+MUL tmp, tmp, tex3dcoord.w;
+MUL tmp, tmp, c.z;
+MAD sum, tmp, v6, sum;					
+
+# coeff 7
+#--------
+MUL tmp, normal.x,normal.x;
+MUL tmp2, normal.y,normal.y;
+ADD tmp, tmp,-tmp2;	
+MUL tmp, tmp, tex3dcoord.w;
+MUL tmp, tmp, c.w;				
+MAD sum, tmp, v7, sum;
+
+# coeff 8
+#--------
+MUL tmp, normal.z,normal.z;
+MUL tmp, tmp, three;
+MUL tmp, tmp, tex3dcoord.w;
+MUL tmp, tmp, c2.x;
+MAD sum, tmp, v8, sum;		
+#MUL sum, sum, roe;
+
+MAD out_Col, sum, mat, direct;
+
+
+END

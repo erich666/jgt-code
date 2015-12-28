@@ -1,0 +1,99 @@
+!!ARBvp1.0
+
+
+
+# Vertex attributes (Inputs)
+#---------------------------
+ATTRIB	in_Pos          = vertex.position;	# position	
+ATTRIB	in_Col          = vertex.color;		# color
+ATTRIB  in_Norm		= vertex.normal;
+ATTRIB  in_Tex		= vertex.texcoord[0];	# texture coordinate
+
+# Result variables (Outputs)
+#---------------------------
+OUTPUT  out_Pos         = result.position;	# position
+OUTPUT  out_Col         = result.color;		# color
+OUTPUT  out_Tex		= result.texcoord[0];	# texture coordinate 
+OUTPUT  out_Norm	= result.texcoord[1];	# normal
+OUTPUT  out_P		= result.texcoord[2];	# another position
+OUTPUT  tex_3d		= result.texcoord[3];	# normalized 3D tex coordinate	
+OUTPUT  out_Tex_2	= result.texcoord[4];	# texture coordinate 2  - light space coord 
+
+# Program parameters
+#-------------------
+PARAM   MVP[4]        = { state.matrix.mvp };   # projection transformations
+PARAM min  = program.env[0];			# min values along x,y and z of the scene
+PARAM diff = program.env[1];			# bounding box extents on x,y and z
+
+PARAM   lightMV[4]	= { state.matrix.program[0]}; 	
+PARAM   lightPROJ[4] 	= { state.matrix.program[1]}; 
+PARAM   trans[4]	= { state.matrix.program[2]}; 
+
+# Temporary variables
+#--------------------
+TEMP temp,ans,tmp,temp2,temp3;
+
+DP4     temp3.x,        in_Pos,         trans[0];
+DP4     temp3.y,        in_Pos,         trans[1];
+DP4     temp3.z,        in_Pos,         trans[2];
+DP4     temp3.w,        in_Pos,         trans[3];
+
+
+# Normalized 3d coordinates
+#--------------------------
+ADD temp, temp3, - min;
+
+RCP ans.x, diff.x;
+MUL ans.x, temp.x, ans.x;
+ 
+RCP ans.y, diff.y;
+MUL ans.y, temp.y, ans.y; 
+
+RCP ans.z, diff.z;
+MUL ans.z, temp.z, ans.z; 
+
+MOV tex_3d, ans;
+
+# Compute position (light space)
+#-------------------------------
+DP4     tmp.x,        temp3,         lightMV[0];
+DP4     tmp.y,        temp3,         lightMV[1];
+DP4     tmp.z,        temp3,         lightMV[2];
+DP4     tmp.w,        temp3,         lightMV[3];
+
+RCP     temp.w,        tmp.w;
+MUL   	tmp,	       tmp,           temp.w;
+
+DP4     temp2.x,        tmp,           lightPROJ[0];
+DP4     temp2.y,        tmp,           lightPROJ[1];
+DP4     temp2.z,        tmp,           lightPROJ[2];
+DP4     temp2.w,        tmp,           lightPROJ[3];
+
+RCP     temp.w,	       temp2.w;
+MUL  	temp2,	       temp2,          temp.w; 
+
+MOV out_Tex_2, temp2;
+
+
+# Compute position
+#-----------------
+DP4     temp.x,        temp3,         MVP[0];
+DP4     temp.y,        temp3,         MVP[1];
+DP4     temp.z,        temp3,         MVP[2];
+DP4     temp.w,        temp3,         MVP[3];
+
+MOV 	out_Pos,	temp;		
+MOV 	out_P,		temp3;
+
+# Pass through color
+#-------------------
+MOV out_Col, in_Col;
+
+# Pass through normal
+#--------------------
+MOV out_Norm, in_Norm;
+
+# Pass through Tex Coordinate
+#----------------------------
+MOV out_Tex, in_Tex; 
+END

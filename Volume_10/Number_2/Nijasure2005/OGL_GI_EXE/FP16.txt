@@ -1,0 +1,86 @@
+!!ARBfp1.0
+
+
+
+ATTRIB in_p	= fragment.position;
+ATTRIB in_Tex_0	= fragment.texcoord[0];
+
+OUTPUT  out_Col = result.color;
+
+
+PARAM offset1  = { 0.0,		0.0, 		0.0, 	0.0 };
+PARAM offset2  = { 0.0156, 	0.0, 		0.0, 	0.0 };
+PARAM offset3  = { 0.03125,	0.0, 		0.0,	0.0 };
+PARAM offset4  = { 0.04687,	0.0, 		0.0,	0.0 };
+
+PARAM offset5  = { 0.0, 	0.0156, 	0.0, 	0.0 };
+PARAM offset6  = { 0.0156, 	0.0156, 	0.0, 	0.0 };
+PARAM offset7  = { 0.03125, 	0.0156, 	0.0,	0.0 };
+PARAM offset8  = { 0.04687, 	0.0156, 	0.0,	0.0 };
+
+PARAM offset9  = { 0.0, 	0.03125, 	0.0, 	0.0 };
+PARAM offset10 = { 0.0156, 	0.03125, 	0.0, 	0.0 };
+PARAM offset11 = { 0.03125, 	0.03125, 	0.0, 	0.0 };
+PARAM offset12 = { 0.04687, 	0.03125, 	0.0,	0.0 };
+
+PARAM offset13 = { 0.0, 	0.04687, 	0.0, 	0.0 };
+PARAM offset14 = { 0.0156, 	0.04687, 	0.0, 	0.0 };
+PARAM offset15 = { 0.03125, 	0.04687, 	0.0, 	0.0 };
+PARAM offset16 = { 0.04687, 	0.04687, 	0.0, 	0.0 };
+
+TEMP col,temp;
+TEMP c1,c2,c3,c4,c5,c6,c7,c8,c9,c10,c11,c12,c13,c14,c15,c16;
+
+ADD c1,  offset1,  in_Tex_0;
+ADD c2,  offset2,  in_Tex_0;
+ADD c3,  offset3,  in_Tex_0;
+ADD c4,  offset4,  in_Tex_0;
+ADD c5,  offset5,  in_Tex_0;
+ADD c6,  offset6,  in_Tex_0;
+ADD c7,  offset7,  in_Tex_0;
+ADD c8,  offset8,  in_Tex_0;
+ADD c9,  offset9,  in_Tex_0;
+ADD c10, offset10, in_Tex_0;
+ADD c11, offset11, in_Tex_0;
+ADD c12, offset12, in_Tex_0;
+ADD c13, offset13, in_Tex_0;
+ADD c14, offset14, in_Tex_0;
+ADD c15, offset15, in_Tex_0;
+ADD c16, offset16, in_Tex_0;
+
+TEX c1, c1, texture[0], 2D;
+TEX c2, c2, texture[0], 2D;
+TEX c3, c3, texture[0], 2D;
+TEX c4, c4, texture[0], 2D;
+TEX c5, c5, texture[0], 2D;
+TEX c6, c6, texture[0], 2D;
+TEX c7, c7, texture[0], 2D;
+TEX c8, c8, texture[0], 2D;
+TEX c9, c9, texture[0], 2D;
+TEX c10, c10, texture[0], 2D;
+TEX c11, c11, texture[0], 2D;
+TEX c12, c12, texture[0], 2D;
+TEX c13, c13, texture[0], 2D;
+TEX c14, c14, texture[0], 2D;
+TEX c15, c15, texture[0], 2D;
+TEX c16, c16, texture[0], 2D;
+
+ADD c1,c1,c2;
+ADD c1,c1,c3;
+ADD c1,c1,c4;
+ADD c1,c1,c5;
+ADD c1,c1,c6;
+ADD c1,c1,c7;
+ADD c1,c1,c8;
+ADD c1,c1,c9;
+ADD c1,c1,c10;
+ADD c1,c1,c11;
+ADD c1,c1,c12;
+ADD c1,c1,c13;
+ADD c1,c1,c14;
+ADD c1,c1,c15;
+ADD c1,c1,c16;
+
+MOV out_Col, c1;
+
+END

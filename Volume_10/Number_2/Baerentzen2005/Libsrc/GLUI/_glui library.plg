@@ -1,0 +1,54 @@
+<html>
+<body>
+<pre>
+<h1>Build Log</h1>
+<h3>
+--------------------Configuration: _glui library - Win32 Debug--------------------
+</h3>
+<h3>Command Lines</h3>
+Creating temporary file "c:\windows\TEMP\RSP21D0.TMP" with contents
+[
+/nologo /MLd /GX /Z7 /Od /I "..\.." /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /Fp"Debug/_glui library.pch" /YX /Fo"Debug/" /Fd"Debug/" /FD /c 
+"D:\projects\Glui_v2\tmp_update\glui_v2_beta\glui.cpp"
+]
+Creating command line "cl.exe @c:\windows\TEMP\RSP21D0.TMP" 
+Creating temporary file "c:\windows\TEMP\RSP21D1.TMP" with contents
+[
+/nologo /out:"lib\glui32.lib" 
+.\Debug\ALGEBRA3.OBJ
+.\Debug\ARCBALL.OBJ
+.\Debug\glui.obj
+.\Debug\glui_add_controls.obj
+.\Debug\glui_bitmap_img_data.obj
+.\Debug\glui_bitmaps.obj
+.\Debug\glui_button.obj
+.\Debug\glui_checkbox.obj
+.\Debug\glui_column.obj
+.\Debug\glui_control.obj
+.\Debug\glui_edittext.obj
+.\Debug\glui_listbox.obj
+.\Debug\Glui_mouse_iaction.obj
+.\Debug\glui_node.obj
+.\Debug\glui_panel.obj
+.\Debug\glui_radio.obj
+.\Debug\Glui_rollout.obj
+.\Debug\glui_rotation.obj
+.\Debug\glui_separator.obj
+.\Debug\glui_spinner.obj
+.\Debug\glui_statictext.obj
+.\Debug\Glui_translation.obj
+.\Debug\quaternion.obj
+]
+Creating command line "link.exe -lib @c:\windows\TEMP\RSP21D1.TMP"
+<h3>Output Window</h3>
+Compiling...
+glui.cpp
+Creating library...
+
+
+
+<h3>Results</h3>
+glui32.lib - 0 error(s), 0 warning(s)
+</pre>
+</body>
+</html>

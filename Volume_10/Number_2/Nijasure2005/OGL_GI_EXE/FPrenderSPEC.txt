@@ -1,0 +1,129 @@
+!!ARBfp1.0
+
+OPTION ATI_draw_buffers;
+
+# Fragment attributes  (inputs)
+#------------------------------
+ATTRIB in_p		= fragment.position;
+ATTRIB in_Col		= fragment.color;
+ATTRIB in_Tex 		= fragment.texcoord[0];
+ATTRIB normal		= fragment.texcoord[1];
+ATTRIB in_Pos		= fragment.texcoord[2];
+ATTRIB tex3dcoord	= fragment.texcoord[3];
+ATTRIB spos1		= fragment.texcoord[4];
+
+# result variables  (outputs)
+#----------------------------
+OUTPUT  out_Col_0 = result.color[0];
+OUTPUT  out_Col_1 = result.color[1];
+OUTPUT  out_Col_2 = result.color[2];
+OUTPUT  out_Col_3 = result.color[3];
+
+# Light Parameters
+#-----------------
+PARAM light_1_pos = state.light[1].position;
+PARAM light_1_dir = state.light[1].spot.direction;
+PARAM light_1_att = state.light[1].attenuation;
+PARAM mat = state.material.front.specular;
+
+PARAM zero    = {0.0, 0.0, 0.0, 0.0};
+PARAM two     = {-2,  -2,  -2,  -2};
+PARAM five    = {5,5,5,5};
+PARAM scale   = {0.5, 0.5, 0.5, 0.5};
+PARAM bias    = {0.5, 0.5, 0.4999, 0.5};
+PARAM eye_pos = program.env[0];
+PARAM shine   = {100,0,0,0};
+PARAM specflag= program.env[1];
+PARAM factor={0.8,0.8,0.8,0.8};
+
+TEMP v0,v1,v2,v3,v4,v5,v6,v7,v8;
+TEMP tmp,tmp2,tcol,sum,tex0col;
+TEMP tmp3,sfac;
+
+MAD tmp, spos1, scale, bias;
+TEX sfac,	 tmp,	      texture[1],  2D;
+MAD sfac.x, sfac.x, tmp.w, -tmp.z;
+CMP sfac.x, sfac.x, 0.0, 1.0;
+
+TEX tex0col, 	 in_Tex,      texture[0],  2D;
+
+
+# Calculate v = ( pixel - spot position ) and normalize this
+#-----------------------------------------------------------
+ADD tmp2, in_Pos, -light_1_pos;
+DP3 tmp2.w,   tmp2,    tmp2;
+RSQ tmp2.w,   tmp2.w;
+MUL tmp2.xyz, tmp2,    tmp2.w;
+
+# Calculate the eye vector and normalize
+#---------------------------------------
+ADD v1,     eye_pos, -in_Pos;
+DP3 v1.w,   v1,      v1;
+RSQ v1.w,   v1.w;
+MUL v1.xyz, v1,      v1.w;
+
+
+# Calculate the half vector and normalize
+#----------------------------------------
+ADD v2,     -tmp2,   v1;
+MUL v2,     v2,      scale;
+DP3 v2.w,   v2,      v2;
+RSQ v2.w,   v2.w;
+MUL v2.xyz, v2,      v2.w;
+
+# Specular component = (N.H)^n -  normalize surface normal 
+#---------------------------------------------------------
+DP3 v5.w,   	normal,   		normal;
+RSQ v5.w,   	v5.w;
+MUL v5.xyz, 	normal,  		 v5.w;
+
+DP3 v7, v5, v1;
+MUL v7, v7, -two;
+MUL v7, v7, v5;
+ADD v7, v7, -v1;
+
+DP3 v8.w,   	v7,   		v7;
+RSQ v8.w,   	v8.w;
+MUL v8.xyz, 	v7,     	v8.w;
+
+DP3 v3, v5, v2;
+POW v4, v3.x,   shine.x;
+MUL v4, v4, mat;
+
+# Calculate ( v.d ) diffuse component 
+#------------------------------------
+DP3 tmp3, tmp2, light_1_dir;
+
+# calculate max( v.d, 0 )
+#------------------------
+MAX tmp3, tmp3, zero;
+
+ADD v4, tmp3, v4;			# spec + diffuse
+
+# Check for within the spotlight
+#-------------------------------
+SGE tcol, tmp3, light_1_dir.wwww;
+ADD tmp3, v4, -zero;
+MAD tcol, tcol, tmp3, zero;
+
+# Check for under shadow
+#-----------------------
+MUL tcol, tcol, tex0col;
+MUL tcol, tcol, sfac.x;
+MUL tcol, tcol, factor;
+
+
+MOV tcol.w,    specflag.x;
+MOV tex0col.w, specflag.y;
+MOV tmp,       tex3dcoord;
+MOV tmp.w,     specflag.z;
+
+MOV out_Col_0, tcol;			
+MOV out_Col_1, v8;
+MOV out_Col_2, tex0col;
+MOV out_Col_3, tmp;
+
+
+
+
+END

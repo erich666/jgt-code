@@ -1,0 +1,68 @@
+!!ARBfp1.0
+
+OPTION ATI_draw_buffers;
+
+# Fragment attributes  (inputs)
+#------------------------------
+ATTRIB in_p	= fragment.position;
+ATTRIB in_Tex 	= fragment.texcoord[0];
+
+
+# Result variables  (outputs)
+#----------------------------
+OUTPUT  out_Col = result.color[0];
+
+
+PARAM two = {-2,  -2,  -2,  -2};
+PARAM five={5,5,5,5};
+PARAM dummy={0.5,0.5,0.3,0};
+
+TEMP tex3dcoord,normal,mat;
+TEMP v0,v1,v2,v3,v4,v5,v6,v7,v8;
+TEMP sum,tmp,tmp2;
+
+TEX normal,     in_Tex, texture[0], 2D;
+TEX mat,        in_Tex, texture[1], 2D;
+TEX tex3dcoord, in_Tex, texture[2], 2D;
+
+TEX v0, 	 tex3dcoord,  texture[3],   3D;
+TEX v1, 	 tex3dcoord,  texture[4],   3D;
+TEX v2, 	 tex3dcoord,  texture[5],   3D;
+TEX v3, 	 tex3dcoord,  texture[6],   3D;
+TEX v4, 	 tex3dcoord,  texture[7],   3D;
+TEX v5, 	 tex3dcoord,  texture[8],   3D;
+TEX v6, 	 tex3dcoord,  texture[9],   3D;
+TEX v7, 	 tex3dcoord,  texture[10],  3D;
+TEX v8, 	 tex3dcoord,  texture[11],  3D;
+
+
+MAD v0,v0,five,two;
+MAD v1,v1,five,two;
+MAD v2,v2,five,two;
+MAD v3,v3,five,two;
+MAD v4,v4,five,two;
+MAD v5,v5,five,two;
+MAD v6,v6,five,two;
+MAD v7,v7,five,two;
+MAD v8,v8,five,two;
+
+MOV sum, v0;						# coeff 0
+MAD sum, v1,normal.x, sum;				# coeff 1
+MAD sum, v2, normal.y, sum;				# coeff 2
+MAD sum, v3, normal.z, sum;				# coeff 3
+MUL tmp, normal.x, normal.y;
+MAD sum, tmp, v4, sum;					# coeff 4
+MUL tmp, normal.z, normal.x;
+MAD sum, tmp, v5, sum;					# coeff 5
+MUL tmp, normal.y, normal.z;
+MAD sum, tmp, v6, sum;					# coeff 6
+MUL tmp, normal.x,normal.x;
+MUL tmp2, normal.y,normal.y;
+ADD tmp, tmp,-tmp2;					# coeff 7
+MAD sum, tmp, v7, sum;
+MUL tmp, normal.z,normal.z;
+MAD sum, tmp, v8, sum;					# coeff 8
+MUL out_Col, sum, mat;
+
+
+END

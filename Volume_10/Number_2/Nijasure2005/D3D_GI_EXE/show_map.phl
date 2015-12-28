@@ -1,0 +1,54 @@
+/*
+	show_map.phl
+*/
+
+sampler2D sShadowMap : register(s0);
+
+struct PS_INPUT
+{
+    float2 vTexCoords	 : TEXCOORD0;
+};
+
+struct PS_OUTPUT
+{
+	float4 vPixelColor   : COLOR0;
+};
+
+
+PS_OUTPUT main(PS_INPUT i)
+{
+	PS_OUTPUT o;
+
+	o.vPixelColor.rgb = tex2D(sShadowMap, i.vTexCoords).x;
+	o.vPixelColor.a = 1.0;
+
+	return o;
+}
+
+/*
+
+//-----------------------------------------------------------------------------
+// Shader for visualizing shadow map
+//-----------------------------------------------------------------------------
+
+ps.2.0
+// focus in on a depth area by changing c0.x
+// remember depth is not linear due to perspective so some
+// areas will be completely black or white.
+def c5, 0.0, 0.0, 0.0, 1.0 
+dcl t0.xy
+dcl_2d s0
+
+// Sample shadow map
+texld r0, t0, s0
+
+// Output shadow map scaled so we can see gradients
+//mov r0, r0.x
+//sub r1, c0.y, c0.x // 1.0 - small number
+//sub r0, r0, r1
+//rcp r1, c0.x // 1.0/small number
+//mul r0, r0, r1
+mov r1, r0.x
+mov r1.w, c5.w
+mov oC0, r1
+*/

@@ -1,0 +1,50 @@
+!!ARBfp1.0
+
+###########################################################
+#
+#    TEXTURE SUMMATION
+#
+#    Mangesh Nijasure
+#
+#    11 / 25 / 02
+#
+###########################################################
+
+
+# Fragment attributes  (inputs)
+###############################
+ATTRIB in_p	= fragment.position;
+ATTRIB in_Col	= fragment.color;
+ATTRIB in_Tex_0	= fragment.texcoord[0];
+ATTRIB in_Tex_1	= fragment.texcoord[1];
+ATTRIB in_Tex_2	= fragment.texcoord[2];
+ATTRIB in_Tex_3	= fragment.texcoord[3];
+
+
+# result variables  (outputs)
+#############################
+OUTPUT  out_Col = result.color;
+
+# Temporary variables
+#####################
+TEMP tex0col,tex1col,tex2col,tex3col;
+TEMP ans;
+
+TEMP tmp1, tmp2;
+
+# Calculate texturing 
+#####################
+TEX tex0col,  fragment.texcoord[0],  texture[0],  2D;
+TEX tex1col,  fragment.texcoord[1],  texture[0],  2D;
+TEX tex2col,  fragment.texcoord[2],  texture[0],  2D;
+TEX tex3col,  fragment.texcoord[3],  texture[0],  2D;
+
+ADD tex0col, tex0col, tex1col;
+ADD tex2col, tex2col, tex3col;
+ADD ans , tex0col, tex2col;
+
+MOV out_Col, ans;
+
+
+
+END

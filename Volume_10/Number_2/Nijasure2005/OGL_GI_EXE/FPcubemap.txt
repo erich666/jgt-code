@@ -1,0 +1,86 @@
+!!ARBfp1.0
+
+OPTION ATI_draw_buffers;
+
+# Fragment attributes  (inputs)
+#------------------------------
+ATTRIB in_p	= fragment.position;
+ATTRIB in_Col	= fragment.color;
+ATTRIB in_Tex 	= fragment.texcoord[0];
+ATTRIB in_Norm	= fragment.texcoord[1];
+ATTRIB in_Pos	= fragment.texcoord[2];
+ATTRIB tex_3d	= fragment.texcoord[3];
+
+# Result variables  (outputs)
+#----------------------------
+OUTPUT  out_Col_0 = result.color[0];
+OUTPUT  out_Col_1 = result.color[1];
+OUTPUT  out_Col_2 = result.color[2];
+OUTPUT  out_Col_3 = result.color[3];
+
+
+# Light Parameters
+#-----------------
+PARAM light_1_pos = state.light[1].position;
+PARAM light_1_dir = state.light[1].spot.direction;
+PARAM light_1_att = state.light[1].attenuation;
+
+
+# Material Property
+#------------------
+PARAM mat = state.material.front.diffuse;
+
+PARAM zero ={0.0, 0.0, 0.0, 0.0};
+PARAM white ={1.0, 1.0, 1.0, 1.0};
+
+# Temporary variables
+#--------------------
+TEMP tmp,v,vd,r1,r2,tcol,tex0col;
+
+TEX tex0col,in_Tex, texture[0], 2D;
+
+# Calculate v = ( pixel - spot position ) and normalize this
+#-----------------------------------------------------------
+ADD v, in_Pos, -light_1_pos;
+DP3 v.w, v,  v;
+RSQ v.w,  v.w;
+MUL v.xyz, v, v.w;
+
+# Normalize the light direction
+#------------------------------
+MOV tmp, light_1_dir;
+DP3 tmp.w, tmp, tmp;
+RSQ tmp.w, tmp.w;
+MUL tmp.xyz, tmp, tmp.w;
+
+# Calculate ( v.d ) where d is the spotlight direction
+#-----------------------------------------------------
+DP3 vd, v, tmp;
+
+# calculate max( v.d, 0 )
+#------------------------
+MAX vd, vd, zero;
+
+# Calculate ligthing inside the cone = max(v.d, 0) ^ exponent
+#------------------------------------------------------------
+POW tmp, vd.x, light_1_att.w;
+
+SGE tcol, vd, light_1_dir.wwww;
+ADD vd, tmp, -zero;
+MAD tcol, tcol, vd, zero;
+
+MOV r2,        tex_3d;
+MOV r1,        in_Norm;
+
+MOV r2.w,      in_Pos.z;
+MOV r1.w,      in_Pos.x;
+MOV tex0col.w, in_Pos.y;
+
+
+MUL out_Col_0,  tcol, tex0col;	
+#MOV out_Col_0, white;
+MOV out_Col_1,  r1;
+MOV out_Col_2,  tex0col;
+MOV out_Col_3,  r2;
+
+END

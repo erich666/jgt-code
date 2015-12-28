@@ -1,0 +1,25 @@
+
+/*
+// Vertex shader constants
+#define VSC_VIEW 0
+#define VSC_PERS 4
+#define VSC_WORLD 8
+#define VSC_COMPLETE 12
+#define VSC_LIGHT_MATRIX 16
+#define VSC_LIGHT_SCALE 20
+#define VSC_WORLD_VIEW 21
+#define VSC_LIGHT_POSITION 25
+#define VSC_SCENE_EXTENT_SUB 31
+#define VSC_SCENE_EXTENT_SCALE 32
+*/
+
+matrix mView			: register(c0);
+matrix mPers			: register(c4);
+matrix mWorld			: register(c8);
+matrix mWorldViewProj	: register(c12);
+float3 vLightPos		: register(c25);
+float  fZScaleFactor	: register(c20); //c20.x
+matrix mWorldView		: register(c21);
+matrix mLight			: register(c16);
+float3 vVolumeShift		: register(c31);
+float3 vVolumeScale		: register(c32);

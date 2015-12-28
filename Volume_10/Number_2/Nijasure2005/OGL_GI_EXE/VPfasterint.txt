@@ -1,0 +1,55 @@
+!!ARBvp1.0
+
+
+
+# Vertex attributes (Inputs)
+#---------------------------
+ATTRIB	in_Pos      = vertex.position;				# position	
+ATTRIB  in_Tex_0	= vertex.texcoord[0];			# texture coordinate 0
+ATTRIB  in_Tex_1	= vertex.texcoord[1];			# texture coordinate 1
+ATTRIB  in_Tex_2	= vertex.texcoord[2];			# texture coordinate 2
+ATTRIB  in_Tex_3	= vertex.texcoord[3];			# texture coordinate 3
+ATTRIB  in_Tex_4	= vertex.texcoord[4];			# texture coordinate 4
+ATTRIB  in_Tex_5	= vertex.texcoord[5];			# texture coordinate 5
+ATTRIB  in_Tex_6	= vertex.texcoord[6];			# texture coordinate 6
+
+# Result variables (Outputs)
+#---------------------------
+OUTPUT  out_Pos     = result.position;				# position
+OUTPUT  out_Tex_0	= result.texcoord[0];			# texture coordinate 0
+OUTPUT  out_Tex_1	= result.texcoord[1];			# texture coordinate 1
+OUTPUT  out_Tex_2	= result.texcoord[2];			# texture coordinate 2
+OUTPUT  out_Tex_3	= result.texcoord[3];			# texture coordinate 3
+OUTPUT  out_Tex_4	= result.texcoord[4];			# texture coordinate 4
+OUTPUT  out_Tex_5	= result.texcoord[5];			# texture coordinate 5
+OUTPUT  out_Tex_6	= result.texcoord[6];			# texture coordinate 6
+
+# Program parameters
+#-------------------
+PARAM   c_MVP[4]            = { state.matrix.mvp };
+
+# Local Variables
+#----------------
+TEMP    temp2;
+
+
+# Compute position
+#-----------------
+DP4     temp2.x,        in_Pos,         c_MVP[0];
+DP4     temp2.y,        in_Pos,         c_MVP[1];
+DP4     temp2.z,        in_Pos,         c_MVP[2];
+DP4     temp2.w,        in_Pos,         c_MVP[3];
+
+MOV 	out_Pos,	temp2;		# output position
+
+# Pass through tex coordinate
+#----------------------------
+MOV out_Tex_0, in_Tex_0; 
+MOV out_Tex_1, in_Tex_1;
+MOV out_Tex_2, in_Tex_2; 
+MOV out_Tex_3, in_Tex_3;
+MOV out_Tex_4, in_Tex_4; 
+MOV out_Tex_5, in_Tex_5;
+MOV out_Tex_6, in_Tex_6;
+
+END

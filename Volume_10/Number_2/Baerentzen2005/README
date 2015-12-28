@@ -1,0 +1,232 @@
+
+ README, Andreas Bærentzen, December 2001
+
+======================================================================
+
+----------------------------------------------------------------------
+1. INTRODUCTION
+----------------------------------------------------------------------
+
+In the following, I discuss the structure of the source code and how to
+add new directories to the framework. 
+
+The idea is that this framework should be a) simple to use and b) let 
+people easily compile the same source code under various unix platforms.
+A seperate configuration is kept for each combination of OS, architecture, 
+and compiler. It is possible to specify targets release or debug.
+
+Source files are compiled in build directories, and separate build 
+directories are kept for each unique combination of 
+
+os architecture compiler target
+
+such as
+
+Linux_i686_g++3_debug
+
+this makes it easier to work in a heterogenous environment or to 
+experiment with seperate compilers or just to switch between debug mode 
+and optimized.
+
+To see how to use the framework, you may skip to section 5.
+
+----------------------------------------------------------------------
+2. DIRECTORY STRUCTURE
+----------------------------------------------------------------------
+
+The directories under the root of the source tree (where you find this 
+README) are
+
+Libsrc     - Source code for libraries
+Appsrc     - Source code for executables
+doc        - Documentation
+bin        - Executables
+lib        - Libraries
+makefiles  - As the name suggests, makefiles
+
+Libsrc contains a number of subdirectories each of which represents a 
+link library. Appsrc also contains subdirectories, however each of these
+is supposed to contain source code for an executable.
+
+----------------------------------------------------------------------
+3. FILE NAMES
+----------------------------------------------------------------------
+
+source files are *.c or *.cpp depending on whether it is C or C++
+header files are named *.h
+
+----------------------------------------------------------------------
+4. MAKEFILES
+----------------------------------------------------------------------
+
+Some defintions:
+----------------
+
+The PLATFORM is a string concatenation of the os cpu and compiler, e.g.
+
+Linux_i686_g++
+
+The TARGET is either `debug' or `release'
+
+
+
+Make'ing from the source root
+-----------------------------
+
+Just typing
+> make 
+
+from the root of the source tree will cause first every library and
+then every application to be remade. However, there are several
+targets.
+
+make lib       - make all libraries
+
+make app       - make all applications
+
+make clean     - clean all library directories and app directories.
+                 this removes only files pertaining to the current
+                 platform and target (release/debug). This also
+                 removes generated libraries. 
+
+make distclean - cleans and completely removes all build directories. 
+
+make platform  - copies a template to OS_CPU_COMPILER.mk in the
+                 makefiles directory
+
+make makefiles - Find directories without makefiles and put some there.
+                 If a directory without a makefile is found, the action
+                 depends on whether the directory is subdirectory of 
+                 Libsrc or Appsrc. Under Libsrc we put makefiles for 
+                 creating libraries. Under Appsrc we put makefiles for
+                 applications.
+
+
+Make'ing in subdirectories
+--------------------------
+
+Go to a subdirectory of Libsrc, say Libsrc/somedir. 
+Here you have the following options:
+
+make lib
+make clean
+
+The former will rebuild all sourcefiles and put them in a library 
+directory. The latter will remove all object and dependency files 
+(but only for the current platform (e.g. Linux_i686_g++_debug) 
+The default target is lib.
+
+Go to a subdirectory of Appsrc, say Appsrc/somedir. 
+Here you have the following options:
+
+make app
+
+will recompile the source files in the current directory and build the 
+programs. This is the default target. When compiled, the application is
+moved to ./bin
+
+make force
+
+does the same but tries first to recompile all libraries that the 
+applications in somedir depend on. This is the safe way to recompile,
+but it takes a few seconds more, so if you are sure the libraries are
+up to date, just go make.
+
+make clean
+
+works like above. 
+
+Makefiles in subdirectories under Appsrc should generally be edited.
+When create by `make makefiles' the Makefile in Appsrc/somedir looks
+like this 
+
+PROGRAMS 	= prog1 prog2
+OWN_LIBS 	= Lib1 Lib2
+LIBS			= ${GLLIBS} ${XLIBS} -lm -lz -lexpat
+
+Add something like this
+
+PROGRAMS 	= prog1 prog2
+OWN_LIBS 	= Lib1 Lib2
+LIBS			= ${GLLIBS} ${XLIBS} -lm -lz -lexpat
+
+where prog1 and prog2 are programs you wish to create. These must 
+correspond to source files with the same name and suffix .cpp. In
+other words, 
+
+prog1.cpp 
+prog2.cpp
+
+must exist (and contain a main function)
+
+Lib1 and Lib2 are libraries that must also be in the directory structure,
+i.e. under Libsrc there are subdirectories 
+
+Libsrc/Lib1
+Libsrc/Lib2
+
+the files in these subdirectories will be compiled and put in library 
+files named libLib1.a under lib. More precisely it will be put here:
+
+lib/PLATFORM_TARGET/
+
+PLATFORM and TARGET are defined above. Another library directory are for
+precompiled libraries whose source code is not a part of this tree. Put
+such libraries here:
+
+lib/PLATFORM/
+
+this directory is created by 
+
+make platform from the source root.
+
+----------------------------------------------------------------------
+5. CONFIGURATION
+----------------------------------------------------------------------
+
+When you add a new project to this framework, you should go through
+the following steps:
+
+Add directories for libraries under Libsrc. E.g. add 
+
+mkdir Libsrc/somelib
+
+Then add directories for applications:
+
+mkdir Appsrc/someapp
+
+Copy appropriate source files to these directories and then edit
+
+makefiles/config.mk
+
+to tell us which compiler to use (leave blank to use default) 
+and to set the target to debug or release.
+Finally, from the source root type 
+
+make platform
+
+Depending on your compiler you may now have to edit the makefile called
+
+makefiles/PLATFORM.mk 
+
+to set special compile flags. No go 
+
+make makefiles
+
+Finally you are all set. Go
+
+make
+
+
+----------------------------------------------------------------------
+6. TODO
+----------------------------------------------------------------------
+
+- No real testing of blended C and C++.
+- No dependency computation for .c 
+
+
+
+
+
+

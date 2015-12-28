@@ -1,0 +1,51 @@
+!!ARBfp1.0
+
+
+# Fragment attributes  (inputs)
+#------------------------------
+ATTRIB in_p	= fragment.position;
+
+ATTRIB tex_px	= fragment.texcoord[0];
+ATTRIB tex_nx	= fragment.texcoord[1];
+ATTRIB tex_py	= fragment.texcoord[2];
+ATTRIB tex_ny	= fragment.texcoord[3];
+ATTRIB tex_pz	= fragment.texcoord[4];
+ATTRIB tex_nz	= fragment.texcoord[5];
+ATTRIB tex_fac	= fragment.texcoord[6];
+
+# Result variables  (outputs)
+#----------------------------
+OUTPUT  out_Col = result.color;
+
+PARAM white={1,1,1,1};
+
+# Temporary variables
+#--------------------
+TEMP col_px,  col_nx,  col_py,  col_ny,  col_pz,  col_nz;
+TEMP coef_px, coef_nx, coef_py, coef_ny, coef_pz, coef_nz;
+TEMP ans, temp;
+
+# Calculate texturing 
+#--------------------
+TEX col_px, tex_px, texture[0], 2D;
+TEX col_nx, tex_nx, texture[0], 2D;
+TEX col_py, tex_py, texture[0], 2D;
+TEX col_ny, tex_ny, texture[0], 2D;
+TEX col_pz, tex_pz, texture[0], 2D;
+TEX col_nz, tex_nz, texture[0], 2D;
+
+TEX coef_px, tex_fac, texture[1], 2D;
+TEX coef_nx, tex_fac, texture[2], 2D;
+TEX coef_py, tex_fac, texture[3], 2D;
+TEX coef_ny, tex_fac, texture[4], 2D;
+TEX coef_pz, tex_fac, texture[5], 2D;
+TEX coef_nz, tex_fac, texture[6], 2D;
+
+MUL ans, col_px, coef_px;
+MAD ans, col_nx, coef_nx, ans;
+MAD ans, col_py, coef_py, ans;
+MAD ans, col_ny, coef_ny, ans;
+MAD ans, col_pz, coef_pz, ans;
+MAD out_Col, col_nz, coef_nz, ans;
+
+END

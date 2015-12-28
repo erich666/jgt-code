@@ -1,0 +1,52 @@
+Point Generation and Rendering Demo
+Andreas Bærentzen 2005
+----
+
+This package contains source code for point generation and rendering.
+Note that it is a simple proof of concept application: To avoid the overhead
+of having to load a model, I simply create the points from two triangles.
+This means that it is fairly easy to see holes when the points are thinned 
+since the triangles are fairly large. It works better for complex structures
+such as trees, bushes etc.
+
+The applications are in
+AppSrc/PointImpostors. The most important source code is in
+LibSrc/LDI/create_ldi.cpp
+
+COMPILATION ON UNICES
+
+This code should compile with few modifications on UNIX platforms with
+gcc and gmake. Try simply typing make from the directory containing this
+file. The programs will be put in bin
+
+COMPILATION ON WINDOWS
+
+I have made a visual studio solution for .NET. Hopefully it will work for you. 
+I suggest you run the programs from the command line. The programs will be put
+in bin.
+
+PROGRAMS
+
+pointgen - generates a set of points stored in "out.pts" from two triangles
+pointviewer - used to view these points. REMEMBER "out.pts" as (the only) 
+argument
+
+REMEMBER TO DISABLE ANTIALIASING WHEN RUNNING POINTGEN
+
+DEPENDENCIES
+
+I have tried to minimize dependencies, but it is hard. As a minimum, you will
+need 
+
+1. OpenGL 
+
+2. GLUT
+
+3. GLEW - the extension wrangler in order to handle OpenGL extensions
+http://glew.sourceforge.net/
+
+4. GLUI - A quick and dirty but effective use interface toolkit.
+http://glui.sourceforge.net/
+
+Hopefully the first two are installed by default on your system. The last two are 
+included in this package

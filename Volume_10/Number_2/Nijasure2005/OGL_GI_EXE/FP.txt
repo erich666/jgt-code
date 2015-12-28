@@ -1,0 +1,104 @@
+!!ARBfp1.0
+
+
+# Fragment attributes  (inputs)
+#------------------------------
+ATTRIB in_p	= fragment.position;
+ATTRIB in_Col	= fragment.color;
+ATTRIB in_Tex 	= fragment.texcoord[0];
+ATTRIB in_Norm	= fragment.texcoord[1];
+ATTRIB in_Pos	= fragment.texcoord[2];
+ATTRIB spos1	= fragment.texcoord[3];
+
+# Result variables  (outputs)
+#----------------------------
+OUTPUT  out_Col_0 = result.color;
+
+# Light Parameters
+#-----------------
+PARAM light_1_pos = state.light[1].position;
+PARAM light_1_dir = state.light[1].spot.direction;
+PARAM light_1_att = state.light[1].attenuation;
+PARAM eye_pos     = program.env[0];
+PARAM ambient ={0.3,0.3,0.3,0.3};
+
+# Material Property
+#------------------
+PARAM mat = state.material.front.specular;
+PARAM shine={100,100,100,100};
+PARAM zero ={0.0, 0.0, 0.0, 0.0};
+PARAM white ={1.0, 1.0, 1.0, 1.0};
+PARAM scale  = {0.5, 0.5, 0.5, 0.5};
+PARAM bias   = {0.5, 0.5, 0.4999, 0.5};
+
+# Temporary variables
+#--------------------
+TEMP tmp,v,vd,r1,r2,tcol,tex0col;
+TEMP sfac,texfetch,half,eyevec;
+
+
+MUL texfetch, spos1 , scale;
+ADD texfetch, texfetch , bias;
+TEX sfac, texfetch, texture[1], 2D;
+
+TEX tex0col,in_Tex, texture[0], 2D;
+
+# Calculate v = ( pixel - spot position ) and normalize this
+#-----------------------------------------------------------
+ADD v, in_Pos, -light_1_pos;
+DP3 v.w, v,  v;
+RSQ v.w,  v.w;
+MUL v.xyz, v, v.w;
+
+# Normalize the light direction
+#------------------------------
+MOV tmp, light_1_dir;
+DP3 tmp.w, tmp, tmp;
+RSQ tmp.w, tmp.w;
+MUL tmp.xyz, tmp, tmp.w;
+
+ADD eyevec, eye_pos, -in_Pos;
+DP3 eyevec.w,   eyevec,   eyevec;
+RSQ eyevec.w,   eyevec.w;
+MUL eyevec.xyz, eyevec,   eyevec.w;
+
+ADD half,   -v,	     eyevec;
+MUL half, half, scale;
+DP3 half.w, half, half;
+RSQ half.w, half.w;
+MUL half.xyz, half, half.w;
+
+MOV r1, in_Norm;
+DP3 r1.w, r1, tmp;
+RSQ r1.w, r1.w;
+MUL r1.xyz, r1, r1.w;
+
+
+# Calculate ( v.d ) where d is the spotlight direction
+#-----------------------------------------------------
+DP3 vd, v, tmp;
+DP3 r2, r1, half;
+
+# calculate max( v.d, 0 )
+#------------------------
+MAX vd, vd, zero;
+MAX r2, r2, zero;
+
+# Calculate ligthing inside the cone = max(v.d, 0) ^ exponent
+#------------------------------------------------------------
+POW tmp, vd.x, light_1_att.w;
+POW r2,  r2.x, shine.x;
+MUL r2,r2,mat;
+ADD tmp,tmp,r2;
+
+SGE tcol, vd, light_1_dir.wwww;
+ADD vd, tmp, -zero;
+MAD tcol, tcol, vd, zero;
+
+MAD sfac.x, sfac.x, texfetch.w, -texfetch.z;
+CMP sfac.x, sfac.x, 0.0, 1.0;
+MUL tcol, tcol, sfac.x;
+MUL out_Col_0,  tcol, tex0col;	
+
+
+END

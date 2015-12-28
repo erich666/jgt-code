@@ -1,0 +1,59 @@
+/*
+	render.vhl
+
+	Renders outright with no tricks.
+	
+	Used for final render.
+*/
+
+#include "common.vhl"
+
+struct VS_INPUT
+{
+	float4 vPosition        : POSITION;
+	float4 vNormal          : NORMAL0;
+	float2 vTexCoords       : TEXCOORD0;    
+};
+
+struct VS_OUTPUT
+{
+	float4 vPosition		: POSITION;
+	float2 vTexCoords		: TEXCOORD0;
+	float4 vShadowCoords	: TEXCOORD1;
+	float3 vWorldPos		: TEXCOORD2;
+	float3 vNormal          : TEXCOORD3;
+    float  z_value			: TEXCOORD4;
+	float3 vVolumeCoords	: TEXCOORD5;	
+};
+
+
+VS_OUTPUT main( VS_INPUT i )
+{
+    VS_OUTPUT o;
+	float4 vWorldPos;
+
+	// Pass texture coordinates to pixel shader.
+	o.vTexCoords = i.vTexCoords;
+
+	// Transform and project vertex for eye.
+	o.vPosition = mul(i.vPosition, mWorldViewProj);
+	
+	// Create texture coordinates for shadow map.
+	vWorldPos = mul(i.vPosition, mWorld);
+	o.vShadowCoords = mul(vWorldPos, mLight);
+
+	// Pass world space position.
+	o.vWorldPos = vWorldPos;
+
+	// Pass volume map texture coordinates.
+	o.vVolumeCoords = (vWorldPos-vVolumeShift)*vVolumeScale;
+
+	// Pass distance from light for shadowmap computation and zbias.
+	o.z_value = ((distance(vLightPos, vWorldPos)-1.0)*fZScaleFactor)-0.0055;
+
+	// Pass normal
+	o.vNormal = i.vNormal;
+
+    return o;
+}
+

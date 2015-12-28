@@ -1,0 +1,151 @@
+--------------------Configuration: example1 - Win32 Release--------------------
+Begining build with project "D:\projects\src\msvc\example1.dsp", at root.
+Active configuration is Win32 (x86) Console Application (based on Win32 (x86) Console Application)
+
+Project's tools are:
+			"32-bit C/C++ Compiler for 80x86" with flags "/nologo /ML /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_CONSOLE" /D "_MBCS" /Fp"Release/example1.pch" /YX /Fo"Release/" /Fd"Release/" /FD /c "
+			"Win32 Resource Compiler" with flags "/l 0x409 /d "NDEBUG" "
+			"Browser Database Maker" with flags "/nologo /o"Release/example1.bsc" "
+			"COFF Linker for 80x86" with flags "glut32.lib glu32.lib opengl32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /subsystem:console /incremental:no /pdb:"Release/example1.pdb" /machine:I386 /out:"Release/example1.exe" "
+			"Custom Build" with flags ""
+			"<Component 0xa>" with flags ""
+
+Creating temp file "C:\TEMP\RSP146.tmp" with contents </nologo /ML /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_CONSOLE" /D "_MBCS" /Fp"Release/example1.pch" /YX /Fo"Release/" /Fd"Release/" /FD /c 
+"D:\projects\src\example1.cpp"
+>
+Creating command line "cl.exe @C:\TEMP\RSP146.tmp" 
+Creating temp file "C:\TEMP\RSP147.tmp" with contents <glut32.lib glu32.lib opengl32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /subsystem:console /incremental:no /pdb:"Release/example1.pdb" /machine:I386 /out:"Release/example1.exe" 
+.\Release\example1.obj
+.\lib\glui.lib>
+Creating command line "link.exe @C:\TEMP\RSP147.tmp" 
+Compiling...
+example1.cpp
+D:\projects\src\glui_spinner.h(82) : warning C4305: '=' : truncation from 'const double' to 'float'
+D:\projects\src\example1.cpp(57) : warning C4305: '+=' : truncation from 'const double' to 'float'
+D:\projects\src\example1.cpp(58) : warning C4305: '+=' : truncation from 'const double' to 'float'
+Linking...
+LINK : fatal error LNK1181: cannot open input file ".\lib\glui.lib"
+Error executing link.exe.
+
+
+
+example1.exe - 1 error(s), 3 warning(s)
+--------------------Configuration: example1 - Win32 Debug--------------------
+Begining build with project "D:\projects\src\msvc\example1.dsp", at root.
+Active configuration is Win32 (x86) Console Application (based on Win32 (x86) Console Application)
+
+Project's tools are:
+			"32-bit C/C++ Compiler for 80x86" with flags "/nologo /MLd /W3 /Gm /GX /Zi /Od /D "WIN32" /D "_DEBUG" /D "_CONSOLE" /D "_MBCS" /Fp"Debug/example1.pch" /YX /Fo"Debug/" /Fd"Debug/" /FD /c "
+			"Win32 Resource Compiler" with flags "/l 0x409 /d "_DEBUG" "
+			"Browser Database Maker" with flags "/nologo /o"Debug/example1.bsc" "
+			"COFF Linker for 80x86" with flags "glut32.lib glu32.lib opengl32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /subsystem:console /incremental:yes /pdb:"Debug/example1.pdb" /debug /machine:I386 /out:"bin/example1.exe" /pdbtype:sept "
+			"Custom Build" with flags ""
+			"<Component 0xa>" with flags ""
+
+Creating temp file "C:\TEMP\RSP148.tmp" with contents </nologo /MLd /W3 /Gm /GX /Zi /Od /D "WIN32" /D "_DEBUG" /D "_CONSOLE" /D "_MBCS" /Fp"Debug/example1.pch" /YX /Fo"Debug/" /Fd"Debug/" /FD /c 
+"D:\projects\src\example1.cpp"
+>
+Creating command line "cl.exe @C:\TEMP\RSP148.tmp" 
+Creating temp file "C:\TEMP\RSP149.tmp" with contents <glut32.lib glu32.lib opengl32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /subsystem:console /incremental:yes /pdb:"Debug/example1.pdb" /debug /machine:I386 /out:"bin/example1.exe" /pdbtype:sept 
+.\Debug\example1.obj
+.\lib\glui.lib>
+Creating command line "link.exe @C:\TEMP\RSP149.tmp" 
+Compiling...
+example1.cpp
+D:\projects\src\glui_spinner.h(82) : warning C4305: '=' : truncation from 'const double' to 'float'
+D:\projects\src\example1.cpp(57) : warning C4305: '+=' : truncation from 'const double' to 'float'
+D:\projects\src\example1.cpp(58) : warning C4305: '+=' : truncation from 'const double' to 'float'
+Linking...
+LINK : fatal error LNK1104: cannot open file ".\lib\glui.lib"
+Error executing link.exe.
+
+
+
+example1.exe - 1 error(s), 3 warning(s)
+--------------------Configuration: example2 - Win32 Release--------------------
+Begining build with project "D:\projects\src\msvc\example2.dsp", at root.
+Active configuration is Win32 (x86) Console Application (based on Win32 (x86) Console Application)
+
+Project's tools are:
+			"32-bit C/C++ Compiler for 80x86" with flags "/nologo /ML /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_CONSOLE" /D "_MBCS" /Fp"Release/example2.pch" /YX /Fo"Release/" /Fd"Release/" /FD /c "
+			"Win32 Resource Compiler" with flags "/l 0x409 /d "NDEBUG" "
+			"Browser Database Maker" with flags "/nologo /o"Release/example2.bsc" "
+			"COFF Linker for 80x86" with flags "glut32.lib glu32.lib opengl32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /subsystem:console /incremental:no /pdb:"Release/example2.pdb" /machine:I386 /out:"Release/example2.exe" "
+			"Custom Build" with flags ""
+			"<Component 0xa>" with flags ""
+
+Creating temp file "C:\TEMP\RSP14A.tmp" with contents </nologo /ML /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_CONSOLE" /D "_MBCS" /Fp"Release/example2.pch" /YX /Fo"Release/" /Fd"Release/" /FD /c 
+"D:\projects\src\example2.cpp"
+>
+Creating command line "cl.exe @C:\TEMP\RSP14A.tmp" 
+Creating temp file "C:\TEMP\RSP14B.tmp" with contents <glut32.lib glu32.lib opengl32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /subsystem:console /incremental:no /pdb:"Release/example2.pdb" /machine:I386 /out:"Release/example2.exe" 
+.\Release\example2.obj
+.\lib\glui.lib>
+Creating command line "link.exe @C:\TEMP\RSP14B.tmp" 
+Compiling...
+example2.cpp
+D:\projects\src\glui_spinner.h(82) : warning C4305: '=' : truncation from 'const double' to 'float'
+D:\projects\src\example2.cpp(130) : warning C4305: 'argument' : truncation from 'const double' to 'float'
+D:\projects\src\example2.cpp(164) : warning C4018: '<' : signed/unsigned mismatch
+Linking...
+LINK : fatal error LNK1181: cannot open input file ".\lib\glui.lib"
+Error executing link.exe.
+
+
+
+example2.exe - 1 error(s), 3 warning(s)
+--------------------Configuration: example2 - Win32 Debug--------------------
+Begining build with project "D:\projects\src\msvc\example2.dsp", at root.
+Active configuration is Win32 (x86) Console Application (based on Win32 (x86) Console Application)
+
+Project's tools are:
+			"32-bit C/C++ Compiler for 80x86" with flags "/nologo /MLd /W3 /Gm /GX /Zi /Od /D "WIN32" /D "_DEBUG" /D "_CONSOLE" /D "_MBCS" /Fp"Debug/example2.pch" /YX /Fo"Debug/" /Fd"Debug/" /FD /c "
+			"Win32 Resource Compiler" with flags "/l 0x409 /d "_DEBUG" "
+			"Browser Database Maker" with flags "/nologo /o"Debug/example2.bsc" "
+			"COFF Linker for 80x86" with flags "glut32.lib glu32.lib opengl32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /subsystem:console /incremental:yes /pdb:"Debug/example2.pdb" /debug /machine:I386 /out:"bin/example2.exe" /pdbtype:sept "
+			"Custom Build" with flags ""
+			"<Component 0xa>" with flags ""
+
+Creating temp file "C:\TEMP\RSP14C.tmp" with contents </nologo /MLd /W3 /Gm /GX /Zi /Od /D "WIN32" /D "_DEBUG" /D "_CONSOLE" /D "_MBCS" /Fp"Debug/example2.pch" /YX /Fo"Debug/" /Fd"Debug/" /FD /c 
+"D:\projects\src\example2.cpp"
+>
+Creating command line "cl.exe @C:\TEMP\RSP14C.tmp" 
+Creating temp file "C:\TEMP\RSP14D.tmp" with contents <glut32.lib glu32.lib opengl32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /subsystem:console /incremental:yes /pdb:"Debug/example2.pdb" /debug /machine:I386 /out:"bin/example2.exe" /pdbtype:sept 
+.\Debug\example2.obj
+.\lib\glui.lib>
+Creating command line "link.exe @C:\TEMP\RSP14D.tmp" 
+Compiling...
+example2.cpp
+D:\projects\src\glui_spinner.h(82) : warning C4305: '=' : truncation from 'const double' to 'float'
+D:\projects\src\example2.cpp(130) : warning C4305: 'argument' : truncation from 'const double' to 'float'
+D:\projects\src\example2.cpp(164) : warning C4018: '<' : signed/unsigned mismatch
+Linking...
+LINK : fatal error LNK1104: cannot open file ".\lib\glui.lib"
+Error executing link.exe.
+
+
+
+example2.exe - 1 error(s), 3 warning(s)
+--------------------Configuration: example3 - Win32 Release--------------------
+Begining build with project "D:\projects\src\msvc\example3.dsp", at root.
+Active configuration is Win32 (x86) Console Application (based on Win32 (x86) Console Application)
+
+Project's tools are:
+			"32-bit C/C++ Compiler for 80x86" with flags "/nologo /ML /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_CONSOLE" /D "_MBCS" /Fp"Release/example3.pch" /YX /Fo"Release/" /Fd"Release/" /FD /c "
+			"Win32 Resource Compiler" with flags "/l 0x409 /d "NDEBUG" "
+			"Browser Database Maker" with flags "/nologo /o"Release/example3.bsc" "
+			"COFF Linker for 80x86" with flags "glut32.lib glu32.lib opengl32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /subsystem:console /incremental:no /pdb:"Release/example3.pdb" /machine:I386 /out:"Release/example3.exe" "
+			"Custom Build" with flags ""
+			"<Component 0xa>" with flags ""
+
+Creating temp file "C:\TEMP\RSP14E.tmp" with contents </nologo /ML /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_CONSOLE" /D "_MBCS" /Fp"Release/example3.pch" /YX /Fo"Release/" /Fd"Release/" /FD /c 
+"D:\projects\src\example3.cpp"
+>
+Creating command line "cl.exe @C:\TEMP\RSP14E.tmp" 
+Creating temp file "C:\TEMP\RSP14F.tmp" with contents <glut32.lib glu32.lib opengl32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /subsystem:console /incremental:no /pdb:"Release/example3.pdb" /machine:I386 /out:"Release/example3.exe" 
+.\Release\example3.obj
+.\lib\glui.lib>
+Creating command line "link.exe @C:\TEMP\RSP14F.tmp" 
+Compiling...
+cl.exe terminated at user request.
+

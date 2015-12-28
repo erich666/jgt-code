@@ -1,0 +1,30 @@
+!!ARBvp1.0
+
+
+ATTRIB in_pos 	= vertex.position;
+ATTRIB in_col	= vertex.color;
+ATTRIB in_tex	= vertex.texcoord[0];
+
+OUTPUT out_pos 	= result.position;
+OUTPUT out_col 	= result.color;
+OUTPUT out_tex 	= result.texcoord[0];
+
+PARAM MVP[4] 	= {state.matrix.mvp};
+
+TEMP tmp;
+
+DP4     tmp.x,        in_pos,         MVP[0];
+DP4     tmp.y,        in_pos,         MVP[1];
+DP4     tmp.z,        in_pos,         MVP[2];
+DP4     tmp.w,        in_pos,         MVP[3];
+
+MOV out_pos, tmp;
+
+MOV out_col, in_col;
+
+MOV out_tex, in_tex;
+
+
+
+
+END

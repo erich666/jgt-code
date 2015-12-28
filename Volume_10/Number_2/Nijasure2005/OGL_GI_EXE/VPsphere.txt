@@ -1,0 +1,68 @@
+!!ARBvp1.0
+
+
+
+
+# Vertex attributes (Inputs)
+#---------------------------
+ATTRIB	in_Pos          = vertex.position;	# position	
+ATTRIB  in_Norm		= vertex.normal;	# normal
+
+
+# Result variables (Outputs)
+#---------------------------
+OUTPUT  out_Pos         = result.position;	# position
+OUTPUT  out_Col		= result.color;		# color
+OUTPUT  out_Norm	= result.texcoord[0];	# normal
+OUTPUT  tex_3d		= result.texcoord[1];	# normalized 3D tex coordinate	
+
+
+# Program parameters
+#-------------------
+PARAM   MVP[4]       	 = { state.matrix.mvp };   
+PARAM min  		= program.env[0];			# min values along x,y and z of the scene
+PARAM diff 		= program.env[1];			# bounding box extents on x,y and z
+PARAM   trans[4]	= { state.matrix.program[4]}; 
+
+# Local Variables
+#-----------------
+TEMP    ans,tmp, temp, temp2,temp3;
+
+
+DP4     temp3.x,        in_Pos,         trans[0];
+DP4     temp3.y,        in_Pos,         trans[1];
+DP4     temp3.z,        in_Pos,         trans[2];
+DP4     temp3.w,        in_Pos,         trans[3];
+
+# Normalized 3d coordinates
+#--------------------------
+ADD temp, temp3, - min;
+
+RCP ans.x, diff.x;
+MUL ans.x, temp.x, ans.x;
+ 
+RCP ans.y, diff.y;
+MUL ans.y, temp.y, ans.y; 
+
+RCP ans.z, diff.z;
+MUL ans.z, temp.z, ans.z; 
+
+MOV tex_3d, ans;
+
+# Compute position
+#-----------------
+DP4     temp2.x,        in_Pos,         MVP[0];
+DP4     temp2.y,        in_Pos,         MVP[1];
+DP4     temp2.z,        in_Pos,         MVP[2];
+DP4     temp2.w,        in_Pos,         MVP[3];
+
+MOV 	out_Pos,	temp2;		
+
+# Pass through the normal
+#------------------------
+MOV out_Norm, in_Norm;
+
+MOV out_Col, ans; 
+
+
+END

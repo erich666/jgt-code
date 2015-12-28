@@ -1,0 +1,25 @@
+ps.2.0
+
+dcl t0.xy
+
+dcl_2d s0
+dcl_2d s1
+dcl_2d s2
+dcl_2d s3
+dcl_2d s4
+dcl_2d s5
+
+texld r0, t0, s0
+texld r1, t0, s1
+texld r2, t0, s2
+texld r3, t0, s3
+texld r4, t0, s4
+texld r5, t0, s5
+
+add r0, r0, r1
+add r0, r0, r2
+add r0, r0, r3
+add r0, r0, r4
+add r0, r0, r5
+
+mov oC0, r0

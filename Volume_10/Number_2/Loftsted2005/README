@@ -1,0 +1,14 @@
+
+
+The advicer program should be used with two arguments a and b where a,b are floating points the range [0,1] the first argument states the hitrate where testing should begin and the second argument the hitrate where the test should end. inbetween theese we increas with a 0.1 hitrate. For example the arguments 0.1 and 0.3 would test at hitrates 0.1, 0.2 and 0.3. The program the print the 5 algorithms with the smallest summed times from theese tests. If no arguments, arguments not in hte range or if the first argument is bigger than the secon test would be performed on all 11 hitrates from 0.0 to 1.0.
+
+To compile the program with the gcc compiler somthing like:
+
+gcc -o advicer triray_advicer.c advicer_algorithms.c triangle.c -O2 -lm
+
+will work on most systems.
+
+
+
+
+

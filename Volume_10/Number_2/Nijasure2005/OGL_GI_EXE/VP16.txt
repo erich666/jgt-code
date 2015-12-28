@@ -1,0 +1,38 @@
+!!ARBvp1.0
+
+
+
+# Vertex attributes (Inputs)
+ATTRIB	in_Pos          = vertex.position;			# position	
+ATTRIB  in_Tex_0	= vertex.texcoord[0];			# texture coordinate 0
+
+
+# Result variables (Outputs)
+OUTPUT  out_Pos         = result.position;			# position
+OUTPUT  out_Tex_0	= result.texcoord[0];			# texture coordinate 0
+
+
+# Program parameters
+PARAM   c_MVP[4]            = { state.matrix.mvp };
+
+# Local Variables
+TEMP    temp2;
+
+
+
+# The program
+#############
+
+# Compute position
+DP4     temp2.x,        in_Pos,         c_MVP[0];
+DP4     temp2.y,        in_Pos,         c_MVP[1];
+DP4     temp2.z,        in_Pos,         c_MVP[2];
+DP4     temp2.w,        in_Pos,         c_MVP[3];
+
+MOV 	out_Pos,	temp2;		# output position
+
+
+MOV out_Tex_0, in_Tex_0; 
+
+
+END

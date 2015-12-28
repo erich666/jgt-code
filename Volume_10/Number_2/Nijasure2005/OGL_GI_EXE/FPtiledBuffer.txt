@@ -1,0 +1,43 @@
+!!ARBfp1.0
+
+
+# Fragment attributes  (inputs)
+#------------------------------
+ATTRIB in_p	= fragment.position;
+ATTRIB in_Col	= fragment.color;
+ATTRIB in_Tex_0	= fragment.texcoord[0];
+ATTRIB in_Tex_1	= fragment.texcoord[1];
+ATTRIB in_Tex_2	= fragment.texcoord[2];
+ATTRIB in_Tex_3	= fragment.texcoord[3];
+ATTRIB in_Tex_4	= fragment.texcoord[4];
+ATTRIB in_Tex_5	= fragment.texcoord[5];
+
+# Result variables  (outputs)
+#----------------------------
+OUTPUT  out_Col = result.color;
+
+# Temporary variables
+#--------------------
+TEMP tex0col,tex1col,tex2col,tex3col,tex4col,tex5col;
+TEMP ans;
+
+
+
+# Calculate texturing 
+#--------------------
+TEX tex0col,  fragment.texcoord[0],  texture[0],  2D;
+TEX tex1col,  fragment.texcoord[1],  texture[0],  2D;
+TEX tex2col,  fragment.texcoord[2],  texture[0],  2D;
+TEX tex3col,  fragment.texcoord[3],  texture[0],  2D;
+TEX tex4col,  fragment.texcoord[4],  texture[0],  2D;
+TEX tex5col,  fragment.texcoord[5],  texture[0],  2D;
+
+ADD tex0col, tex0col, tex1col;
+ADD tex2col, tex2col, tex3col;
+ADD tex4col, tex4col, tex5col;
+ADD ans, tex0col, tex2col;
+ADD ans, ans, tex4col;
+
+MOV out_Col, ans;
+
+END

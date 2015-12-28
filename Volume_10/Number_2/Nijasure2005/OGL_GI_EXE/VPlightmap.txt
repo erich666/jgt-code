@@ -1,0 +1,39 @@
+!!ARBvp1.0
+
+
+
+
+# Vertex attributes (Inputs)
+#---------------------------
+ATTRIB	in_Pos          = vertex.position;	# position	
+
+
+# Result variables (Outputs)
+#---------------------------
+OUTPUT  out_Pos         = result.position;	# position
+
+# Program parameters
+#-------------------
+PARAM   MVP[4]       	= { state.matrix.mvp };   
+PARAM   trans[4]	= { state.matrix.program[2]}; 
+
+# Local Variables
+#-----------------
+TEMP    tmp, temp, temp2,temp3;
+
+# Compute position
+#-----------------
+
+DP4     temp3.x,        in_Pos,         trans[0];
+DP4     temp3.y,        in_Pos,         trans[1];
+DP4     temp3.z,        in_Pos,         trans[2];
+DP4     temp3.w,        in_Pos,         trans[3];
+
+DP4     temp2.x,        temp3,         MVP[0];
+DP4     temp2.y,        temp3,         MVP[1];
+DP4     temp2.z,        temp3,         MVP[2];
+DP4     temp2.w,        temp3,         MVP[3];
+
+MOV 	out_Pos,	temp2;		
+
+END
