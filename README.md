@@ -75,8 +75,6 @@ The following articles have related code; look in the corresponding folder by Vo
 
 * Grimm, Cindy M., and Bill Niebruegge, ["Continuous Cube Mapping,"](http://www.tandfonline.com/doi/abs/10.1080/2151237X.2007.10129250) *journal of graphics tools*, 12(4):25-34, 2007. [**Appendix**](Volume_12/Number_4/Grimm2007)
 
-* Eisemann, Cindy M., and Bill Niebruegge, ["Fast Ray/Axis-Aligned Bounding Box Overlap Tests using Ray Slopes,"](http://www.tandfonline.com/doi/abs/10.1080/2151237X.2007.10129248) *journal of graphics tools*, 12(4):35-46, 2007. [**Code**](Volume_12/Number_4/Eisemann2007)
-
 * Eisemann, Martin, Marcus Magnor, Thorsten Grosch, and Stefan Müller, ["Fast Ray/Axis-Aligned Bounding Box Overlap Tests using Ray Slopes,"](http://www.tandfonline.com/doi/abs/10.1080/2151237X.2007.10129248) *journal of graphics tools*, 12(4):35-46, 2007. [**Code**](Volume_12/Number_4/Eisemann2007)
 
 * Hasselgren, Jon, and Tomas Akenine-Möller, ["Textured Shadow Volumes,"](http://www.tandfonline.com/doi/abs/10.1080/2151237X.2007.10129251) *journal of graphics tools*, 12(4):59-72, 2007. [**Code**](Volume_12/Number_4/Hasselgren2007)
