@@ -1,0 +1,20 @@
+
+
+struct appin
+{
+	float4 iPosition          : POSITION;
+};
+
+struct vertout
+{
+	float4 oPosition		  : POSITION;
+};
+
+
+vertout main( appin IN,
+			  uniform float4x4 mvp  : state.matrix.mvp )
+{
+	vertout OUT;
+	OUT.oPosition = mul( mvp, IN.iPosition );		
+	return OUT;
+}

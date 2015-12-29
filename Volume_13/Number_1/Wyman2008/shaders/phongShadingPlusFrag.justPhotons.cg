@@ -1,0 +1,27 @@
+
+
+struct vertout
+{
+	float4 Position		: WPOS;
+	float4 normal      	: TEXCOORD1;
+	float4 eyePos		: TEXCOORD2;
+	float4 lightDir		: TEXCOORD3;
+};
+
+
+void main( vertout IN,
+           uniform float4 ambientMaterial    : state.material.ambient,
+		   uniform float4 diffuseMaterial    : state.material.diffuse,
+		   uniform float4 specularMaterial   : state.material.specular,
+		   uniform float shininess           : state.material.shininess,
+		   uniform float4 half               : state.light[0].half, 
+		   out float4 oColor: COLOR0,
+		   out float4 oColor1: COLOR1 )
+{   
+    // store the surface position in the 2nd color buffer
+    oColor = IN.eyePos;
+    oColor.a = -1;
+    
+    oColor1 = IN.normal;
+}
+

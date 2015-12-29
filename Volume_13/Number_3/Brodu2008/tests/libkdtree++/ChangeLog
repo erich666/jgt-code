@@ -1,0 +1,53 @@
+libkdtree++ ChangeLog
+=====================
+
+2004-11-15  Martin F. Krafft (krafft@ailab.ch)
+
+	- fixed numerous little bugs that led to compilation problems
+	- changed code to compile cleanly with GCC 3.4 and GCC 4.0
+
+2004-11-06  Martin F. Krafft (krafft@ailab.ch)
+
+	- reverted to optimise() to prevent API change, and added an optimize()
+	  passthrough method with an appropriate comment.
+
+2004-11-05  Paul Harris (paulharris@computer.org)
+
+	- Renamed optimise() to optimize().
+	- Added a full set of range constructors and insert(range) methods.
+		it now works with inserter(tree,tree.begin())
+	- Target type no longer needs a default constructor. This also fixes
+		problems with empty trees (would crash if optimized).
+	- Some code cleanup (removed inlines, switched from const_iterator to
+		iterator, added this-> to ensure the methods are called).
+	- Added a new method: count_within_range().
+	- Fixed bug in rend().
+
+2004-11-04  Martin F. Krafft (krafft@ailab.ch)
+
+	- Integrated patch by Paul Harris to fix a logic error pertaining to
+		OutputIterators in find_within_range. find_within_range() now
+		returns the output iterator instead of a count. Thanks, Paul!
+	- Added another fix by Paul Harris to _M_get_j_max, which would cause
+		a dimensional overflow for trees with depths >= K. Thanks (again) Paul!
+	- Made some improvements to the autotools files.
+
+2004-05-11  Martin F. Krafft (krafft@ailab.ch)
+
+	- Fixed CFlags and Libs entries in pkgconfig file.
+
+2004-05-11  Martin F. Krafft (krafft@ailab.ch)
+
+	- Initial release.
+
+Martin F. Krafft <krafft@ailab.ch>
+Revision: $Id: ChangeLog,v 1.9 2004/11/15 17:53:12 krafft Exp $
+
+COPYRIGHT --
+  libkdtree++ is (c) 2004 Martin F. Krafft <krafft@ailab.ch>
+  and distributed under the terms of the Artistic Licence.
+  See the ./COPYING file in the source tree root for more information.
+
+  THIS PACKAGE IS PROVIDED "AS IS" AND WITHOUT ANY EXPRESS OR IMPLIED
+  WARRANTIES, INCLUDING, WITHOUT LIMITATION, THE IMPLIED WARRANTIES
+  OF MERCHANTIBILITY AND FITNESS FOR A PARTICULAR PURPOSE.

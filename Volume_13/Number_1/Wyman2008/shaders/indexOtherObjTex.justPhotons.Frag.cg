@@ -1,0 +1,16 @@
+struct vertout
+{
+	float4 photonPosition     : TEXCOORD1;
+	float4 photonNormal       : TEXCOORD2;
+};
+
+
+void main( vertout IN,
+           out float4 oColor0: COLOR0,
+		   out float4 oColor1: COLOR1 )
+{
+	oColor0.rgb = IN.photonPosition.rgb;
+	oColor0.a = -10;
+
+	oColor1 = IN.photonNormal;
+}

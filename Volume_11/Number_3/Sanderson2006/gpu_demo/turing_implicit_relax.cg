@@ -1,0 +1,99 @@
+/*****************************************************************************/
+/*								             */
+/*	Copyright (c) 2005	Allen R. Sanderson		             */
+/*								             */
+/*				Scientific Computing and Imaging Institute   */
+/*				University of Utah		             */
+/*				Salt Lake City, Utah		             */
+/*								             */
+/*            							             */
+/*  Permission is granted to modify and/or distribute this program so long   */
+/*  as the program is distributed free of charge and this header is retained */
+/*  as part of the program.                                                  */
+/*								             */
+/*****************************************************************************/
+
+// TURING IMPLICIT RELAXATION SOLUTION
+
+void main(float2 texCoord0 : TEXCOORD0,
+          float2 texCoord1 : TEXCOORD1,
+          float2 texCoord2 : TEXCOORD2,
+
+	  uniform float4 diffRates,
+	  uniform float timeStep_inv,
+
+          uniform samplerRECT morphigens,
+          uniform samplerRECT rhs,
+
+          uniform samplerRECT reactionConsts,
+          uniform samplerRECT diffusionConsts,
+
+	  out float4 oColor : COLOR)
+{
+  float4 c = f4texRECT( morphigens, texCoord1.xy );
+  
+  oColor = c;
+
+  float4 reaction = f4texRECT( reactionConsts, texCoord1.xy );
+
+  if( reaction.a > 0.0 ) {
+
+    // get the color(u and v values)
+    float4 tl = f4texRECT( morphigens, texCoord0.xy );			 
+    float4 t  = f4texRECT( morphigens, float2(texCoord1.x, texCoord0.y) );
+    float4 tr = f4texRECT( morphigens, float2(texCoord2.x, texCoord0.y) );
+
+    float4 l  = f4texRECT( morphigens, float2(texCoord0.x, texCoord1.y) );
+    float4 r  = f4texRECT( morphigens, float2(texCoord2.x, texCoord1.y) );
+
+    float4 bl = f4texRECT( morphigens, float2(texCoord0.x, texCoord2.y) );
+    float4 b  = f4texRECT( morphigens, float2(texCoord1.x, texCoord2.y) );
+    float4 br = f4texRECT( morphigens, texCoord2.xy );
+
+
+    // get the diffusion tensors
+//  float4 tl_dt = f4texRECT( diffusionConsts, float2(texCoord0.x, texCoord0.y );
+    float4 t_dt  = f4texRECT( diffusionConsts, float2(texCoord1.x, texCoord0.y) );
+//  float4 tr_dt = f4texRECT( diffusionConsts, float2(texCoord2.x, texCoord0.y) );
+
+    float4 l_dt = f4texRECT( diffusionConsts, float2(texCoord0.x, texCoord1.y) );
+    float4 c_dt = f4texRECT( diffusionConsts, float2(texCoord1.x, texCoord1.y) );
+    float4 r_dt = f4texRECT( diffusionConsts, float2(texCoord2.x, texCoord1.y) );
+
+//  float4 bl_dt = f4texRECT( diffusionConsts, float2(texCoord0.x, texCoord2.y) );
+    float4 b_dt  = f4texRECT( diffusionConsts, float2(texCoord1.x, texCoord2.y) );
+//  float4 br_dt = f4texRECT( diffusionConsts, float2(texCoord2.x, texCoord2.y) );
+
+
+    // get the constant values
+    float4 rhs_v = f4texRECT( rhs, texCoord1.xy );
+
+    float4 tmp;
+
+    tmp.rgba = rhs_v;
+
+    float4 f3 = (( r_dt.g * (tr - br) -
+		   l_dt.g * (tl - bl) ) +
+		 ( t_dt.b * (tr - tl) -
+		   b_dt.b * (br - bl) ));
+
+    float d_t0 = r_dt.r + c_dt.r;
+    float d_t1 = c_dt.r + l_dt.r;
+    float d_t2 = t_dt.a + c_dt.a;
+    float d_t3 = c_dt.a + b_dt.a;
+
+    float4 f1a = (d_t0 * r + d_t1 * l + d_t2 * t + d_t3 * b);
+
+    float f1b_mult = -(d_t0 + d_t1 + d_t2 + d_t3);
+
+    float4 val = (rhs_v + diffRates * (f1a + f3)) /
+      (timeStep_inv - diffRates * f1b_mult);
+
+    val.a = (abs( oColor.g - c.g ) < 1.0e-4) &&
+      (abs( oColor.r - c.r ) < 1.0e-4);
+
+     val.b = 1.0;
+
+     oColor = val;
+  }
+}

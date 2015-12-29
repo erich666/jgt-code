@@ -1,0 +1,59 @@
+
+
+struct appin
+{
+	float4 iPosition	: POSITION;
+	float4 iNormal		: NORMAL;
+	float4 iSpherePos 	: TEXCOORD1;
+	float4 iCurvature   : TEXCOORD7;
+};
+
+struct vertout
+{
+	float4 oPosition	: POSITION;
+	float4 NDCcoord		: TEXCOORD0;
+	float4 eyeNorm      	: TEXCOORD1;
+	float4 eyePos		: TEXCOORD2;
+	float4 outplaneEq	: TEXCOORD3;
+	float4 outCurvature : TEXCOORD7;
+};
+
+vertout main( appin IN,
+			  uniform float4x4 mvp  : state.matrix.mvp,
+			  uniform float4x4 mv   : state.matrix.modelview, 
+			  uniform float4x4 mvit : state.matrix.modelview.invtrans,
+			  uniform float4 planeEq )
+{
+	vertout OUT;
+	float4 eyeTmp;
+	
+	// Transform vertex position to clip coordinates
+	OUT.oPosition = mul( mvp, IN.iPosition );
+
+	// Compute vertex location in eye coordinates.  This also serves
+	//   as the view vector, if normalized.  We need both, so we store
+	//   two values here.
+        eyeTmp = mul( mv, IN.iPosition );
+	OUT.eyePos = eyeTmp / eyeTmp.w; 
+	OUT.eyeNorm.xyz = mul( mvit, IN.iNormal );
+	OUT.eyeNorm.w = IN.iNormal.w;
+
+	// We're also going to need the location of this vertex (and each pixel
+	//   in turn in screen space.  Since CG won't let us access fragment.position
+	//   in the fragment shader, do the math ourself and pass it down)
+	eyeTmp = mul( mvp, IN.iPosition );
+	eyeTmp.xyz = eyeTmp.xyz / eyeTmp.w;
+	OUT.NDCcoord = 0.5 * eyeTmp + 0.5;
+
+	// We're going to refract objects on some random plane thru our object.
+	//   The equation for this plane needs to be in eye-space, not world space.
+	//   This should be done in the program (compute once per frame, not once per
+	//   vertex).  Make sure (.xyz -- the plane normal) has unit length, though.
+	//   (once again, this *should* be done in the program)
+	OUT.outplaneEq.xyz = normalize( planeEq.xyz );
+	OUT.outplaneEq.w   = planeEq.w;
+	
+	OUT.outCurvature = IN.iCurvature;
+
+	return OUT;
+}

@@ -1,0 +1,168 @@
+// Cg fragment shader code for the refraction pass of:
+//
+//     "An Approximate Image-Space Approach for Interactive Refraction"
+//     by Chris Wyman, University of Iowa.  
+//
+// Date: April 21, 2005
+
+// Vertex outputs / fragment inputs
+struct vertout
+{
+	float4 Position		: POSITION;  // Screen-space pixel location (inaccessable in Cg??)
+	float4 NDCcoord     : TEXCOORD0; // NDC of pixel, used in place of inaccessable IN.Position
+	float4 eyeNorm		: TEXCOORD1; // Eye-space normal of geometry
+	float4 eyePos		: TEXCOORD2; // Eye-space position of geometry
+};
+
+// Function to compute a refraction direction.  Evidently, the built-in Cg refraction
+//    computes pseudo-refraction vectors, as per previous work in the area.
+float3 refraction( float3 incident, float3 normal, float ni_nt, float ni_nt_sqr )
+{
+	float IdotN = dot( -incident, normal );
+	float cosSqr = 1 - ni_nt_sqr*(1 - IdotN*IdotN);
+	if (cosSqr < 0) 
+		cosSqr = 0;
+	else
+		cosSqr = sqrt( cosSqr );
+	return  normalize( ni_nt * incident + (ni_nt* IdotN - cosSqr) * normal ); 
+}
+
+void main( vertout IN,
+		   uniform float4x4 proj       : state.matrix.projection,
+		   uniform float4x4 mvit       : state.matrix.modelview.invtrans,
+		   
+		   // This contains the matrix for rotating the environment map
+		   uniform float4x4 prog0      : state.matrix.program[0],
+		   
+		   // Local parameters
+		   // local1 = { 2*f*n, f-n, f+n, <unused> }
+		   //    f = distance to the OpenGL far plane
+		   //    n = distance to the OpwnGL near plane 
+		   uniform float4 local1,
+		   
+		   // local2 = { n_i/n_t, (n_i/n_t)^2, <unused>, <unused> }
+		   //    n_i = index of refraction of external material (air)
+		   //    n_t = index of refraction of internal material
+		   uniform float4 local2,
+		   
+		   // local3 = { n_t/n_i, (n_t/n_i)^2, objectSize, sqrt( 1 - (n_i/n_t)^2 ) }
+		   uniform float4 local3,
+		   
+		   // Cubemap of environment map 
+		   uniform samplerCUBE environmentMap  : TEXUNIT0, // Change locations if necessary
+		   
+		   // Depth map (z-buffer) of back-facing refractive surfaces
+		   uniform sampler2D prevDistances     : TEXUNIT5,
+		   
+		   // A 1D texture storing aCos and fresnel terms
+		   //    .x is reflective fresnel coef
+		   //    .y is refractive fresnel coef
+		   //    .z is the arc-cosine
+		   uniform sampler1D aCos_and_Fresnel  : TEXUNIT4,
+		   
+		   // Normals from the back-facing refractive surfaces
+		   uniform sampler2D backFace		   : TEXUNIT3,
+		   
+		   // Output (just color)
+		   out float4 oColor: COLOR )
+{
+	float4 tmp;
+	float2 Dist;	
+	float2 fresnel;
+	float4 reflectedColor;
+	float4 refractedColor;
+
+	// Stuff that we know from the beginning
+	float3 N_1 = normalize( IN.eyeNorm.xyz );   // Surface Normal
+	float3 V   = normalize( IN.eyePos.xyz  );   // View direction
+
+	// Using the normalized device coordiantes, find distance to back-facing surfaces
+	//    (these were stored in a previous pass)
+	Dist.x = tex2D( prevDistances, IN.NDCcoord.xy ).z;	
+
+	// Take the position above and the fragment's current z-value (distance to front
+	//    facing surfaces) and convert back to world coordinates
+	Dist.y = IN.NDCcoord.z;
+	Dist.x = local1.x / (Dist.x * local1.y - local1.z);
+	Dist.y = local1.x / (Dist.y * local1.y - local1.z);
+
+	// Distance between front & back surfaces
+	float d_V = Dist.y - Dist.x;
+
+	// Dot product is necessary to determine the fresnel term 
+	float NdotV = dot( -V, N_1 );
+
+	// Find the relective (.x) and refractive (.y) fresnel coefficients 
+	fresnel = tex1D( aCos_and_Fresnel, NdotV ).xy;
+
+	// compute the reflection direction and the reflection color
+	//    we do a matrix multiply to account for (potential) user rotation of the environment
+	tmp.xyz = reflect( V, N_1 );
+	tmp.w = 0;
+	reflectedColor = fresnel.x * texCUBE( environmentMap, mul( prog0, tmp ).xyz );	
+
+	// find the refraction direction
+	float3 T_1 = refraction( V, N_1, local2.x, local2.y );
+
+	// Find the angle betwen T_1 & N and T_1 & V, so first compute the dot product
+	float TDotN = dot( T_1, N_1 );
+	float TDotV = dot( T_1, V );
+
+	// scale to [0..1]
+	float scaledTDotN = 0.5 * -TDotN + 0.5;
+	float scaledTDotV = 0.5 * TDotV + 0.5;
+
+	// Perform the arc-cosine (to find angle) by a lookup into a precomputed aCos texture
+	float angle_T_N = tex1D( aCos_and_Fresnel, scaledTDotN ).z + 0.0001;
+	float angle_T_V = tex1D( aCos_and_Fresnel, scaledTDotV ).z + 0.0001;
+
+	// Use these angles to compute a weighting between d_V and d_N
+	float angleSum = angle_T_N + angle_T_V;
+
+	// out approx distance is: ( obj_scale*precomputed_d_N*angle_T_V +
+    //                                                 d_V*angle_T_N ) / sumOfAngles_TV_and_TN 
+	float d_tilde = (local3.z * IN.eyeNorm.w * angle_T_V + d_V * angle_T_N) / angleSum;
+
+	// Compute approximate exitant location 
+	float4 P_2_tilde;
+	P_2_tilde.xyz = T_1 * d_tilde + IN.eyePos.xyz;
+	P_2_tilde.w = 1.0;
+
+	// Project P_2_tilde to screen-space
+	tmp = mul( proj, P_2_tilde );
+	tmp.xyz = tmp.xyz / tmp.w;
+
+	// Scale/Bias to get texture location, and look up from previous pass to get 2nd normal
+	tmp = 0.5 * tmp + 0.5;
+	float3 N_2 = tex2D( backFace, tmp.xy ).xyz;
+
+	// What happens if we lie in a black-texel?  (d_tilde is too big...)
+	if ( dot( N_2.xyz, N_2.xyz ) == 0 )
+	{
+		// Conceptually, we pass thru the "side" of the object (not front/back)
+		// Use a 'normal' perpindicular to view direction (but generally along same
+		//     direction as our refracted direction T_1)
+		tmp.xyz = float3( T_1.x, T_1.y , 0 );	
+		tmp.w = dot( tmp.xyz, tmp.xyz );
+		N_2 = tmp.xyz / tmp.w;
+	}
+	else  // we got a valid normal
+	{
+		// Scale/bias normal (N_2) back to [-1..1] from [0..1], and then
+		//    transform the normal into eye-space
+		tmp.xyz = 2.0*N_2-1.0;
+		tmp.w = 0;
+		N_2 = normalize( mul( mvit, tmp ).xyz );
+	}
+
+	// Refract at the second surface
+	float4 T_2;
+	T_2.xyz = refraction( T_1, -N_2, local3.x, local3.y );
+	T_2.w = 0;
+
+	// Index into the (possibly rotated) environment for the refracted color
+	refractedColor = fresnel.y * texCUBE( environmentMap, mul( prog0, T_2 ).xyz );
+
+	// Now we know the reflected color and refracted color... Add for final result
+	oColor = reflectedColor + refractedColor;
+}

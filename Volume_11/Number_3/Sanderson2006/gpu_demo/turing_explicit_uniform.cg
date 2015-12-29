@@ -1,0 +1,131 @@
+/*****************************************************************************/
+/*								             */
+/*	Copyright (c) 2005	Allen R. Sanderson		             */
+/*								             */
+/*				Scientific Computing and Imaging Institute   */
+/*				University of Utah		             */
+/*				Salt Lake City, Utah		             */
+/*								             */
+/*            							             */
+/*  Permission is granted to modify and/or distribute this program so long   */
+/*  as the program is distributed free of charge and this header is retained */
+/*  as part of the program.                                                  */
+/*								             */
+/*****************************************************************************/
+
+// TURING EXPLICIT SOLUTION
+
+void main(float2 texCoord0 : TEXCOORD0, 
+          float2 texCoord1 : TEXCOORD1,
+          float2 texCoord2 : TEXCOORD2,
+
+	  uniform float4 diffRates,
+	  uniform float mixingRate,
+
+//	  uniform float laplacian,
+
+          uniform samplerRECT morphigens,
+          uniform samplerRECT advectionConsts,
+          uniform samplerRECT reactionConsts,
+          uniform samplerRECT diffusionConsts,
+          uniform samplerRECT diffusion2Consts,
+
+          out float4 oColor : COLOR)
+{
+  float4 c = f4texRECT( morphigens, texCoord1.xy );
+  
+  oColor = c;
+
+  float4 reaction = f4texRECT( reactionConsts, texCoord1.xy );
+
+  if( reaction.a > 0.0 ) {
+
+    // get the color(u and v values)
+    float4 tl = f4texRECT( morphigens, texCoord0.xy );
+    float4 t  = f4texRECT( morphigens, float2(texCoord1.x, texCoord0.y) );
+    float4 tr = f4texRECT( morphigens, float2(texCoord2.x, texCoord0.y) );
+
+    float4 l  = f4texRECT( morphigens, float2(texCoord0.x, texCoord1.y) );
+    float4 r  = f4texRECT( morphigens, float2(texCoord2.x, texCoord1.y) );
+
+    float4 bl = f4texRECT( morphigens, float2(texCoord0.x, texCoord2.y) );
+    float4 b  = f4texRECT( morphigens, float2(texCoord1.x, texCoord2.y) );
+    float4 br = f4texRECT( morphigens, texCoord2.xy );
+
+
+    // get the diffusion tensors 
+    float4 c_dt = f4texRECT( diffusionConsts, float2(texCoord1.x, texCoord1.y) );
+    // get the diffusion tensors 2
+//     float4 c_dt2 = f4texRECT( diffusion2Consts, float2(texCoord1.x, texCoord1.y) );
+
+    // get the advection values
+    float4 advection = f4texRECT( advectionConsts, texCoord1.xy );
+
+    // solve for the advection
+    oColor -= ((r - l) * advection.r + (t - b) * advection.g);
+  
+    // solve for the reaction
+//     float4 reaction_rate;
+    
+//     reaction_rate.rg = advection.aa;
+//     reaction_rate.ba = advection.aa * 0.5;
+
+    float4 nonlinear = c.rrbb * c.ggaa * float4(1.0, -1.0, 1.0, -1.0);
+  
+    float4 linear = c * float4(-1.0, 0.0, -1.0, 0.0);
+  
+    float4 konst = reaction.rgrg * float4(-1.0, 1.0, -1.0, 1.0);
+    //    float4 konst = reaction * float4(-1.0, 1.0, -1.0, 1.0);
+  
+    oColor += reaction.a * (nonlinear + linear + konst);
+    //    oColor += reaction_rate * (nonlinear + linear + konst);
+
+    // Solve for the mixing
+//     if( mixingRate != 0.0 )
+//       oColor += reaction.a * mixingRate * (c.baba - c.rgrg);
+    //      oColor += reaction_rate * mixingRate * (c.baba - c.rgrg);
+  
+    // Scale the diffusion based on a constant value - THIS DOES WHAT??
+//    float scale = 1.0;
+
+//    if( reaction.b != 0.0 ) {
+//      scale = c.g / (c.g + reaction.b);
+//      scale *= scale;
+//    }
+
+    // solve for the diffusion using uniform anisotropic diffusion
+    oColor.rg += //scale * 
+      diffRates.rg * ( tl.rg * -c_dt.g +
+		       t.rg  *  c_dt.a +
+		       tr.rg *  c_dt.g +
+
+		       l.rg *  c_dt.r +
+		       c.rg * -2. * (c_dt.r + c_dt.a) +
+		       r.rg *  c_dt.r +
+
+		       bl.rg *  c_dt.b +
+		       b.rg  *  c_dt.a +
+		       br.rg * -c_dt.b );
+
+
+    if ( oColor.r < 0.0f ) oColor.r = 0.0f;
+    if ( oColor.g < 0.0f ) oColor.g = 0.0f;
+
+//     oColor.ba += //scale * 
+//       diffRates.ba * ( tl.rg * -c_dt2.g +
+// 		       t.rg  *  c_dt2.a +
+// 		       tr.rg *  c_dt2.g +
+
+// 		       l.rg *  c_dt2.r +
+// 		       c.rg * -2. * (c_dt2.r + c_dt2.a) +
+// 		       r.rg *  c_dt2.r +
+
+// 		       bl.rg *  c_dt2.b +
+// 		       b.rg  *  c_dt2.a +
+// 		       br.rg * -c_dt2.b );
+
+
+//     if ( oColor.b < 0.0f ) oColor.b = 0.0f;
+//     if ( oColor.a < 0.0f ) oColor.a = 0.0f;
+  }
+}

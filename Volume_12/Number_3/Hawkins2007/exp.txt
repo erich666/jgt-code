@@ -1,0 +1,26 @@
+template<class Coord>
+inline R4MatrixTC<Coord> R4MatrixTC<Coord>::Exp( ) const
+{
+   R4MatrixTC<Coord> A = (*this);           // call it A to be like Alexa's pseudocode
+   R4MatrixTC<Coord> X;  X.MakeIdentity();  // the current sum
+   R4MatrixTC<Coord> D;  D.MakeIdentity();  // denominator
+   R4MatrixTC<Coord> N;  N.MakeIdentity();  // numerator
+   Coord c = 1.0;                           // coefficient
+
+   int j = (int) max(0.0, 1.0 + floor(log(A.NormF())/log(2.0)));  // NormF is the Frobenius norm
+   A = A * (Coord)pow(2.0,-j);
+
+   int q = 6;      // supposedly 6 is a good number of iterations
+   for (int k = 1; k <= q; k++) {
+      c = c*(q - k + 1.0)/(Coord)(k*(2*q - k + 1.0));
+      X = A*X;
+      N = N + c*X;
+      D = D + (Coord)pow(-1.0,k)*c*X;
+   }
+   
+   WINbool bSuc = FALSE;
+   X = D.Inverse(bSuc) * N;
+   int p = (int)pow(2.0,j);
+   X = X.Pow(p);
+   return X;
+}

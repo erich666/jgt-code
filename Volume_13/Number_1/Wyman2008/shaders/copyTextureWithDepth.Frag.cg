@@ -1,0 +1,18 @@
+
+struct vertout
+{
+    float4 wPos      : WPOS;
+	float4 texCoord  : TEXCOORD0;
+};
+
+
+void main( vertout IN,
+           uniform sampler2D texColor 	  : TEXUNIT0,
+           uniform sampler2D texDepth     : TEXUNIT1,
+		   out float4 oColor: COLOR,
+		   out float oDepth: DEPTH )
+{
+	oColor = tex2D( texColor, IN.texCoord.xy );
+	oDepth = tex2D( texDepth, IN.texCoord.xy ).z;
+}
+

@@ -1,0 +1,181 @@
+/*
+ ***************************************************************************
+ *                                                                         *
+ * GPU RAINFALL                                                            *
+ * Pierre Rousseau, Vincent Jolivet and Djamchid Ghazanfarpour             *
+ * Institut XLIM, UMR CNRS 6172, Limoges, France                           *
+ *                                                                         *
+ ***************************************************************************
+ *                                                                         *
+ * Vertex program for raindrops rendering                                  *
+ *                                                                         *
+ ***************************************************************************
+ *                                                                         *
+ * Copyright 2008, Pierre Rousseau (pierre.rousseau@xlim.fr)               *
+ *                                                                         *
+ * This program is free software; you can redistribute it and/or           *
+ * modify it under the terms of the GNU General Public License as          *
+ * published by the Free Software Foundation; either version 2 of          *
+ * the License, or (at your option) any later version.                     *
+ *                                                                         *
+ * This program is distributed in the hope that it will be useful,         *
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of          *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the           *
+ * GNU General Public License for more details.                            *
+ *                                                                         *
+ * You should have received a copy of the GNU General Public License       *
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.   *
+ *                                                                         *
+ ***************************************************************************
+*/
+
+
+//input to the vertex program
+struct vert_in
+{
+    float4 position   : POSITION;
+    float4 texCoords0 : TEXCOORD0;
+};
+
+// output of the vertex program, and input to the fragment program
+struct vert2frag
+{
+    float4 position      : POSITION;
+    float2 texCoords0    : TEXCOORD0;
+    float2 texCoords1    : TEXCOORD1;
+    float4 posworld      : TEXCOORD2;
+    float4 normale       : TEXCOORD3;
+    float3 eyetovert     : TEXCOORD4;
+    float2 particleIndex : TEXCOORD5;
+};
+
+
+
+
+
+
+///////////////////////////////////////////////////////
+//  Rendering VP : shapes and locates the particles
+///////////////////////////////////////////////////////
+vert2frag mainVP(vert_in IN,
+                 uniform float3 viewPos,
+                 uniform float3 viewDir,
+                 uniform float3 boxMin,
+                 uniform float3 boxMax,
+                 uniform float rainBbSide,
+                 uniform float streaksHeight,
+                 uniform float4x4  worldviewproj,
+                 uniform float4x4  worldview,
+                 uniform sampler2D texPos : TEXUNIT1,
+                 uniform sampler2D texVel : TEXUNIT2)
+{
+    vert2frag OUT;
+
+    //we get the position of the vertex from the texture
+    float4 posFromTexture = tex2D(texPos, IN.texCoords0.zw);
+
+    float4 thePos;
+    thePos.x = viewPos.x + posFromTexture.x - viewDir.x * ((boxMax.x - boxMin.x) / 2.0);
+    thePos.y = posFromTexture.y;
+    thePos.z = viewPos.z + posFromTexture.z - viewDir.z * ((boxMax.z - boxMin.z) / 2.0);
+    thePos.w = 1.0;
+
+    // change the particle's orientation, depending on wind.
+    float4 posStreaks = thePos;
+    float4 slope = tex2D(texVel, IN.texCoords0.zw);
+    posStreaks.xz += slope.xz * (IN.texCoords0.y - 1.0);
+
+	// Uncomment the following line to see the 'real' positions of the particles
+	//thePos = thePos * 0.000001 + IN.position;
+
+    if (posFromTexture.w > 0.5)
+    {
+        // we are using streaks
+
+        // streaks must be stretched vertically in world space
+        posStreaks.y += (1.0 - IN.texCoords0.y) * streaksHeight;
+
+        // transform the position to clip space
+        OUT.position = mul(worldviewproj, posStreaks);
+
+        // shape it as a quad (oriented on camera plane)
+        OUT.position.x += rainBbSide * (IN.texCoords0.x - 0.5f);
+    }
+    else
+    {
+        // we are using regular raindrops
+        OUT.position = mul(worldviewproj, thePos);
+
+        // shape it as a quad (oriented on camera plane)
+        OUT.position.x += rainBbSide * (IN.texCoords0.x - 0.5f);
+        OUT.position.y -= rainBbSide * (IN.texCoords0.y - 0.5f);
+    }
+
+
+    // don't change the first texture coordinates
+    OUT.texCoords0 = IN.texCoords0.xy;
+    OUT.particleIndex = IN.texCoords0.zw;
+
+    // the second texture coordinates will be used for lighting
+    float4 VposEye = OUT.position;
+    VposEye.xyz /= VposEye.w;	
+    OUT.texCoords1 = (1.0 + VposEye.xy).xy / 2.0;
+    OUT.texCoords1.y = 1.0 - OUT.texCoords1.y;
+
+    OUT.normale.x = (IN.texCoords0.x - 0.5) * 2.0;
+    OUT.normale.y = -(IN.texCoords0.y - 0.5) * 2.0;
+    OUT.normale.zw = 1.0;
+
+    // give some extra parameters for lighting
+    OUT.posworld = thePos; // unprojected vertex coord
+    OUT.eyetovert = mul(worldview, thePos).xyz;
+
+    return OUT;
+}
+
+
+
+
+
+
+
+///////////////////////////////////////////////////////////////////////////
+//      Simplified version of the shader : render "quick" particles, no refraction
+///////////////////////////////////////////////////////////////////////////
+
+vert2frag main_simplified(vert_in IN,
+                          uniform float3 viewPos,
+                          uniform float3 viewDir,
+                          uniform float3 boxMin,
+                          uniform float3 boxMax,
+                          uniform float rainBbSide,
+                          uniform float4x4  worldviewproj,
+                          uniform sampler2D texPos : TEXUNIT1)
+{
+    vert2frag OUT;
+
+    //we get the position of the vertex from the texture
+    float4 posFromTexture = tex2D(texPos, IN.texCoords0.zw);
+
+    float4 thePos;
+    thePos.x = viewPos.x + posFromTexture.x - viewDir.x * ((boxMax.x - boxMin.x) / 2.0);
+    thePos.y = posFromTexture.y;
+    thePos.z = viewPos.z + posFromTexture.z - viewDir.z * ((boxMax.z - boxMin.z) / 2.0);
+    thePos.w = 1.0;
+
+
+    // Uncomment the following line to see the 'real' positions of the particles
+    //thePos = IN.position + 0.0000001 * thePos;
+
+    // we are using regular raindrops
+    OUT.position = mul(worldviewproj, thePos);
+
+    // shape it as a quad (oriented on camera plane)
+    OUT.position.x += rainBbSide * (IN.texCoords0.x - 0.5f);
+    OUT.position.y -= rainBbSide * (IN.texCoords0.y - 0.5f);
+
+
+    // don't change the first texture coordinates
+    OUT.texCoords0 = IN.texCoords0.xy;
+    return OUT;
+}

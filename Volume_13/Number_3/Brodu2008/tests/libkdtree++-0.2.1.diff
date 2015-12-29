@@ -1,0 +1,56 @@
+diff -r libkdtree++-0.2.1.orig/include/accessor.hpp libkdtree++-0.2.1/include/accessor.hpp
+23a24
+>       virtual ~Accessor() {}
+diff -r libkdtree++-0.2.1.orig/include/kdtree.hpp libkdtree++-0.2.1/include/kdtree.hpp
+75c75
+<       typedef typename _Base::allocator_type allocator_type;
+---
+> //       typedef typename _Base::allocator_type allocator_type;
+626a627,637
+>       // Hacky converter to make the code compatible with the aliasing rule
+>       // The original code used (_Link_type&) _M_header->_M_parent;
+>       // which is a raw type punning. Going through union allows the compiler
+>       // to track the conversion for the aliasing rule, but doesn't
+>       // help in cleaning up the original code pointer/reference conversion hack :(
+>       union _base_to_link_converter {
+>         _Base_ptr*   base;
+>         _Link_type*  link;
+>         _base_to_link_converter(_Base_ptr* b) : base(b) {}
+>       };
+> 
+630c641
+<         return (_Link_type&) _M_header->_M_parent; 
+---
+>         return *_base_to_link_converter(&_M_header->_M_parent).link;
+636c647
+<         return (_Link_type&) _M_header->_M_left; 
+---
+>         return *_base_to_link_converter(&_M_header->_M_left).link;
+642c653
+<         return (_Link_type&) _M_header->_M_right; 
+---
+>         return *_base_to_link_converter(&_M_header->_M_right).link;
+648c659
+<         return (_Link_type&) N->_M_parent;
+---
+>         return *_base_to_link_converter(&N->_M_parent).link;
+654c665
+<         return (_Link_type&) N->_M_parent;
+---
+>         return *_base_to_link_converter(&N->_M_parent).link;
+660c671
+<         return (_Link_type&) N->_M_left;
+---
+>         return *_base_to_link_converter(&N->_M_left).link;
+666c677
+<         return (_Link_type&) N->_M_left;
+---
+>         return *_base_to_link_converter(&N->_M_left).link;
+672c683
+<         return (_Link_type&) N->_M_right;
+---
+>         return *_base_to_link_converter(&N->_M_right).link;
+678c689
+<         return (_Link_type&) N->_M_right;
+---
+>         return *_base_to_link_converter(&N->_M_right).link;

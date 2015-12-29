@@ -1,0 +1,43 @@
+struct appin
+{
+	float4 iPosition          : POSITION;
+	float4 iNormal            : NORMAL;
+	float4 iColor             : COLOR;
+	float4 iTexCoord          : TEXCOORD0;
+};
+
+struct vertout
+{
+	float4 oPosition		  : POSITION;
+	float4 oColor             : COLOR;
+	float4 oTexCoord          : TEXCOORD0;
+	float4 NDC                : TEXCOORD1;
+	float4 eyeSpaceNormal     : TEXCOORD2;
+
+};
+
+
+vertout main( appin IN,
+              uniform float4x4 mv   : state.matrix.modelview,
+              uniform float4x4 mvInvTrans : state.matrix.modelview.invtrans,
+			  uniform float4x4 mvp  : state.matrix.mvp )
+{
+	vertout OUT;
+	
+	float4 eyePos = mul( mv, IN.iPosition );
+
+	// Compute the normalized device coordinates.
+	OUT.NDC = eyePos / eyePos.w;
+	
+	// Compute the clip-space vertex position
+	OUT.oPosition = mul( mvp, IN.iPosition );
+	
+	// Compute eye-space surface normal
+	OUT.eyeSpaceNormal = mul( mvInvTrans, IN.iNormal );
+	
+	// pass down the input color & tex coordinate
+	OUT.oColor = IN.iColor;
+	OUT.oTexCoord = IN.iTexCoord;
+
+	return OUT;
+}

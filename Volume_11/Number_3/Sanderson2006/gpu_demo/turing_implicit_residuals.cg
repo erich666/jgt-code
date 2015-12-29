@@ -1,0 +1,82 @@
+/*****************************************************************************/
+/*								             */
+/*	Copyright (c) 2005	Allen R. Sanderson		             */
+/*								             */
+/*				Scientific Computing and Imaging Institute   */
+/*				University of Utah		             */
+/*				Salt Lake City, Utah		             */
+/*								             */
+/*            							             */
+/*  Permission is granted to modify and/or distribute this program so long   */
+/*  as the program is distributed free of charge and this header is retained */
+/*  as part of the program.                                                  */
+/*								             */
+/*****************************************************************************/
+
+// TURING IMPLICIT RESIDUALS SOLUTION
+
+void main(float4 texCoord0 : TEXCOORD0, 
+          float4 texCoord1 : TEXCOORD1,
+          float4 texCoord2 : TEXCOORD2,
+
+	  uniform float4 diffRates,
+	  uniform float timeStep_inv,
+
+          uniform samplerRECT morphigens,
+          uniform samplerRECT rhs,
+
+          uniform samplerRECT diffusionConsts,
+
+	  out float4 oColor : COLOR)
+{
+  float4 c = f4texRECT( morphigens, texCoord1.xy );
+  
+  oColor.rg = c.rg;
+  
+  // get the color(u and v values)
+  float4 tl = f4texRECT( morphigens, texCoord0.xy );			 
+  float4 t  = f4texRECT( morphigens, float2(texCoord1.x, texCoord0.y) );
+  float4 tr = f4texRECT( morphigens, float2(texCoord2.x, texCoord0.y) );
+
+  float4 l  = f4texRECT( morphigens, float2(texCoord0.x, texCoord1.y) );
+  float4 r  = f4texRECT( morphigens, float2(texCoord2.x, texCoord1.y) );
+
+  float4 bl = f4texRECT( morphigens, float2(texCoord0.x, texCoord2.y) );
+  float4 b  = f4texRECT( morphigens, float2(texCoord1.x, texCoord2.y) );
+  float4 br = f4texRECT( morphigens, texCoord2.xy );
+
+
+  // get the diffusion tensors
+  //  float4 tl_dt = f4texRECT( diffusionConsts, float2(texCoord0.x, texCoord0.y );
+  float4 t_dt  = f4texRECT( diffusionConsts, float2(texCoord1.x, texCoord0.y) );
+  //  float4 tr_dt = f4texRECT( diffusionConsts, float2(texCoord2.x, texCoord0.y) );
+
+  float4 l_dt = f4texRECT( diffusionConsts, float2(texCoord0.x, texCoord1.y) );
+  float4 c_dt = f4texRECT( diffusionConsts, float2(texCoord1.x, texCoord1.y) );
+  float4 r_dt = f4texRECT( diffusionConsts, float2(texCoord2.x, texCoord1.y) );
+
+  //  float4 bl_dt = f4texRECT( diffusionConsts, float2(texCoord0.x, texCoord2.y) );
+  float4 b_dt  = f4texRECT( diffusionConsts, float2(texCoord1.x, texCoord2.y) );
+  //  float4 br_dt = f4texRECT( diffusionConsts, float2(texCoord2.x, texCoord2.y) );
+
+  // get the constant values
+  float4 rhs_v = f4texRECT( rhs, texCoord1.xy );
+
+  // get the diffusion
+  float2 diffusion =
+    diffRates.rg * ( ( (r_dt.r + c_dt.r) * (r - c).rg +
+		       (l_dt.r + c_dt.r) * (l - c).rg +
+		       (t_dt.a + c_dt.a) * (t - c).rg +
+		       (b_dt.a + c_dt.a) * (b - c).rg ) +
+		       
+		     ( (r_dt.g * (tr - br).rg -
+			l_dt.g * (tl - bl).rg )+
+		       (t_dt.b * (tr - tl).rg -
+			b_dt.b * (br - bl).rg ) ) );
+
+  float2 residual = rhs_v.rg - (c.rg * timeStep_inv - diffusion.rg);
+
+  oColor.a = residual.r * residual.r + residual.g * residual.g;
+  
+  oColor.b = 1.0;
+}

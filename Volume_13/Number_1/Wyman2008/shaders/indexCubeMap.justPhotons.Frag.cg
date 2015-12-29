@@ -1,0 +1,8 @@
+
+
+void main( out float4 oColor0: COLOR0,
+		   out float4 oColor1: COLOR1 )
+{
+	oColor0 = float4( 0, 0, 1, -1 );
+	oColor1 = float4( 0, 0, 1, 0 );
+}

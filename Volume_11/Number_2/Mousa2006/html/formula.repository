@@ -1,0 +1,4 @@
+\form#0:$Y_l^m(\theta, \varphi)sin(\theta)cos(m\varphi)$
+\form#1:$Y_l^m(\theta, \varphi)sin(\theta)sin(m\varphi)$
+\form#2:$\int\int_{T}Y_l^m(\theta, \varphi)e^{-im\varphi}$
+\form#3:$ C^r_{l,m}=\int\int_T Y_l^m(\theta,\varphi)\sin(\theta)d\theta d\varphi $

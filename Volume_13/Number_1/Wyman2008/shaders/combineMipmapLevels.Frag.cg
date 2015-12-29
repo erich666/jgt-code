@@ -1,0 +1,67 @@
+
+#define TMAX1    1.1
+#define TMIN1    0.9
+
+#define TMAX2    0.3
+#define TMIN2    0.2
+
+#define PHOTON_MIN  0.0
+
+struct vertout
+{
+    float4 wPosition          : WPOS;
+	float4 imgTexCoord        : TEXCOORD0;
+};
+
+
+
+void main( vertout IN,
+           uniform sampler2D mipLv0           : TEXUNIT0,
+           uniform sampler2D mipLv1           : TEXUNIT1,
+           uniform sampler1D offsetTex        : TEXUNIT4,
+           uniform float texDelta,		
+		   uniform float gaussianSigma,       
+	       uniform float rangeSigma,          
+           out float4 oColor0: COLOR )
+{
+	float4 photonCount=float4(0,0,0,0);
+	float2 texCoord = IN.wPosition.xy * texDelta;
+	float4 origPos, maxPos, minPos, tmpPos;
+	float dist = -1, distToLightSqr;
+	float area;
+	float2 tmp;
+	float4 lightSpaceCoord;
+	float4 objectColor;
+	float4 incident=float4(0,0,0,0);
+	
+	// The technique using LS coord at every pixel, not just photon locations
+	float4 currVal;
+	float distSqrToHitPos = 0.00001, tmpDist;
+	
+	// IF USING DYNAMIC BILATERAL DISTRIBUTION, UNCOMMENT THIS:
+	float4 centralVal = tex2D( mipLv0, texCoord.xy ) + tex2D( mipLv1, texCoord.xy );
+	for (float i = 0; i < 49; i++)
+	{
+	    float eValue;
+	    float4 offset = 255.0*tex1D( offsetTex, i/128.0 )-128.0;
+	    tmp = -(offset.xy*offset.xy)/(2*gaussianSigma*gaussianSigma);
+	    eValue = exp(tmp.x) * exp(tmp.y);
+		currVal = tex2D( mipLv0, texCoord.xy + offset.xy*texDelta ) + tex2D( mipLv1, texCoord.xy + offset.xy*texDelta );
+		tmp.x = exp( (currVal.a-centralVal.a)*(centralVal.a-currVal.a)/(130050*rangeSigma*rangeSigma) );
+		if (rangeSigma > 0) eValue = eValue * tmp.x;
+		photonCount.x = photonCount.x + eValue*currVal.a;  
+		photonCount.y = photonCount.y + eValue;
+	}
+	photonCount.x = photonCount.x / photonCount.y;
+	
+	 
+	// Write the photon count & incident direction to the buffers.
+	oColor0.xyzw = photonCount.x;
+
+
+
+	//float4 lv0 = tex2D( mipLv0, IN.imgTexCoord.xy );	
+	//float4 lv1 = tex2D( mipLv1, IN.imgTexCoord.xy );	
+
+}
+

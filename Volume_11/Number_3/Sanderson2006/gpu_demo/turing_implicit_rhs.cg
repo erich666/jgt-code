@@ -1,0 +1,58 @@
+/*****************************************************************************/
+/*								             */
+/*	Copyright (c) 2005	Allen R. Sanderson		             */
+/*								             */
+/*				Scientific Computing and Imaging Institute   */
+/*				University of Utah		             */
+/*				Salt Lake City, Utah		             */
+/*								             */
+/*            							             */
+/*  Permission is granted to modify and/or distribute this program so long   */
+/*  as the program is distributed free of charge and this header is retained */
+/*  as part of the program.                                                  */
+/*								             */
+/*****************************************************************************/
+
+// TURING IMPLICIT RHS SOLUTION
+
+void main(float2 texCoord0 : TEXCOORD0,
+	  float2 texCoord1 : TEXCOORD1,
+	  float2 texCoord2 : TEXCOORD2,
+
+	  uniform float4 diffRates,
+	  uniform float timeStep_inv,
+
+          uniform samplerRECT morphigens,
+
+          uniform samplerRECT reactionConsts,
+          uniform samplerRECT diffusionConsts,
+
+	  out float4 oColor : COLOR)
+{
+  float4 c = f4texRECT( morphigens, texCoord1.xy );
+  
+  oColor = c;
+
+  float4 reaction = f4texRECT( reactionConsts, texCoord1.xy );
+
+  if( reaction.a > 0.0 ) {
+
+    // get the color(u and v values)
+    float4 t  = f4texRECT( morphigens, float2(texCoord1.x, texCoord0.y) );
+    float4 l  = f4texRECT( morphigens, float2(texCoord0.x, texCoord1.y) );
+    float4 r  = f4texRECT( morphigens, float2(texCoord2.x, texCoord1.y) );
+    float4 b  = f4texRECT( morphigens, float2(texCoord1.x, texCoord2.y) );
+
+    // Initial value
+    oColor = c * timeStep_inv;
+
+    // get the reaction
+    float4 nonlinear = c.rrbb * c.ggaa * float4(1.0, -1.0, 1.0, -1.0);
+
+    float4 linear = c * float4(-1.0, 0.0, -1.0, 0.0);
+
+    float4 konst = reaction.rgrg * float4(-1.0, 1.0, -1.0, 1.0);
+
+    oColor += reaction.a * (nonlinear + linear + konst);
+  }
+}

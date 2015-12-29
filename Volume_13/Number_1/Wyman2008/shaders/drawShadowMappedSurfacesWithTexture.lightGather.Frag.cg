@@ -1,0 +1,32 @@
+
+struct vertout
+{
+	float4 oPosition		  : POSITION;
+	float4 wPosition          : WPOS;
+	float4 shadMapTexCoord    : TEXCOORD0;
+	float4 imgTexCoord        : TEXCOORD1;
+	float4 oColor             : COLOR;
+	float4 debug              : TEXCOORD5;
+};
+
+void main( vertout IN,
+           uniform sampler2D shadowMap 	       : TEXUNIT0,
+           uniform sampler2D imageTex          : TEXUNIT1,
+           uniform sampler2D lsCausticMap      : TEXUNIT2,
+           uniform sampler2D lsBackgroundDepth : TEXUNIT3,
+           uniform float temporalFilterFactor,
+           uniform float resModifier,
+		   uniform float4 temporalChannelUse,
+		   out float4 oColor0: COLOR )
+{
+	float shadowed = tex2Dproj( shadowMap, IN.shadMapTexCoord.xyw ).a;
+	float bgShadow = tex2D( lsBackgroundDepth, (IN.shadMapTexCoord.xy / IN.shadMapTexCoord.w) ).r;
+	float4 caustic = tex2D( lsCausticMap, IN.shadMapTexCoord.xy / IN.shadMapTexCoord.w );
+	caustic = (bgShadow > (IN.shadMapTexCoord.z/IN.shadMapTexCoord.w) ? 1 : 0 ) * caustic;
+	shadowed = (shadowed < 1 ? 0.2 : 1.2) + temporalFilterFactor * dot( caustic, temporalChannelUse );
+	
+	oColor0 = IN.oColor * tex2D( imageTex, IN.imgTexCoord.xy ) * shadowed;	
+	oColor0.w = 1;
+	
+}
+

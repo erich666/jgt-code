@@ -1,0 +1,54 @@
+
+
+struct appin
+{
+	float4 iPosition          : POSITION;
+	float4 splatTexCoords     : TEXCOORD0;
+};
+
+struct vertout
+{
+	float4 oPosition		  : POSITION;
+	float4 splatTexCoords     : TEXCOORD0;
+	float4 isValidPhoton      : TEXCOORD2;
+	float4 pointSize          : TEXCOORD3;
+	float4 pointNDCCoord      : TEXCOORD4;
+	float4 variablePointSize  : TEXCOORD7;
+	float  ptSize             : PSIZE;
+};
+
+
+vertout main( appin IN,
+              uniform float4x4 mv   : state.matrix.modelview,
+			  uniform float4x4 mvp  : state.matrix.mvp,
+			  uniform float ptSize  : state.point.size,
+			  uniform float constSplatSize )
+{
+	vertout OUT;
+
+	OUT.splatTexCoords = IN.splatTexCoords;
+	OUT.oPosition = mul( mvp, IN.iPosition );
+	OUT.isValidPhoton = float4(1, 1, 1, 1 );
+	OUT.pointSize = ptSize;
+
+	if (IN.iPosition.z > 0)
+		OUT.isValidPhoton = float4(-1,-1,-1,-1);
+		
+	float4 eyeTmp = mul( mvp, IN.iPosition );
+	eyeTmp.xyz = eyeTmp.xyz / eyeTmp.w;
+	OUT.pointNDCCoord = eyeTmp;
+		
+	float outputSplatSize;
+	if (constSplatSize < 0)
+		outputSplatSize = min( max(5, 3+IN.splatTexCoords.a), 25);
+	else
+		outputSplatSize = constSplatSize;
+
+	OUT.variablePointSize = outputSplatSize;
+	OUT.ptSize = outputSplatSize;
+	
+	if (IN.splatTexCoords.a < 0) 
+		OUT.variablePointSize = -1;
+		
+	return OUT;
+}

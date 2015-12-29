@@ -1,0 +1,48 @@
+/*
+ ***************************************************************************
+ *                                                                         *
+ * GPU RAINFALL                                                            *
+ * Pierre Rousseau, Vincent Jolivet and Djamchid Ghazanfarpour             *
+ * Institut XLIM, UMR CNRS 6172, Limoges, France                           *
+ *                                                                         *
+ ***************************************************************************
+ *                                                                         *
+ * Fragment program which draws the collision texture                      *
+ *                                                                         *
+ ***************************************************************************
+ *                                                                         *
+ * Copyright 2008, Pierre Rousseau (pierre.rousseau@xlim.fr)               *
+ *                                                                         *
+ * This program is free software; you can redistribute it and/or           *
+ * modify it under the terms of the GNU General Public License as          *
+ * published by the Free Software Foundation; either version 2 of          *
+ * the License, or (at your option) any later version.                     *
+ *                                                                         *
+ * This program is distributed in the hope that it will be useful,         *
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of          *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the           *
+ * GNU General Public License for more details.                            *
+ *                                                                         *
+ * You should have received a copy of the GNU General Public License       *
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.   *
+ *                                                                         *
+ ***************************************************************************
+*/
+
+// output of the vertex program, and input to the fragment program
+struct vert2frag
+{
+    float4 position      : POSITION;
+    float2 texCoords0    : TEXCOORD0;
+    float2 texCoords1    : TEXCOORD1;
+    float4 normal_height : TEXCOORD2;
+};
+
+
+
+float4 main(vert2frag IN) : COLOR
+{
+    float4 col;
+    col = IN.normal_height;
+    return col;
+}

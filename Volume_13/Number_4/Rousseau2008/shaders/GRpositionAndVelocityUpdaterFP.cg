@@ -1,0 +1,338 @@
+/*
+ ***************************************************************************
+ *                                                                         *
+ * GPU RAINFALL                                                            *
+ * Pierre Rousseau, Vincent Jolivet and Djamchid Ghazanfarpour             *
+ * Institut XLIM, UMR CNRS 6172, Limoges, France                           *
+ *                                                                         *
+ ***************************************************************************
+ *                                                                         *
+ * Fragment program which draws the position and velocity textures         *
+ *                                                                         *
+ ***************************************************************************
+ *                                                                         *
+ * Copyright 2008, Pierre Rousseau (pierre.rousseau@xlim.fr)               *
+ *                                                                         *
+ * This program is free software; you can redistribute it and/or           *
+ * modify it under the terms of the GNU General Public License as          *
+ * published by the Free Software Foundation; either version 2 of          *
+ * the License, or (at your option) any later version.                     *
+ *                                                                         *
+ * This program is distributed in the hope that it will be useful,         *
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of          *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the           *
+ * GNU General Public License for more details.                            *
+ *                                                                         *
+ * You should have received a copy of the GNU General Public License       *
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.   *
+ *                                                                         *
+ ***************************************************************************
+*/
+
+
+
+
+
+// MRT : "multiple render target" == one shader, two output textures (position and velocity)
+
+///////////////////////////////////////////////////////////////////////////
+//      fragment program in charge of (re)initializing the MRT's
+///////////////////////////////////////////////////////////////////////////
+void main_copy (float2    coords      : TEXCOORD0,
+                uniform sampler2D first_tex   : TEXUNIT0,
+                uniform sampler2D second_tex  : TEXUNIT1,
+                out     float4    next_first  : COLOR0,
+                out     float4    next_second : COLOR1)
+{
+    next_first = tex2D(first_tex, coords);
+    next_second = tex2D(second_tex, coords);
+}
+
+
+
+
+
+
+///////////////////////////////////////////////////////////////////////////
+//  utility functions
+///////////////////////////////////////////////////////////////////////////
+float2 getActualWidthHeight(float3 widthHeightDepth)
+{
+    float2 actualWidthHeight;
+    
+    float sqrtDepth = sqrt(widthHeightDepth.z);
+    int p = 0;
+    while (pow(2.0f,p) < sqrtDepth)
+    {
+        p++;
+    }
+    // p is now the desired power of two. we use 2^p depth tiles horizontally, and the appropriate number vertically (will be 2^p or 2^(p-1) )
+    actualWidthHeight.x = widthHeightDepth.x * int(pow(2.0f,p));
+    actualWidthHeight.y = widthHeightDepth.y * ceil(widthHeightDepth.z / pow(2.0f,p) );
+    
+    return actualWidthHeight;
+}
+
+
+float wrap(float a)
+{
+    return a - floor(a);
+}
+
+float2 wrap(float2 a)
+{
+    return a - floor(a);
+}
+
+float3 wrap(float3 a)
+{
+    return a - floor(a);
+}
+
+float4 wrap(float4 a)
+{
+    return a - floor(a);
+}
+
+
+float2 coords3dto2d(float3 coords3d, float3 widthHeightDepth)
+{
+    float2 retour;
+    float2 actualWH = getActualWidthHeight(widthHeightDepth);
+  
+    coords3d=wrap(coords3d);
+  
+    retour.x = (coords3d.x / (actualWH.x / widthHeightDepth.x)) + ( int(coords3d.z * widthHeightDepth.z) % int(actualWH.x / widthHeightDepth.x) ) / (actualWH.x / widthHeightDepth.x) ;
+    retour.y = (coords3d.y / (actualWH.y / widthHeightDepth.y)) + ( floor( (coords3d.z * widthHeightDepth.z) / (actualWH.x / widthHeightDepth.x) ) / (actualWH.y / widthHeightDepth.y) ) ;
+
+    return retour;
+}
+
+
+
+///////////////////////////////////////////////////////////////////////////
+//      wind getter
+///////////////////////////////////////////////////////////////////////////
+float3 getInterpolatedWind(float3 windTexCoords, float3 widthHeightDepth, sampler2D wind_tex)
+{
+    float3 wind;
+    
+    
+    // interpolation of the wind texture
+    //interpolate on front and back face, first on x, then on y.
+    float3 min_interpol = (floor((windTexCoords.xyz * widthHeightDepth) - 0.5) + 0.5) / widthHeightDepth;
+    float3 max_interpol = min_interpol.xyz + 1.0 / widthHeightDepth;
+    float3 ratio_interpol = (windTexCoords.xyz - min_interpol.xyz) / (max_interpol.xyz - min_interpol.xyz);
+    // front face
+    float3 wind_front_bottom = lerp(tex2D(wind_tex, coords3dto2d(float3(min_interpol.x, min_interpol.y, min_interpol.z), widthHeightDepth)), tex2D(wind_tex, coords3dto2d(float3(max_interpol.x, min_interpol.y, min_interpol.z), widthHeightDepth)), ratio_interpol.x);
+    float3 wind_front_top = lerp(tex2D(wind_tex, coords3dto2d(float3(min_interpol.x, max_interpol.y, min_interpol.z), widthHeightDepth)), tex2D(wind_tex, coords3dto2d(float3(max_interpol.x, max_interpol.y, min_interpol.z), widthHeightDepth)), ratio_interpol.x);
+    float3 wind_front = lerp(wind_front_bottom, wind_front_top, ratio_interpol.y);
+    // back face
+    float3 wind_back_bottom = lerp(tex2D(wind_tex, coords3dto2d(float3(min_interpol.x, min_interpol.y, max_interpol.z), widthHeightDepth)), tex2D(wind_tex, coords3dto2d(float3(max_interpol.x, min_interpol.y, max_interpol.z), widthHeightDepth)), ratio_interpol.x);
+    float3 wind_back_top = lerp(tex2D(wind_tex, coords3dto2d(float3(min_interpol.x, max_interpol.y, max_interpol.z), widthHeightDepth)), tex2D(wind_tex, coords3dto2d(float3(max_interpol.x, max_interpol.y, max_interpol.z), widthHeightDepth)), ratio_interpol.x);
+    float3 wind_back = lerp(wind_back_bottom, wind_back_top, ratio_interpol.y);
+    //final interpolation
+    wind = lerp(wind_front, wind_back, ratio_interpol.z);
+
+    // following line is an alternative which uses no interpolation, and ignores the position of the user.
+    //wind = tex2D(wind_tex, coords3dto2d(windTexCoords, widthHeightDepth));
+    
+    return wind;
+}
+
+
+
+
+
+///////////////////////////////////////////////////////////////////////////
+//      main fragment program, computing next position and velocity
+//      from previous textures
+///////////////////////////////////////////////////////////////////////////
+void main ( float2 coords   : TEXCOORD0,
+            uniform float tslf,
+            uniform float fallSpeed,
+            uniform float3 lastMove,
+            uniform float3 viewPos,
+            uniform float3 viewDir,
+            uniform float3 boxMin,
+            uniform float3 boxMax,
+            uniform float3 widthHeightDepth,
+            
+            uniform sampler2D pos_tex : TEXUNIT0,
+            uniform sampler2D vel_tex : TEXUNIT1,
+            uniform sampler2D initPos : TEXUNIT2,
+            uniform sampler2D initVel : TEXUNIT3,
+            uniform sampler2D wind_tex : TEXUNIT4,
+            uniform sampler2D heightmap : TEXUNIT5,
+            
+            out float4 next_pos : COLOR0,
+            out float4 next_vel : COLOR1)
+{
+    //////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////
+    // read previous values
+    //////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////
+
+    float4 old_pos, old_vel;
+
+    old_pos = tex2D(pos_tex, coords);
+
+    old_vel = tex2D(vel_tex, coords);
+    
+    float3 realPos; // expressed in 3D world coordinates
+    realPos.x = viewPos.x + old_pos.x - viewDir.x * ((boxMax.x - boxMin.x) / 2.0);
+    realPos.y = old_pos.y;
+    realPos.z = viewPos.z + old_pos.z - viewDir.z * ((boxMax.z - boxMin.z) / 2.0);
+
+
+
+    //////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////
+    //  get the wind at the current position
+    //////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////
+
+    // What's the position of the particle within a tiled box ?
+    // Divide the position by the size of the box, then discard the unit number.
+
+    float3 windTexCoords;
+    windTexCoords.x = wrap( realPos.x  / (boxMax.x-boxMin.x) );
+    windTexCoords.y = wrap( realPos.y  / (boxMax.y-boxMin.y) );
+    windTexCoords.z = wrap( realPos.z  / (boxMax.z-boxMin.z) );
+    
+    float3 wind = getInterpolatedWind(windTexCoords, widthHeightDepth, wind_tex);
+    
+    //////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////
+    //  estimate the next velocity and position
+    //////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////
+
+    // keep drop / streak style
+    next_pos.w = old_pos.w;
+
+    // were we already bouncing ?
+    if (old_vel.w < 0.1)
+    {
+        // maybe the bounce is over ?
+        if (old_vel.y < -1.0)
+	    {
+		    next_vel.xyz = wind.xyz;
+		    next_vel.y -= 1;
+            next_vel.w = 1;
+	    }
+	    else
+	    {
+		    // we keep the previous direction, biased with gravity.
+            next_vel.xz = lerp( old_vel.xz , wind.xz , (1.0-old_vel.y) / 2.0 ) ;
+            next_vel.w = old_vel.w; // keep bouncing
+
+            next_vel.y = old_vel.y - tslf * fallSpeed / 8.0;
+            if (next_vel.y > 1.0)
+                next_vel.y = 1.0;
+	    }
+    }
+    else
+    {
+        next_vel.xyz = wind.xyz;
+    	next_vel.y -= 1; // account for gravity;
+        next_vel.w = 1;
+    }
+    
+    // keep track of the previous velocity
+    next_vel.xyz = (old_vel.xyz + next_vel.xyz) / 2.0;
+
+
+    // based on next velocity, we can guess next position.
+    float3 next_real_pos = realPos + next_vel.xyz * fallSpeed * tslf;
+
+    // what are the coordinates of this position within the box ?
+    next_pos.x = next_real_pos.x - viewPos.x + viewDir.x * (boxMax.x - boxMin.x) / 2.0 ;
+    next_pos.y = next_real_pos.y ;
+    next_pos.z = next_real_pos.z - viewPos.z + viewDir.z * (boxMax.z - boxMin.z) / 2.0 ;
+
+
+
+    //////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////
+    // will there be a collision ?
+    //////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////
+
+    float2 heightCoords;
+    heightCoords.x = 1 - (next_pos.x - boxMin.x) / (boxMax.x-boxMin.x);
+    heightCoords.y = 1 - (next_pos.z - boxMin.z) / (boxMax.z-boxMin.z);
+    float4 height = tex2D(heightmap, heightCoords); // height.xyz -> normal to the surface. height.a -> altitude of the surface.
+    height.xyz = normalize(height.xyz);
+
+    if (height.x < 0.1 && height.y < 0.1 && height.z < 0.1)
+        height.a = 0.0;
+
+    if (next_pos.y < height.a && ( height.y < 0.9 || next_vel.w > 0))
+    {
+        // NEW COLLISION DETECTED
+        // bounce direction is given by current direction, and normal to the collision point
+        next_vel.xyz = reflect(normalize(next_vel.xyz), height.xyz) / 2.0;
+
+        // we then need to modify the estimated next position
+        next_real_pos = realPos + next_vel.xyz * fallSpeed * tslf;
+
+        // what are the coordinates of this position within the box ?
+        next_pos.x = next_real_pos.x - viewPos.x + viewDir.x * (boxMax.x - boxMin.x) / 2.0 ;
+        next_pos.y = next_real_pos.y ;
+        next_pos.z = next_real_pos.z - viewPos.z + viewDir.z * (boxMax.z - boxMin.z) / 2.0 ;
+        // we should use drops
+        next_pos.w = 0;
+        // tell the world we are currently bouncing !
+        next_vel.w = 0;
+    }
+
+
+    //////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////
+    // keep the particles inside the box
+    //////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////
+
+    // account for the displacement of the user
+    next_pos.xz -= lastMove.xz * (boxMax.xz-boxMin.xz);
+
+    if (next_pos.y < 0.01 || next_pos.y < height.a - 0.1)
+    {
+        // asked for a respawn
+        float4 depart = tex2D(initPos, coords);
+        next_pos.y += height.a + boxMax.y + depart.y / 2.0;
+        next_pos.xz = depart.xz;
+        
+        next_pos.w = 1; // use streaks, when respawning
+        next_vel.w = 1; // just in case, stop bouncing
+    }
+
+    if (next_pos.x < boxMin.x + 10)
+    {
+	    next_pos.x += (boxMax.x-boxMin.x)-20;
+            next_pos.w = 1; // use streaks, when respawning
+    }
+    else if (next_pos.x > boxMax.x - 10)
+    {
+	    next_pos.x -= (boxMax.x-boxMin.x)-20;
+            next_pos.w = 1; // use streaks, when respawning
+    }
+    
+    if (next_pos.z < boxMin.z + 10)
+    {
+	    next_pos.z += (boxMax.z-boxMin.z)-20;
+            next_pos.w = 1; // use streaks, when respawning
+    }
+    else if (next_pos.z > boxMax.z - 10)
+    {
+	    next_pos.z -= (boxMax.z-boxMin.z)-20;
+            next_pos.w = 1; // use streaks, when respawning
+    }
+    
+    // say 1 if you only want only streaks, 0 if you only want only regular drops. Say nothing if you want to let the application decide
+    //next_pos.w = 0;
+}
+
+

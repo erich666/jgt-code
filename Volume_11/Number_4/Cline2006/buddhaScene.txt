@@ -1,0 +1,28 @@
+
+# Test file for LBVHtrace
+
+objectsPerLeaf 1
+ambientLight 0.2 0.2 0.2
+backgroundColor 0 0 0.3
+
+camera
+lookFrom 0 1 10
+lookAt 0 0.75 0
+viewUp 0 1 0
+fieldOfView 0.11
+imageSize 1024 1024
+end_camera
+
+directionalLight
+color 0.9 0.9 0.9
+direction 1 1 1
+end_directionalLight
+
+polyMesh
+plyFile buddha.ply
+scale 5 5 5
+translate 0 0 0
+diffuse 1 0 0
+specular 0.5 0.5 0.5
+exponent 10
+end_polyMesh

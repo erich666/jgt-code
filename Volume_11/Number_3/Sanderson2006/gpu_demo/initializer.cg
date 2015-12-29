@@ -1,0 +1,33 @@
+/*****************************************************************************/
+/*								             */
+/*	Copyright (c) 2005	Allen R. Sanderson		             */
+/*								             */
+/*				Scientific Computing and Imaging Institute   */
+/*				University of Utah		             */
+/*				Salt Lake City, Utah		             */
+/*								             */
+/*            							             */
+/*  Permission is granted to modify and/or distribute this program so long   */
+/*  as the program is distributed free of charge and this header is retained */
+/*  as part of the program.                                                  */
+/*								             */
+/*****************************************************************************/
+
+/* Set the inital values along with the variance for a and b. */
+
+void main(float4 texCoord0 : TEXCOORD0,
+
+	  uniform float4 initVal,
+
+	  uniform samplerRECT varianceConsts,
+	  
+	  out float4 oColor : COLOR )
+{
+  float4 init = f4texRECT( varianceConsts, texCoord0.xy );
+
+  oColor = initVal * init.rgrg;
+
+  // Sweetlips with brusselator.
+//  if( texCoord0.y < 1.0 || (128.0 < texCoord0.y && texCoord0.y < 129.0) )
+//    oColor.ba = float2( abs(init.r - 1.0), 4.0*init.g );
+} 

@@ -1,0 +1,17 @@
+
+struct vertout
+{
+	float4 iColor       : COLOR;
+	float4 iCurvature   : TEXCOORD7;
+};
+
+
+void main( vertout IN,
+		   out float4 oColor: COLOR )
+{ 
+	oColor.rgb = IN.iColor.rgb;
+	
+	//Note when the curvature value used is changed, it MUST ALSO be changed in the refraction (photon-only) shader!
+	oColor.a = (min(32, max(-32, IN.iCurvature.z  )) + 32)/64.0;
+}
+

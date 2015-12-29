@@ -1,0 +1,29 @@
+/*****************************************************************************/
+/*								             */
+/*	Copyright (c) 2005	Allen R. Sanderson		             */
+/*								             */
+/*				Scientific Computing and Imaging Institute   */
+/*				University of Utah		             */
+/*				Salt Lake City, Utah		             */
+/*								             */
+/*            							             */
+/*  Permission is granted to modify and/or distribute this program so long   */
+/*  as the program is distributed free of charge and this header is retained */
+/*  as part of the program.                                                  */
+/*								             */
+/*****************************************************************************/
+
+// REDUCTION SUMMATION
+
+void main(float2 texCoord0 : TEXCOORD0,
+          float2 texCoord1 : TEXCOORD1,
+
+          uniform samplerRECT input,
+
+	  out float4 oColor : COLOR)
+{
+  oColor  = f4texRECT( input, texCoord0.xy );
+  oColor += f4texRECT( input, float2(texCoord0.x, texCoord1.y) );
+  oColor += f4texRECT( input, float2(texCoord1.x, texCoord0.y) );
+  oColor += f4texRECT( input, texCoord1.xy );
+}

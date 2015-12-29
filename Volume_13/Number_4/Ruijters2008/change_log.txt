@@ -1,0 +1,22 @@
+2009-02-20 | version 0.4 | Author: Danny Ruijters
+_________________________________________________
+* Small fix in template call in memcpy.cu to make it also compile with CUDA 2.1
+
+
+2009-01-25 | version 0.3 | Author: Danny Ruijters
+_________________________________________________
+* Small bugfix in the SSE code in examples/referenceCubicTexture3D, provided by Alfred R. Fuller.
+* Updated the internet address, since the webpage has moved.
+* Corrected the name of the CastVolumeHostToDevice function in memcpy.cu
+
+
+2008-10-12 | version 0.2 | Author: Danny Ruijters
+_________________________________________________
+* Added SSE and multi-threading support to the reference application, in order to obtain fair performance comparisons.
+* Fixed the internet address in the text at the top in the source files.
+* Added macros for enabling / disabling display output in the simpleCubicTexture3D and referenceCubicTexture3D examples, in order to profile the interpolation performance.
+
+
+2008-10-06 | version 0.1 | Author: Danny Ruijters
+_________________________________________________
+* Initial version

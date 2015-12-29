@@ -1,0 +1,498 @@
+/*
+ ***************************************************************************
+ *                                                                         *
+ * GPU RAINFALL                                                            *
+ * Pierre Rousseau, Vincent Jolivet and Djamchid Ghazanfarpour             *
+ * Institut XLIM, UMR CNRS 6172, Limoges, France                           *
+ *                                                                         *
+ ***************************************************************************
+ *                                                                         *
+ * Fragment program for raindrops rendering                                *
+ *                                                                         *
+ ***************************************************************************
+ *                                                                         *
+ * Copyright 2008, Pierre Rousseau (pierre.rousseau@xlim.fr)               *
+ *                                                                         *
+ * This program is free software; you can redistribute it and/or           *
+ * modify it under the terms of the GNU General Public License as          *
+ * published by the Free Software Foundation; either version 2 of          *
+ * the License, or (at your option) any later version.                     *
+ *                                                                         *
+ * This program is distributed in the hope that it will be useful,         *
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of          *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the           *
+ * GNU General Public License for more details.                            *
+ *                                                                         *
+ * You should have received a copy of the GNU General Public License       *
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.   *
+ *                                                                         *
+ ***************************************************************************
+*/
+
+
+
+// output of the vertex program, and input to the fragment program
+struct vert2frag
+{
+	float4 position      : POSITION;
+	float2 texCoords0    : TEXCOORD0;
+	float2 texCoords1    : TEXCOORD1;
+	float4 posworld      : TEXCOORD2;
+	float4 normale       : TEXCOORD3;
+    float3 eyetovert     : TEXCOORD4;
+    float2 particleIndex : TEXCOORD5;
+};
+
+
+
+#define PI                3.1415926535
+#define FOVyCam           PI/4.0
+#define FOVyRtt           16.5*PI/18.0
+
+#define DISCRETIZATION    10.0
+
+#define ILLUM_FACT	  1.0
+
+
+
+
+///////////////////////////////////////////////////////
+//  shader : simple texture on the particles
+///////////////////////////////////////////////////////
+float4 main_FP_simplified(vert2frag IN,
+                          uniform sampler2D image : TEXUNIT0) : COLOR
+{
+  return tex2D(image, IN.texCoords0.xy);
+}
+
+
+
+///////////////////////////////////////////////////////
+//  shader : can draw drops and streaks
+///////////////////////////////////////////////////////
+float4 main_FP(vert2frag IN,
+               uniform float renderMode,
+               uniform float rainBbSide,
+               uniform float streaksHeight,
+               uniform sampler2D image : TEXUNIT0,
+               uniform sampler2D posTex : TEXUNIT1,
+               uniform sampler2D mask : TEXUNIT3) : COLOR
+{
+    float4 returnValue;
+    
+    // first : determine if we use streaks or raindrops
+    float4 posit = tex2D(posTex, IN.particleIndex);
+    
+    if (posit.w > 0.5)
+    {
+        // USE STREAKS !
+        
+        // compute the outline of the drop
+        float r_0 = rainBbSide;
+        float real_width = 4 * r_0;
+        float height = streaksHeight;
+    
+        float a_2_0 = 0.1; // determined by garg-Nayar to be 0.1 or 0.2
+        float a_3_1 = 0.1;
+        float om_2 = sqrt(0.00962766 / (r_0 * r_0 * r_0));
+        float om_3 = sqrt(0.01864388 / (r_0 * r_0 * r_0));
+        
+        float theta = 3.1415926535 / 2.0;
+        
+        float p_2_0 = 0.5 * (3.0 * theta * theta - 1.0); // oblate-prolate mode
+        float p_3_1 = 1.5 * (5.0 * theta * theta - 1.0) * sqrt(1 - theta*theta); // rotational-symetric mode
+        
+        float phi_min = (int(IN.posworld.x) % 31415) / 10000.0;
+        float phi_max = phi_min + 3.1415926535;
+    
+        float t = (IN.posworld.y + (1.0-IN.texCoords0.y) * streaksHeight) * 1.0;  // undulation period
+        
+        float r_end_min = - r_0 * ( 1.0 + ( a_2_0 * sin(om_2*t) * p_2_0 ) + (a_3_1 * sin(om_3*t) * cos(phi_min) * p_3_1 ) );
+        float r_end_max = r_0 * ( 1.0 + ( a_2_0 * sin(om_2*t) * p_2_0 ) + (a_3_1 * sin(om_3*t) * cos(phi_max) * p_3_1 ) );
+        
+        // permutate r_min and r_max if needed
+        if (r_end_min > r_end_max)
+        {
+            float tmp = r_end_min;
+            r_end_min = r_end_max;
+            r_end_max = tmp;
+        }
+        
+        // a streak stretches from -real_width to +real_width
+        float relative_width = (IN.texCoords0.x - 0.5) * 2.0 * real_width;
+        
+        // test whether the current pixel is inside the outline
+        if (r_end_min < relative_width && relative_width < r_end_max)
+        {
+            if (renderMode == 1)
+            {
+                // real computation for the streaks, including refraction.
+                int effective_discretization = 0;
+                float4 colmask;
+                float2 tmp_coords;
+                returnValue = float4(0, 0, 0, 1);
+                                
+                for (int i=0 ; i < DISCRETIZATION ; i++)
+                {
+                    float min2 = (r_end_min + real_width) / (2.0 * real_width);
+                    float max2 = (r_end_max + real_width) / (2.0 * real_width);
+                    float long = max2 - min2;
+                    tmp_coords.x = (IN.texCoords0.x-min2) / long;
+                    tmp_coords.y = ( (i + 1) / float(DISCRETIZATION + 1) ) + ( (IN.texCoords0.y - 0.5) / DISCRETIZATION ) ;
+                                    
+                    colmask = tex2D(mask, tmp_coords);
+                                    
+                    // don't trace rays if we're outside the drop silhouette in the mask
+                    if (colmask.r > 0.1 || colmask.g > 0.1 || colmask.b > 0.1)
+                    {
+                        float3 refrac = (colmask.xyz - 0.5) / 2.0;
+                        float2 coords = 0.5 + (IN.texCoords1 - 0.5 - refrac.xy / refrac.z) * tan(FOVyCam / 2.0) / tan(FOVyRtt / 2.0) ;
+                                            
+                        float4 colTexture = tex2D(image, coords);
+                        returnValue += colTexture;
+                        effective_discretization++;
+                    }
+                }
+                
+                returnValue = returnValue / (effective_discretization);
+        
+                if (effective_discretization == 0)
+                {
+                    // we could'nt find any colour... use transparency !
+                    returnValue.a = 0;
+                }
+                else
+                {
+                    // streaks are not fully opaque
+                    
+                    // using the following equation, we have real transparency. Should need particle depth sorting though.
+                    //returnValue.a = 0.6 - 0.4 * abs( ( relative_width - (r_end_max +r_end_min)/2.0 ) / ((r_end_max - r_end_min) / 2.0) );
+
+                    // let's do fake transparency : blend the streak with the background image                    
+                    float2 backgroundCoords = 0.5 + (IN.texCoords1 - 0.5) * tan(FOVyCam / 2.0) / tan(FOVyRtt / 2.0) ;
+                    float3 background = tex2D(image, backgroundCoords).rgb;
+                    // interpolate between median refraction and background color, based on pixel location
+                    returnValue.xyz = lerp(returnValue.xyz, background, 0.8 - 0.6 * abs( ( relative_width - (r_end_max +r_end_min)/2.0 ) / ((r_end_max - r_end_min) / 2.0) ));
+                    returnValue.a = 1;
+                }
+            }
+            else
+            {
+                // red and yellow -> we want to SEE the streaks
+                returnValue = float4(1, IN.texCoords0.y/2.0, 0.0, 1);
+            }
+        }
+        else
+        {
+            returnValue = float4(0, 0, 0, 0);
+        }
+    }
+    else
+    {
+        // USE DROPS !
+        float4 colmask = tex2D(mask, IN.texCoords0.xy);
+    
+        if (colmask.r < 0.2 && colmask.g < 0.2 && colmask.b < 0.2)
+        {
+            returnValue.a = 0;
+        }
+        else
+        {
+            returnValue.a = 1;
+            float3 refrac = (colmask.xyz - 0.5) / 2.0;
+            
+            float2 coords = 0.5 + (IN.texCoords1 -0.5 - refrac.xy / refrac.z) * tan(FOVyCam / 2.0) / tan(FOVyRtt / 2.0) ;
+            // formula with no refraction
+            //float2 coords = 0.5 + (IN.texCoords1 - 0.5) * tan(FOVyCam / 2.0) / tan(FOVyRtt / 2.0) ;
+            
+            if (renderMode == 1)
+            {
+                returnValue.rgb = tex2D(image, coords).rgb;
+            }
+            else
+            {
+                // visible mode -> red
+                returnValue = float4(1, 0, 0, 1);
+            }
+        }
+    }
+        
+    return returnValue;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+///////////////////////////////////////////////////////
+//  Lighting functions
+///////////////////////////////////////////////////////
+float4 lightMeStreaks(float posRel,
+                      float rMin,
+                      float rMax,
+                      vert2frag IN,
+                      uniform float4x4 worldview,
+                      float4 lightPos,
+                      float4 lightCol,
+                      float attenuation)
+{
+  // determine the normal to the pixel
+  float posPc = ( posRel - ((rMin + rMax) / 2.0) ) / ( (rMax - rMin)/2.0 ) ;
+  float4 N  = float4(posPc, 0, sqrt(1 - posPc*posPc), 1);
+  
+  float4 distant = lightPos - IN.posworld;
+  float distFact = 1.0 - min(sqrt(dot(distant.xyz, distant.xyz)) / attenuation, 1.0);
+  distant.xyz = normalize(mul(worldview, distant).xyz);
+  distant.x = 1.0;
+
+  float4 result;
+  float4 a1, a2, a3;
+  
+  a1 = lightCol * distFact * dot(- normalize(IN.eyetovert.xyz), N.xyz);
+  
+  a2 = max(0, dot(distant.xyz, IN.normale.xyz));
+  a3 = max(0, dot(normalize(distant.xz), -normalize(N.xz)) * (1.0 - dot(distant.xyz, -N.xyz)));
+  
+  result = a1 * (a2 + a3);
+  
+  return result;
+}
+
+
+
+
+float4 lightMeDrops(vert2frag IN, 
+                    uniform float4x4 worldview,
+		            float4 lightPos,
+		            float4 lightCol,
+		            float attenuation)
+{
+    float4 distant = lightPos - IN.posworld;
+    float distFact = 1.0 - min(sqrt(dot(distant.xyz, distant.xyz)) / attenuation, 1.0);
+    distant.xyz = normalize(mul(worldview, distant).xyz);
+    distant.x = 1.0;
+
+    float4 result;
+    float4 a1, a2, a3;
+
+    a1 = lightCol * distFact * dot(- normalize(IN.eyetovert.xyz), IN.normale.xyz);
+
+    a2 = max(0, dot(distant.xyz, IN.normale.xyz));
+    a3 = max(0, dot(normalize(distant.xz), -normalize(IN.normale.xz)) * (1.0 - dot(distant.xyz, -IN.normale.xyz)));
+
+    result = a1 * (a2 + a3);
+
+    return result;
+}
+
+
+
+
+
+
+///////////////////////////////////////////////////////
+//  Fragment shader with lighting
+///////////////////////////////////////////////////////
+float4 main_FP_Light(vert2frag IN,
+                     uniform float nbLights,
+                     uniform float4x4 worldview,
+                     uniform float rainBbSide,
+                     uniform float streaksHeight,
+                     
+                     uniform sampler2D image : TEXUNIT0,
+                     uniform sampler2D posTex : TEXUNIT1,
+                     uniform sampler2D mask : TEXUNIT3,
+                     uniform sampler2D lightInfoTexture : TEXUNIT4) : COLOR
+{
+    float4 returnValue;
+    
+    float relative_width, r_fin_min, r_fin_max;
+    
+    // first : determine if we use streaks or raindrops
+    float4 posit = tex2D(posTex, IN.particleIndex);
+    
+    if (posit.w > 0.5)
+    {
+        // USE STREAKS !
+        
+        // compute the outline of the drop
+        float r_0 = rainBbSide;
+        float real_width = 4 * r_0;
+        float height = streaksHeight;
+    
+        float a_2_0 = 0.1; // determined by garg-Nayar to be 0.1 or 0.2
+        float a_3_1 = 0.1;
+        float om_2 = sqrt(0.00962766 / (r_0 * r_0 * r_0));
+        float om_3 = sqrt(0.01864388 / (r_0 * r_0 * r_0));
+        
+        float theta = 3.1415926535 / 2.0;
+        
+        float p_2_0 = 0.5 * (3.0 * theta * theta - 1.0); // oblate-prolate mode
+        float p_3_1 = 1.5 * (5.0 * theta * theta - 1.0) * sqrt(1 - theta*theta); // rotational-symetric mode
+        
+        float phi_min = (int(IN.posworld.x) % 31415) / 10000.0;
+        float phi_max = phi_min + 3.1415926535;
+    
+        float t = (IN.posworld.y + (1.0-IN.texCoords0.y) * streaksHeight) * 1.0;  // undulation period
+        
+        float r_end_min = - r_0 * ( 1.0 + ( a_2_0 * sin(om_2*t) * p_2_0 ) + (a_3_1 * sin(om_3*t) * cos(phi_min) * p_3_1 ) );
+        float r_end_max = r_0 * ( 1.0 + ( a_2_0 * sin(om_2*t) * p_2_0 ) + (a_3_1 * sin(om_3*t) * cos(phi_max) * p_3_1 ) );
+        
+        // permutate r_min and r_max if needed
+        if (r_end_min > r_end_max)
+        {
+            float tmp = r_end_min;
+            r_end_min = r_end_max;
+            r_end_max = tmp;
+        }
+        
+        // a streak stretches from -real_width to +real_width
+        float relative_width = (IN.texCoords0.x - 0.5) * 2.0 * real_width;
+        
+        // test whether the current pixel is inside the outline
+        if (r_fin_min < relative_width && relative_width < r_fin_max)
+        {
+            // real computation for the streaks, including refraction.
+            int effective_discretization = 0;
+            float4 colmask;
+            float2 tmp_coords;
+            returnValue = float4(0, 0, 0, 1);
+                            
+            for (int i=0 ; i < DISCRETIZATION ; i++)
+            {
+                float min2 = (r_fin_min + real_width) / (2.0 * real_width);
+                float max2 = (r_fin_max + real_width) / (2.0 * real_width);
+                float long = max2 - min2;
+                tmp_coords.x = (IN.texCoords0.x-min2) / long;
+                tmp_coords.y = ( (i + 1) / float(DISCRETIZATION + 1) ) + ( (IN.texCoords0.y - 0.5) / DISCRETIZATION ) ;
+                                
+                colmask = tex2D(mask, tmp_coords);
+                                
+                // don't trace rays if we're outside the drop silhouette in the mask
+                if (colmask.r > 0.1 || colmask.g > 0.1 || colmask.b > 0.1)
+                {
+                    float3 refrac = (colmask.xyz - 0.5) / 2.0;
+                    float2 coords = 0.5 - (0.5 - IN.texCoords1 + refrac.xy / refrac.z) * tan(FOVyCam / 2.0) / tan(FOVyRtt / 2.0) ;
+                                        
+                    float4 colTexture = tex2D(image, coords);
+                    returnValue += colTexture;
+                    effective_discretization++;
+                }
+            }
+            
+            returnValue = returnValue / (effective_discretization);
+    
+            if (effective_discretization == 0)
+            {
+                // we could'nt find any colour... use transparency !
+                returnValue.a = 0;
+            }
+            else
+            {
+                // streaks are not fully opaque
+                // using the following equation, we have real transparency. Should need particle depth sorting.
+                //returnValue.a = 0.8 - 0.6 * abs( ( relative_width - (r_fin_max +r_fin_min)/2.0 ) / ((r_fin_max - r_fin_min) / 2.0) );
+                
+                // let's do fake transparency : blend the streak with the background image
+                    
+                float2 backgroundCoords = 0.5 + (IN.texCoords1 - 0.5) * tan(FOVyCam / 2.0) / tan(FOVyRtt / 2.0) ;
+                float3 background = tex2D(image, backgroundCoords).rgb;
+                // interpolate between median refraction and background color, based on pixel location
+                returnValue.xyz = lerp(returnValue.xyz, background, 0.8 - 0.6 * abs( ( relative_width - (r_fin_max +r_fin_min)/2.0 ) / ((r_fin_max - r_fin_min) / 2.0) ));
+                returnValue.a = 1;
+            }
+                    
+            // make the streaks whiter to see them more
+            returnValue.xyz += (1.0-returnValue.xyz) / 20.0;
+        }
+        else
+        {
+            returnValue = float4(0, 0, 0, 0);
+        }
+    }
+    else
+    {
+        // USE DROPS !
+        float4 colmask = tex2D(mask, IN.texCoords0.xy);
+    
+        if (colmask.r < 0.2 && colmask.g < 0.2 && colmask.b < 0.2)
+        {
+            returnValue.a = 0;
+        }
+        else
+        {
+            returnValue.a = 1;
+            float3 refrac = (colmask.xyz - 0.5) / 2.0;
+            
+            float2 coords = 0.5 + (IN.texCoords1 -0.5 - refrac.xy / refrac.z) * tan(FOVyCam / 2.0) / tan(FOVyRtt / 2.0) ;
+            // formula with no refraction
+            //float2 coords = 0.5 + (IN.texCoords1 - 0.5) * tan(FOVyCam / 2.0) / tan(FOVyRtt / 2.0) ;
+            
+            returnValue.rgb = tex2D(image, coords).rgb;
+        }
+    }
+
+
+
+    /////////////////
+    // Lighting
+    //
+    // We use a texture, one light per row, 4 pixels wide (Color, Position, Direction, and spot cutoff/attenuation)
+    // This allows to use an arbitrary number of lights
+    /////////////////
+
+    IN.normale.z = 1.0 - sqrt(IN.normale.x * IN.normale.x + IN.normale.y * IN.normale.y);
+    IN.normale.w = 1.0;
+    
+    float4 couleur = returnValue;
+    
+    
+    for (int l = 0 ; l < nbLights ; l++)
+    {
+        float lightRow = l * (1.0 / nbLights) + (0.5 / nbLights);
+        
+        float4 lightCol = tex2D(lightInfoTexture, float2(1.0 / 8.0, lightRow));
+        float4 lightPos = tex2D(lightInfoTexture, float2(3.0 / 8.0, lightRow));
+        float4 lightDir = tex2D(lightInfoTexture, float2(5.0 / 8.0, lightRow));
+        float lightCut = tex2D(lightInfoTexture, float2(7.0 / 8.0, lightRow)).r;
+        float lightAtt = tex2D(lightInfoTexture, float2(7.0 / 8.0, lightRow)).g;
+        
+        float4 illum;
+        
+        if (posit.w > 0.5)
+        {
+            // streaks illumination
+            illum = lightMeStreaks(relative_width, r_fin_min, r_fin_max, IN, worldview, lightPos, lightCol, lightAtt);
+        }
+        else
+        {
+            // drops illumination
+            illum = lightMeDrops(IN, worldview, lightPos, lightCol, lightAtt);
+        }
+        
+        // check if the drop is inside the spot
+        float3 margin = float3(0, 5, 0); // shift the source up, so that it looks less like a point
+        if ( dot( normalize(IN.posworld.xyz - (lightPos.xyz + margin)) , normalize(lightDir.xyz) ) > cos (lightCut * PI / 180.0) )
+        {
+            // ILLUM_FACT should be defined to 1 ; it can be set to a different value to make illumination more visible.
+            returnValue.xyz += illum.xyz * ILLUM_FACT;
+        }
+    }
+    
+    return returnValue;
+}
+
+
+

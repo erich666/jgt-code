@@ -1,0 +1,85 @@
+struct vertout
+{
+	float4 Position		: WPOS;
+	float4 NDCcoord     : TEXCOORD0;
+	float4 eyeNorm      : TEXCOORD1;
+	float4 eyePos		: TEXCOORD2;
+	float4 planeEq		: TEXCOORD3;
+};
+
+void main( vertout IN,
+		   uniform float4x4 proj       : state.matrix.projection,
+		   uniform float4x4 mvit       : state.matrix.modelview.invtrans,
+		   uniform float4x4 mv         : state.matrix.modelview,
+		   uniform float4x4 prog0trans : state.matrix.program[0].transpose, // user environment rotation
+		   uniform float4 local0,
+		   uniform float4 local1,
+		   uniform float4 local2,
+		   uniform float4 local3,
+		   uniform float4 local4,
+		   uniform float4 lightWSPos,	// world space position of the light
+		   uniform float4x4 worldToEye : state.matrix.program[1],
+		   uniform float4 up,
+		   uniform float4 lookat,
+		   uniform float normalizationFactor,
+		   uniform samplerCUBE environmentMap 	: TEXUNIT0,
+		   uniform sampler2D prevDistances    	: TEXUNIT5,
+		   uniform sampler2D otherObjsEye	    : TEXUNIT6,
+		   uniform sampler1D aCos_and_Fresnel 	: TEXUNIT4,
+		   uniform sampler2D backFace		    : TEXUNIT3,
+		   out float4 oColor0: COLOR0,
+		   out float4 oColor1: COLOR1,
+		   out float4 oColor2: COLOR2 )
+{
+	float4 reflDir;
+	float3 ambientColor;
+	float4 tmp;
+	
+	// Stuff that we know from the beginning
+	float3 N = normalize( IN.eyeNorm.xyz );   // Surface Normal
+	float3 V = normalize( IN.eyePos.xyz  );   // View direction
+
+	reflDir.xyz = reflect(V, N);
+	reflDir.w = 0;
+	
+	// See if this refracted ray intersects the plane opaque objects may reside on
+	//    Refer to: http://www.siggraph.org/education/materials/HyperGraph/raytrace/rayplane_intersection.htm
+	float V0 = dot( -IN.eyePos.xyz, IN.planeEq.xyz ) - IN.planeEq.w;
+	float Vd = dot( reflDir.xyz, IN.planeEq.xyz );
+	float t = V0/Vd;
+
+	ambientColor = texCUBE(environmentMap, mul(prog0trans, reflDir).xyz);
+
+	if (t > 0)
+	{
+		// Find intersection point on plane.
+		float4 reflPoint = IN.eyePos + t * reflDir;
+		oColor1 = reflPoint;
+		oColor1.w = 1;
+		oColor2 = -normalize(reflDir);
+		
+		float4 projLoc = mul( proj, reflPoint );
+		float2 index2D = 0.5*(projLoc.xy / projLoc.w) + 0.5;
+		float3 nearbyGeomColor = tex2D(otherObjsEye, index2D.xy).xyz;
+		//ambientColor = nearbyGeomColor;
+	}
+	
+	// If we don't hit the plane (or we go thru it -- which is why this is NOT an else clause)
+	if (t <= 0 || reflDir.w > 0 )
+		oColor1 = float4(0,0,1,-1);
+		
+	// compute phong lighting
+	float4 lightESPos = mul(worldToEye, lightWSPos);
+	lightESPos = normalize(lightESPos);
+	float3 R = reflect(lightESPos.xyz, N);
+	R = normalize(R);
+
+	float phong_exp = 128;
+	float3 lightColor = float3(1,1,1);
+	float3 surfaceColor = float3(0.97, 0.97, 0.77);	
+	
+	float3 specular = pow(max(0, dot(V, R)), phong_exp)*lightColor;
+	float3 diffuseAmbient = surfaceColor*((lightColor*max(0, dot(N, lightESPos)))+ambientColor);
+	oColor0.xyz = specular + diffuseAmbient;
+	oColor0.w = 0;
+}

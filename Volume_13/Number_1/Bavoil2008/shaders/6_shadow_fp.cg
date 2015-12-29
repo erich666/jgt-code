@@ -1,0 +1,241 @@
+// Melissa - Multi-Layer Soft Shadows
+// Copyright (C) 2007, Louis Bavoil
+//
+// This software is licensed under the BSD open-source license. See
+// http://www.opensource.org/licenses/bsd-license.php for more detail.
+//
+// Redistribution and use in source and binary forms, with or
+// without modification, are permitted provided that the following
+// conditions are met:
+//
+// Redistributions of source code must retain the above copyright notice,
+// this list of conditions and the following disclaimer.
+//
+// Redistributions in binary form must reproduce the above copyright notice,
+// this list of conditions and the following disclaimer in the documentation
+// and/or other materials provided with the distribution.
+//
+// Neither the name of the University of Utah nor the names of
+// the contributors may be used to endorse or promote products derived
+// from this software without specific prior written permission.
+//
+// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+// "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+// LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
+// FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL
+// THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT,
+// INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+// DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE
+// GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+// INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+// WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+// (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF
+// THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY
+// OF SUCH DAMAGE.
+
+#include "config.h"
+
+//-----------------------------------------------------------------------
+struct v2f
+{
+     float4 Position		: POSITION;
+     float2 TexCoords           : TEXCOORD0;
+};
+
+//-----------------------------------------------------------------------
+float3 Project(float4x4 LightViewFrustum, float3 P)
+{
+     float4 proj = mul(LightViewFrustum, float4(P, 1));
+     return proj.xyz / proj.w;
+}
+
+//-----------------------------------------------------------------------
+bool NonBg(float4 P)
+{
+     return (P.w != 0);
+}
+
+//-----------------------------------------------------------------------
+bool NonBlack(float4 C)
+{
+     return ((C.r > 0) || (C.g > 0) || (C.b > 0));
+}
+
+//-----------------------------------------------------------------------
+float PlaneDistance(float4 Plane, float3 P)
+{
+     return abs(dot(Plane.xyz, P) + Plane.w);
+}
+
+//-----------------------------------------------------------------------
+half Area(half4 B)
+{
+     half2 V = B.yw - B.xz;
+     half A = V.x * V.y;
+#ifdef SMOOTH_SHADOWS
+     if (A >= 1) A = 0;
+#endif
+     return A;
+}
+
+//-----------------------------------------------------------------------
+float MinHsmSample(sampler2D HSM, float2 TexCoords, float Size)
+{
+     float dx = 1.0 / Size;
+     float2 f = frac(TexCoords * Size);
+     float4 d0, d1, d2, d3;
+     d0 = tex2D(HSM, TexCoords);
+     if (f.x < 0.5 && f.y < 0.5) {
+	  // bottom left
+	  d1 = tex2D(HSM, TexCoords+float2(-dx, 0));
+	  d2 = tex2D(HSM, TexCoords+float2(-dx, -dx));
+	  d3 = tex2D(HSM, TexCoords+float2(0, -dx));
+     }
+     if (f.x > 0.5 && f.y < 0.5) {
+	  // bottom right
+	  d1 = tex2D(HSM, TexCoords+float2(dx, 0));
+	  d2 = tex2D(HSM, TexCoords+float2(dx, -dx));
+	  d3 = tex2D(HSM, TexCoords+float2(0, -dx));
+     }
+     if (f.x > 0.5 && f.y > 0.5) {
+	  // top right
+	  d1 = tex2D(HSM, TexCoords+float2(dx, 0));
+	  d2 = tex2D(HSM, TexCoords+float2(dx, dx));
+	  d3 = tex2D(HSM, TexCoords+float2(0, dx));
+     }
+     if (f.x < 0.5 && f.y > 0.5) {
+	  // top left
+	  d1 = tex2D(HSM, TexCoords+float2(-dx, 0));
+	  d2 = tex2D(HSM, TexCoords+float2(-dx, dx));
+	  d3 = tex2D(HSM, TexCoords+float2(0, dx));
+     }
+     return min(min(min(d0.r,d1.r),d2.r),d3.r);
+}
+
+//-----------------------------------------------------------------------
+float4 main(v2f IN,
+	    uniform float4 C0,
+	    uniform float4 C1,
+	    uniform float4x4 LightViewFrustum,
+	    uniform float4 LightPlane,
+	    uniform sampler2D EyePosMap,
+	    uniform sampler2D EyeColorMap,
+	    uniform sampler2D HsmLevel1,
+	    uniform sampler2D HsmLevel2,
+	    uniform sampler2D HsmLevel3,
+	    uniform sampler2D HsmLevel4,
+	    uniform sampler2D HsmLevel5,
+	    uniform sampler2D HsmLevel6,
+	    uniform sampler2D HsmLevel7,
+	    uniform sampler2D HsmLevel8,
+	    uniform sampler2D HsmLevel9,
+	    uniform sampler2D LightDepthMap0,
+	    uniform sampler2D LightDepthMap1,
+	    uniform sampler2D LightDepthMap2,
+	    uniform sampler2D LightDepthMap3,
+	    uniform sampler2D LightDepthMap4,
+	    uniform sampler2D LightDepthMap5,
+	    uniform sampler2D LightDepthMap6,
+	    uniform sampler2D LightDepthMap7
+	
+     ) : COLOR
+{
+     float4 pixel_color = tex2D(EyeColorMap, IN.TexCoords);
+     float4 pixel_position = tex2D(EyePosMap, IN.TexCoords);
+     if (NonBg(pixel_position) && NonBlack(pixel_color)) {
+
+	  //-----------------------------------------------------------------------
+	  // Initial Search Area
+
+	  float n = C0.z; // distance between near plane and light plane
+	  float lnw = C0.w; // light_radius * r * (n / w)
+	  float z = PlaneDistance(LightPlane, pixel_position.xyz);
+	  float kr = lnw * (1.0/n - 1.0/z);
+
+	  //-----------------------------------------------------------------------
+	  // Refined Search Area
+
+	  float3 p_clip = Project(LightViewFrustum, pixel_position.xyz);
+	  float3 p_uv = p_clip * 0.5 + 0.5;
+	  float res = C0.x;
+
+#ifdef USE_HSM
+	  for (int i = 0; i < USE_HSM; i++) {
+	       float zmin = z;
+	       if (kr/2 < 0.5) zmin = MinHsmSample(HsmLevel1, p_uv.xy, res/2);
+	       else if (kr/4 < 0.5) zmin = MinHsmSample(HsmLevel2, p_uv.xy, res/4);
+	       else if (kr/8 < 0.5) zmin = MinHsmSample(HsmLevel3, p_uv.xy, res/8);
+	       else if (kr/16 < 0.5) zmin = MinHsmSample(HsmLevel4, p_uv.xy, res/16);
+	       else if (kr/32 < 0.5) zmin = MinHsmSample(HsmLevel5, p_uv.xy, res/32);
+	       else if (kr/64 < 0.5) zmin = MinHsmSample(HsmLevel6, p_uv.xy, res/64);
+	       else if (kr/128 < 0.5) zmin = MinHsmSample(HsmLevel7, p_uv.xy, res/128);
+	       else if (kr/256 < 0.5) zmin = MinHsmSample(HsmLevel8, p_uv.xy, res/256);
+	       else if (kr/512 < 0.5) zmin = MinHsmSample(HsmLevel9, p_uv.xy, res/512);
+	       if (zmin != z) kr = lnw * (1.0/zmin - 1.0/z);
+	  }
+#endif
+	  
+	  //-----------------------------------------------------------------------
+	  // Adaptive Sampling
+
+	  half step = 1;
+#ifndef EXHAUSTIVE_SAMPLING
+	  float max_kr = C1.x;
+	  if (kr > max_kr) step = kr / max_kr;
+#endif
+
+	  half light_radius = C1.y;
+	  half c = step * C0.y / light_radius;
+	  half texel_width = step / res;
+	  kr /= step;
+
+	  //-----------------------------------------------------------------------
+	  // Backprojection
+
+	  half I = 1;
+	  half4 V0 = half4(-0.5, 0.5, -0.5, 0.5);
+	  half4 True = 1;
+	  half4 False = 0;
+
+	  int2 ij;
+	  for (ij.y = -kr; ij.y <= kr; ij.y++) {
+	       for (ij.x = -kr; ij.x <= kr; ij.x++) {
+
+		    half A = 0;
+
+		    half2 uv = p_uv.xy + ij * texel_width;
+		    half4 zs = tex2D(LightDepthMap0, uv);
+
+		    half4 biased_zs = (zs.xyzw + zs.yzww) * 0.5;
+		    //half4 biased_zs = zs.yzww;
+
+		    half4 occluding = (biased_zs < z) ? True : False;
+		    half4 r = zs * z / (z - zs);
+
+		    half4 V1 = c * (ij.xxyy + V0);
+		    half4 Bz = clamp(V1 * r.z, -0.5, 0.5);
+		    half4 By = clamp(V1 * r.y, -0.5, 0.5);
+		    half4 Bx = clamp(V1 * r.x, -0.5, 0.5);
+
+		    if (NUM_LAYERS == 3) {
+			 A = (occluding.z) ? Area(Bz) : 0;
+			 if (A == 0) A = (occluding.y) ? Area(By) : 0;
+			 if (A == 0) A = (occluding.x) ? Area(Bx) : 0;
+		    }
+		    if (NUM_LAYERS == 2) {
+			 A = (occluding.y) ? Area(By) : 0;
+			 if (A == 0) A = (occluding.x) ? Area(Bx) : 0;
+		    }
+		    if (NUM_LAYERS == 1) {
+			 A = (occluding.x) ? Area(Bx) : 0;
+		    }
+
+		    I -= A;
+	       }
+	  }
+
+	  return pixel_color * I;
+     } else {
+	  return pixel_color;
+     }
+}

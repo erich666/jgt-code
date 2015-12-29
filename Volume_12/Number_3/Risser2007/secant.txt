@@ -1,0 +1,44 @@
+/////////////////////////////////////////////////////////////////////
+// secant method                                                   //
+/////////////////////////////////////////////////////////////////////
+// this portion of code requires a linear search to first be       //
+// performed, with the two points right before and right after     //
+// collision stored as the upper and lower variables               //
+/////////////////////////////////////////////////////////////////////
+
+pixel_color.a = 1;
+float int_depth = 0;
+
+for(int i = 0; (i < 10) && (abs(pixel_color.a - int_depth) > .01); i++)
+{
+       float line_slope = (upper_h - lower_h)/(upper_d - lower_d);
+       float line_inter = upper_h - line_slope*upper_d;
+
+       float dem = view_slope - line_slope;
+       float inter_pt = line_inter / dem;
+
+       tex_coords_offset2D = inter_pt * float2(view_vec.y, -view_vec.x);
+       int_depth = view_slope*inter_pt;
+
+       pixel_color=tex2D(heightSampler,(tex_coords_offset2D)+input.tex_coords);
+
+       if(pixel_color.a < int_depth) //new upper bound
+       {
+              upper_h = pixel_color.a;
+              upper_d = inter_pt;
+              best_depth = upper_h;
+       }
+       else //new lower bound
+       {
+              lower_h = pixel_color.a;
+              lower_d = inter_pt;
+              best_depth = lower_h;
+
+        }
+
+}
+// compute our final texture offset
+tex_coords_offset2D = ((1.0f/view_slope)*best_depth)*float2(view_vec.y,-view_vec.x);
+
+// store pixel color
+pixel_color = tex2D(textureSampler, tex_coords_offset2D+input.tex_coords);

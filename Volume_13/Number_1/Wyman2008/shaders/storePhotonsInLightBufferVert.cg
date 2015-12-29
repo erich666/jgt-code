@@ -1,0 +1,43 @@
+
+
+struct appin
+{
+	float4 iPosition          : POSITION;
+	float4 photonIncidentDir  : TEXCOORD0;
+	float4 iNormal            : NORMAL;
+};
+
+struct vertout
+{
+	float4 oPosition		  : POSITION;
+	float4 photonIncidentDir  : TEXCOORD0;
+	float4 isValidPhoton      : TEXCOORD1;
+	float4 distanceToEye      : TEXCOORD2;
+	float4 LS_Position        : TEXCOORD3;
+};
+
+
+vertout main( appin IN,
+              uniform float4x4 mv   : state.matrix.modelview,
+			  uniform float4x4 mvp  : state.matrix.mvp )
+{
+	vertout OUT;
+	float4 mvPos;
+	float4 actualPos;
+	actualPos.xyz = IN.iPosition.xyz;
+	actualPos.w = 1;
+	
+	mvPos = mul( mv, actualPos );
+	mvPos.xyz = mvPos.xyz / mvPos.w;
+	OUT.distanceToEye = length( mvPos.xyz );
+	OUT.LS_Position = mvPos;
+
+	OUT.photonIncidentDir = IN.photonIncidentDir;
+	OUT.oPosition = mul( mvp, IN.iPosition );
+	OUT.isValidPhoton = float4(1, 1, 1, 1 );
+
+	if (IN.iPosition.z > 0)
+		OUT.isValidPhoton = float4(-1,-1,-1,-1);
+		
+	return OUT;
+}

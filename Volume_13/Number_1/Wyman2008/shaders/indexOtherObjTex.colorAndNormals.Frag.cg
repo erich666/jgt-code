@@ -1,0 +1,21 @@
+
+struct vertout
+{
+	float4 wPosition          : WPOS;
+	float4 iColor             : COLOR;
+	float4 iTexCoord          : TEXCOORD0; 
+	float4 photonNormal       : TEXCOORD2;
+};
+
+
+void main( vertout IN,
+           uniform sampler2D bgTex       : TEXUNIT0,
+		   out float4 oColor0: COLOR0,
+		   out float4 oColor1: COLOR1 )
+{
+    oColor0.rgb = tex2D( bgTex, IN.iTexCoord.xy ).rgb * IN.iColor.rgb;
+	oColor0.a = IN.wPosition.z;
+	
+	oColor1.rgb = IN.photonNormal.rgb;
+	oColor1.a = 0;
+}

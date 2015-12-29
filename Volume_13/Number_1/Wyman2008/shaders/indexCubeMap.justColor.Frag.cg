@@ -1,0 +1,12 @@
+
+struct vertout
+{
+	float4 iTexCoord          : TEXCOORD0; 
+};
+
+void main( vertout IN,
+           uniform samplerCUBE envMap       : TEXUNIT0,
+		   out float4 oColor: COLOR )
+{
+	oColor = texCUBE( envMap, IN.iTexCoord.xyz );
+}

@@ -1,0 +1,151 @@
+#
+#  al.mtl
+#
+
+newmtl shoe1L
+Ka 0.2 0.2 0.2
+Kd 0.1 0.1 0.1
+
+newmtl shoe2L
+Ka 0.2 0.2 0.2
+Kd 1 1 1
+
+newmtl shoe3L
+Ka 0.2 0.2 0.2
+Kd 0.3 0.2 0.1
+
+newmtl shoe4L
+Ka 0.2 0.2 0.2
+Kd 0.2 0.2 0.2
+
+newmtl lowlegL
+Ka 0.2 0.2 0.2
+Kd 0.1 0.1 0.1
+
+newmtl uplegL
+Ka 0.2 0.2 0.2
+Kd 0.1 0.1 0.1
+
+newmtl lowarmL
+Ka 0.2 0.2 0.2
+Kd 0.1 0.1 0.2
+map_Kd textures/fabric1.rgb
+
+newmtl sleaveL
+Ka 0.2 0.2 0.2
+Kd 1 1 1
+
+newmtl handL
+Ka 0.2 0.2 0.2
+Kd 0.9 0.5 0.4
+
+newmtl uparmL
+Ka 0.2 0.2 0.2
+Kd 0.1 0.1 0.2
+map_Kd textures/fabric1.rgb
+
+newmtl shoe1R
+Ka 0.2 0.2 0.2
+Kd 0.1 0.1 0.1
+
+newmtl shoe2R
+Ka 0.2 0.2 0.2
+Kd 1 1 1
+
+newmtl shoe3R
+Ka 0.2 0.2 0.2
+Kd 0.3 0.2 0.1
+
+newmtl shoe4R
+Ka 0.2 0.2 0.2
+Kd 0.2 0.2 0.2
+
+newmtl lowlegR
+Ka 0.2 0.2 0.2
+Kd 0.1 0.1 0.1
+
+newmtl uplegR
+Ka 0.2 0.2 0.2
+Kd 0.1 0.1 0.1
+
+newmtl pelvis
+Ka 0.2 0.2 0.2
+Kd 0.1 0.1 0.1
+
+newmtl lowarmR
+Ka 0.2 0.2 0.2
+Kd 0.1 0.1 0.2
+map_Kd textures/fabric1.rgb
+
+newmtl sleaveR
+Ka 0.2 0.2 0.2
+Kd 1 1 1
+
+newmtl handR
+Ka 0.2 0.2 0.2
+Kd 0.9 0.5 0.4
+
+newmtl coat
+Ka 0.2 0.2 0.2
+Kd 0.1 0.1 0.2
+map_Kd textures/fabric1.rgb
+
+newmtl shirt
+Ka 0.2 0.2 0.2
+Kd 1 1 1
+
+newmtl tie
+Ka 0.2 0.2 0.2
+Kd 0.5 0 0
+map_Kd textures/fantasy.rgb
+
+newmtl buttons
+Ka 0.2 0.2 0.2
+Kd 0.4 0.4 0.4
+map_Kd textures/brass.rgb
+
+newmtl uparmR
+Ka 0.2 0.2 0.2
+Kd 0.1 0.1 0.2
+map_Kd textures/fabric1.rgb
+
+newmtl hat
+Ka 0.2 0.2 0.2
+Kd 0.2 0.2 0.2
+
+newmtl band
+Ka 0.2 0.2 0.2
+Kd 0.1 0.1 0.3
+map_Kd textures/fantasy.rgb
+
+newmtl face
+Ka 0.2 0.2 0.2
+Kd 0.9 0.5 0.4
+
+newmtl hair
+Ka 0.2 0.2 0.2
+Kd 0.3 0.2 0.1
+
+newmtl irisR
+Ka 0.2 0.2 0.2
+Kd 0.2 0.2 0.4
+
+newmtl eyewhiteR
+Ka 0.2 0.2 0.2
+Kd 1 1 1
+
+newmtl pupilR
+Ka 0.2 0.2 0.2
+Kd 0 0 0
+
+newmtl irisL
+Ka 0.2 0.2 0.2
+Kd 0.2 0.2 0.4
+
+newmtl eyewhiteL
+Ka 0.2 0.2 0.2
+Kd 1 1 1
+
+newmtl pupilL
+Ka 0.2 0.2 0.2
+Kd 0 0 0

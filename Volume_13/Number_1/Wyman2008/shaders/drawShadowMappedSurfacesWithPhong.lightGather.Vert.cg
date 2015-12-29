@@ -1,0 +1,57 @@
+
+struct appin
+{
+	float4 iPosition          : POSITION;
+	float4 iNormal            : NORMAL;
+	float4 shadMapTexCoord    : TEXCOORD0;
+};
+
+struct vertout
+{
+	float4 oPosition		  : POSITION;
+	float4 shadMapTexCoord    : TEXCOORD0;
+	float4 eyeSpaceNormal     : TEXCOORD4;
+	float4 lightDir	  		  : TEXCOORD1;
+	float4 eyePos             : TEXCOORD5;
+};
+
+
+vertout main( appin IN,
+              uniform float4x4 mv   : state.matrix.modelview,
+              uniform float4x4 mvInvTrans : state.matrix.modelview.invtrans,
+              uniform float4x4 mvInv : state.matrix.modelview.inverse,
+			  uniform float4x4 mvp  : state.matrix.mvp,
+			  uniform float4x4 tex0  : state.matrix.texture[0],
+			  uniform float4x4 tex0InvTrans : state.matrix.texture[0].invtrans,
+			  uniform float4 texGenS : state.texgen[0].eye.s.xyzw,  // otherwise Cg treats '.s' as a swizzle!! 
+			  uniform float4 texGenT : state.texgen[0].eye.t.xyzw,
+			  uniform float4 texGenR : state.texgen[0].eye.r.xyzw,
+			  uniform float4 texGenQ : state.texgen[0].eye.q.xyzw,
+			  uniform float4 lightPos )
+{
+	vertout OUT;
+	float4 mvPos, lightSpacePos;
+
+	OUT.oPosition = mul( mvp, IN.iPosition );
+
+	mvPos = mul( mv, IN.iPosition );
+	OUT.shadMapTexCoord.x = dot( texGenS, mvPos );
+	OUT.shadMapTexCoord.y = dot( texGenT, mvPos );
+	OUT.shadMapTexCoord.z = dot( texGenR, mvPos );
+	OUT.shadMapTexCoord.w = dot( texGenQ, mvPos );	
+	
+	OUT.eyeSpaceNormal = mul( mvInvTrans, IN.iNormal );
+	
+	// Compute vertex location in eye coordinates.  This also serves
+	//   as the view vector, if normalized.  We need both, so we store
+	//   two values here.
+    float4 eyeTmp = mvPos / mvPos.w;
+	OUT.eyePos = eyeTmp; 
+	
+	// Direction from this vertex to the light
+	float3 lightTmp = lightPos.xyz-eyeTmp.xyz;
+	OUT.lightDir.xyz = normalize(lightTmp);
+	OUT.lightDir.w = 0;
+		
+	return OUT;
+}

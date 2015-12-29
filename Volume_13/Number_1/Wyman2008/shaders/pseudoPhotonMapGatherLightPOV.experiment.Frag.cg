@@ -1,0 +1,57 @@
+////////////////////////////////////////////////////////////////////////
+// Pixel shader code for the light-space photon gather                //
+//                                                                    //
+// "Interactive Image-Space Techniques for Approximating Caustics"    //
+//    Chris Wyman & Scott Davis, The University of Iowa               //
+// (September 27th, 2005)                                             //
+////////////////////////////////////////////////////////////////////////
+
+struct vertout
+{
+	float4 oPosition		  : POSITION;
+	float4 wPosition          : WPOS;
+};
+
+
+void main( vertout IN,
+           uniform sampler2D causticMap	          : TEXUNIT0,
+           uniform sampler1D offsetTex            : TEXUNIT3,
+		   uniform float texDelta,		
+		   uniform float farDistance,   
+		   uniform float resolutionMultiplier, // depending on resolution caustic coef might need scaling
+		   out float4 oColor: COLOR )
+{
+    float4 photonCount=float4(0,0,0,0);
+	float2 texCoord = IN.wPosition.xy * texDelta;
+	float4 origPos, maxPos, minPos, tmpPos;
+	float dist = -1, distToLightSqr;
+	float area;
+	float2 tmp;
+	float4 lightSpaceCoord;
+	float4 objectColor;
+	float4 incident=float4(0,0,0,0);
+	
+	/*
+	// The technique using LS coord at every pixel, not just photon locations
+	float4 currVal;
+	float distSqrToHitPos = 0.00001, tmpDist;
+	
+	// Over the 7x7 nearby neighborhood
+	for (float i = 0; i < 49; i++)
+	//for (float i = 0; i < 25; i++)
+	{
+	    float useCurrent;
+	    float4 offset = tex1D( offsetTex, i/128.0 );
+		currVal = tex2D( causticMap, texCoord.xy + (255.0*offset.xy - 128.0)*texDelta );
+		photonCount.x = photonCount.x + offset.w*currVal.a*255;  // sum the photon counts
+		if (dot(incident.xyz,incident.xyz)<0.001)                // find the best (closest to central pixel)
+			incident.xyz = currVal.xyz;                          //    incident photon direction
+	}
+	 
+	// Write the photon count & incident direction to the buffers.
+	oColor.xyzw = resolutionMultiplier * photonCount.x;
+	*/
+	
+	oColor.xyzw = resolutionMultiplier * tex2D( causticMap, texCoord.xy ).a * 255;
+}
+

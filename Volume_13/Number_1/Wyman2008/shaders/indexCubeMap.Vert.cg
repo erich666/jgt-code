@@ -1,0 +1,38 @@
+struct appin
+{
+	float4 iPosition          : POSITION;
+};
+
+struct vertout
+{
+	float4 oPosition		  : POSITION;
+	float4 oTexCoord          : TEXCOORD0;
+};
+
+
+vertout main( appin IN,
+              uniform float4x4 mv   : state.matrix.modelview,
+			  uniform float4x4 mvp  : state.matrix.mvp,
+			  uniform float4x4 prog0inv : state.matrix.program[0].inverse,
+			  uniform float4x4 prog1 : state.matrix.program[1] )
+{
+	vertout OUT;
+	
+	// Find the direction to the vertex (in eye-space)
+	float4 eyePos = mul( mv, IN.iPosition );
+	float4 dirToVertex;
+	dirToVertex.xyz = normalize( eyePos.xyz / eyePos.w );
+	dirToVertex.w = 0;
+	
+	// Convert eye to world space (using the program matrix #0)
+	float4 worldDir2Vertex = mul( prog0inv, dirToVertex );
+	
+	// Rotate by the environment map matrix (from program matrix #1)
+	float4 cubeMapTexCoord = mul( prog1, worldDir2Vertex );
+	OUT.oTexCoord = cubeMapTexCoord;
+	
+	// Compute the clip-space vertex position
+	OUT.oPosition = mul( mvp, IN.iPosition );
+
+	return OUT;
+}

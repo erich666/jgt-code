@@ -1,0 +1,134 @@
+/*****************************************************************************/
+/*								             */
+/*	Copyright (c) 2005	Allen R. Sanderson		             */
+/*								             */
+/*				Scientific Computing and Imaging Institute   */
+/*				University of Utah		             */
+/*				Salt Lake City, Utah		             */
+/*								             */
+/*            							             */
+/*  Permission is granted to modify and/or distribute this program so long   */
+/*  as the program is distributed free of charge and this header is retained */
+/*  as part of the program.                                                  */
+/*								             */
+/*****************************************************************************/
+
+// BRUSSELATOR EXPLICIT SOLUTION
+
+void main(float2 texCoord0 : TEXCOORD0, 
+          float2 texCoord1 : TEXCOORD1,
+          float2 texCoord2 : TEXCOORD2,
+
+	  uniform float4 diffRates,
+	  uniform float mixingRate,
+
+          uniform samplerRECT morphigens,
+          uniform samplerRECT reactionConsts,
+          uniform samplerRECT diffusionConsts,
+          uniform samplerRECT diffusion2Consts,
+
+          out float4 oColor : COLOR)
+{
+  float4 c = f4texRECT( morphigens, texCoord1.xy );
+  
+  oColor = c;
+
+  float4 reaction = f4texRECT( reactionConsts, texCoord1.xy );
+
+  if( reaction.a > 0.0 ) {
+    // get the color(u and v values)
+    float4 tl = f4texRECT( morphigens, texCoord0.xy );
+    float4 t  = f4texRECT( morphigens, float2(texCoord1.x, texCoord0.y) );
+    float4 tr = f4texRECT( morphigens, float2(texCoord2.x, texCoord0.y) );
+
+    float4 l  = f4texRECT( morphigens, float2(texCoord0.x, texCoord1.y) );
+    float4 r  = f4texRECT( morphigens, float2(texCoord2.x, texCoord1.y) );
+
+    float4 bl = f4texRECT( morphigens, float2(texCoord0.x, texCoord2.y) );
+    float4 b  = f4texRECT( morphigens, float2(texCoord1.x, texCoord2.y) );
+    float4 br = f4texRECT( morphigens, texCoord2.xy );
+
+
+    // get the diffusion tensors 
+//  float4 tl_dt = f4texRECT( diffusionConsts, float2(texCoord0.x, texCoord0.y );
+    float4 t_dt  = f4texRECT( diffusionConsts, float2(texCoord1.x, texCoord0.y) );
+//  float4 tr_dt = f4texRECT( diffusionConsts, float2(texCoord2.x, texCoord0.y) );
+
+    float4 l_dt = f4texRECT( diffusionConsts, float2(texCoord0.x, texCoord1.y) );
+    float4 c_dt = f4texRECT( diffusionConsts, float2(texCoord1.x, texCoord1.y) );
+    float4 r_dt = f4texRECT( diffusionConsts, float2(texCoord2.x, texCoord1.y) );
+
+//  float4 bl_dt = f4texRECT( diffusionConsts, float2(texCoord0.x, texCoord2.y) );
+    float4 b_dt  = f4texRECT( diffusionConsts, float2(texCoord1.x, texCoord2.y) );
+//  float4 br_dt = f4texRECT( diffusionConsts, float2(texCoord2.x, texCoord2.y) );
+
+
+    // get the diffusion tensors 2
+//  float4 tl_dt2 = f4texRECT( diffusion2Consts, float2(texCoord0.x, texCoord0.y );
+    float4 t_dt2  = f4texRECT( diffusion2Consts, float2(texCoord1.x, texCoord0.y) );
+//  float4 tr_dt2 = f4texRECT( diffusion2Consts, float2(texCoord2.x, texCoord0.y) );
+
+    float4 l_dt2 = f4texRECT( diffusion2Consts, float2(texCoord0.x, texCoord1.y) );
+    float4 c_dt2 = f4texRECT( diffusion2Consts, float2(texCoord1.x, texCoord1.y) );
+    float4 r_dt2 = f4texRECT( diffusion2Consts, float2(texCoord2.x, texCoord1.y) );
+
+//  float4 bl_dt2 = f4texRECT( diffusion2Consts, float2(texCoord0.x, texCoord2.y) );
+    float4 b_dt2  = f4texRECT( diffusion2Consts, float2(texCoord1.x, texCoord2.y) );
+//  float4 br_dt2 = f4texRECT( diffusion2Consts, float2(texCoord2.x, texCoord2.y) );
+
+    // solve for the reaction
+
+    // Sweetlips with brusselator.
+//    float4 reaction_rate = float4(reaction.a, reaction.a, 0.0015, 0.0015 );
+
+    float4 nonlinear = c.rrbb * c.rrbb * c.ggaa * float4(1.0, -1.0, 1.0, -1.0);
+
+    float4 linear = c.rrbb * float4( -(1.0+reaction.g), reaction.g,
+ 				     -(1.0+reaction.g), reaction.g);
+
+    float4 konst = float4(reaction.r, 0.0, reaction.r, 0.0);
+    
+     oColor += reaction.a * (nonlinear + linear + konst);
+    // Sweetlips with brusselator.
+//     oColor += reaction_rate * (nonlinear + linear + konst);
+    
+    // Solve for the mixing
+    if( mixingRate != 0 )
+       oColor += reaction.a * mixingRate * (c.baba - c.rgrg);
+    // Sweetlips with brusselator.
+//     oColor += reaction_rate * mixingRate * (-c.baba + c.rgrg);
+
+    // solve for the diffusion
+    oColor.rg +=
+      diffRates.rg * ( ( (r_dt.r + c_dt.r) * (r - c).rg +
+			 (l_dt.r + c_dt.r) * (l - c).rg +
+			 (t_dt.a + c_dt.a) * (t - c).rg +
+			 (b_dt.a + c_dt.a) * (b - c).rg ) +
+		       
+		       ( (r_dt.g * (tr - br).rg -
+			  l_dt.g * (tl - bl).rg )+
+			 (t_dt.b * (tr - tl).rg -
+			  b_dt.b * (br - bl).rg ) ) );
+
+    oColor.ba +=
+      diffRates.ba * ( ( (r_dt2.r + c_dt2.r) * (r - c).ba +
+			 (l_dt2.r + c_dt2.r) * (l - c).ba +
+			 (t_dt2.a + c_dt2.a) * (t - c).ba +
+			 (b_dt2.a + c_dt2.a) * (b - c).ba ) +
+		       
+		       ( ( r_dt2.g * (tr - br).ba -
+			   l_dt2.g * (tl - bl).ba ) +
+			 ( t_dt2.b * (tr - tl).ba -
+			   b_dt2.b * (br - bl).ba ) ) ); 
+
+    if ( oColor.r < 0.0f ) oColor.r = 0.0f;
+    if ( oColor.g < 0.0f ) oColor.g = 0.0f;
+    if ( oColor.b < 0.0f ) oColor.b = 0.0f;
+    if ( oColor.a < 0.0f ) oColor.a = 0.0f;
+
+    // Sweetlips with brusselator.
+//     if( texCoord1.y < 1.0 || (128.0 < texCoord1.y && texCoord1.y < 129.0) ) {
+//       oColor.ba = c.ba;
+//    }
+  }
+}

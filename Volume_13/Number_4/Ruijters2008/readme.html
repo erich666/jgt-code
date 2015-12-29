@@ -1,0 +1,137 @@
+<html>
+<head>
+<title>CUDA Cubic B-Spline Interpolation (CI) read me</title>
+</head>
+<body>
+
+
+
+<h1>CUDA Cubic B-Spline Interpolation (CI)</h1>
+<h2>Version 0.4</h2>
+
+<p>
+This <i>read me</i> serves as a quick guide to using the CUDA Cubic B-Spline Interpolation (abbreviated as CI) code.
+The most recent version of CI and some background information can be found <a href="http://www.dannyruijters.nl/cubicinterpolation/">online</a>.
+To execute and compile CI you need <a href="http://www.nvidia.com/object/cuda_get.html">CUDA 2.x and the CUDA SDK 2.x.</a>
+
+This software has been released under a revised BSD style <a href="license.txt">license</a>.
+</p>
+
+
+
+<h2>Getting started</h2>
+
+<p>
+If you want to simply replace linear interpolation by cubic interpolation, then all you need to do is to include the appropriate header and replace your <tt>tex2D</tt> and <tt>tex3D</tt> calls by one of the following:
+</p>
+
+<p>
+2D texture coordinates:<br>
+<tt>interpolate_bicubic_fast(texture tex, float x, float y)</tt>
+</p>
+
+<p>
+3D texture coordinates:<tr><br>
+<tt>interpolate_tricubic_fast(texture tex, float3 coord)</tt>
+</p>
+
+Whereby the texture coordinates <tt>coord</tt> are expressed in absolute pixel respectively voxel coordinates (thus not in normalized coordinates).
+
+
+
+<h2>Pre-filtering</h2>
+
+<p>
+When the approach described above is directly applied, it will result in smoothened images. This is caused by the fact that the cubic B-spline interpolation yields a function that does not pass through its coefficients (i.e. texture values). In order to wind up with a cubic B-spline interpolated image that passes through the original samples, we need to pre-filter the texture, as is beautifully described by <a href="http://bigwww.epfl.ch/thevenaz/interpolation/">Philippe Th&eacute;venaz <i>et al.</i></a>
+</p>
+
+<p>
+Luckily, CI also provides a CUDA implementation of this filter, and using it is rather simple. The interface for the 2D case is:<br>
+<tt>CubicBSplinePrefilter2D(float* image, uint width, uint height);</tt>
+</p>
+
+<p>
+and for the 3D case:<br>
+<tt>CubicBSplinePrefilter3D(float* volume, uint width, uint height, uint depth);</tt>
+</p>
+
+<p>
+Note that <tt>image</tt> and <tt>volume</tt> should point to a contineous chunk of GPU memory, and that the sample values will be replaced by the cubic B-spline coefficients.
+</p>
+
+
+
+<h2>Getting your data there</h2>
+
+<p>
+In order to make your even easier, CI also provides some routines to transfer your data to the GPU memory, and back. Copying your sample values to the GPU memory can be accomplished by this function:<br>
+<tt>float* CopyVolumeHostToDevice(const float* host, uint width, uint height, uint depth);</tt><br>
+</p>
+
+<p>
+The routine allocates GPU memory and copies the sample values from CPU to GPU memory. The pointer to the CPU memory is passed as <tt>host</tt>, and a pointer to the GPU memory is returned. The counterpart that copies data from the GPU memory to the CPU memory is called:<br>
+<tt>void CopyVolumeDeviceToHost(float* host, float* device, uint width, uint height, uint depth);</tt>
+</p>
+
+<p>
+Note that the <tt>host</tt> destination CPU memory should be allocated before <tt>CopyVolumeDeviceToHost</tt> is called. This routine will also free the GPU memory.
+</p>
+
+<p>
+Often you will have your original data in a different format than <tt>float</tt>, and for large data sets it costs some time (and memory) to cast everything to <tt>float</tt>. Therefore CI also provides a number of functions that copy and cast your data immediately to <tt>float</tt> on the GPU, which is faster and easier. In C++ you can use the following template function:<br>
+
+<tt>template<class T> extern float* CastVolumeHostToDevice(const T* host, uint width, uint height, uint depth);</tt>
+</p>
+
+<p>
+The usage of the parameters is the same as for <tt>CopyVolumeHostToDevice</tt>, except that <tt>host</tt> can be of the type <tt>uchar</tt>, <tt>schar</tt>, <tt>ushort</tt> or <tt>short</tt>. Note that the sample values will be normalized, meaning that the maximum value (e.g. 255 for <tt>uchar</tt>) will be mapped to 1.0.
+
+Users of procedural programming languages, like C, can use one of the following functions:
+<tt><ul>
+<li>float* CastUCharVolumeHostToDevice(uchar* host, uint width, uint height, uint depth);
+<li>float* CastCharVolumeHostToDevice(schar* host, uint width, uint height, uint depth);
+<li>float* CastUShortVolumeHostToDevice(ushort* host, uint width, uint height, uint depth);
+<li>float* CastShortVolumeHostToDevice(short* host, uint width, uint height, uint depth);
+</ul></tt>
+
+</p>
+
+
+
+<h2>Background</h2>
+
+<p>
+More background information to the CI code is provided
+<a href="http://www.dannyruijters.nl/cubicinterpolation/">online</a>.
+
+A comprehensive discussion of uniform B-spline interpolation and the pre-filter can be found in [1].
+The fast cubic B-spline interpolation is an adapted version of the method introduced by Sigg and Hadwiger [2].
+A description of the adapted algorithm, its merits and its drawbacks is given in [3].
+</p>
+
+<p>
+<ol>
+<li> Philippe Th&eacute;venaz, Thierry Blu, and Michael Unser,
+"<a href="http://bigwww.epfl.ch/publications/thevenaz0002.pdf">Interpolation Revisited</a>,"
+IEEE Transactions on Medical Imaging, vol. 19, no. 7, pp. 739-758, July 2000.<p>
+
+<li> Christian Sigg and Markus Hadwiger,
+"<a href="http://developer.download.nvidia.com/SDK/9.5/Samples/DEMOS/OpenGL/src/fast_third_order/docs/Gems2_ch20_SDK.pdf">
+Fast Third-Order Texture Filtering</a>," In GPU Gems 2: Programming Techniques for High-Performance Graphics and General-Purpose Computation, Matt Pharr (ed.), Addison-Wesley; chapter 20, pp. 313-329, 2005.<p>
+
+<li> Daniel Ruijters, Bart M. ter Haar Romeny, and Paul Suetens,
+"<a href="http://www.dannyruijters.nl/docs/GPU_AccuracyBSpline.pdf">
+Accuracy of GPU-based B-Spline Evaluation</a>,"
+In Proc. Tenth IASTED International Conference on Computer Graphics and Imaging (CGIM), Innsbruck, Austria, pp. 117-122, February 13-15, 2008.
+</ol>
+</p>
+
+
+<p>
+Copyright 2008-2009 Danny Ruijters
+</p>
+
+
+
+</body>
+</html>

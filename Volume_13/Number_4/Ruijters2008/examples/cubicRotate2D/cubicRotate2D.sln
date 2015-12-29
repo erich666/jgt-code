@@ -1,0 +1,38 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 9.00
+# Visual Studio 2005
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "cubicRotate2D", "cubicRotate2D.vcproj", "{B7DBD1CA-BABB-4F4A-8C68-AE4E53F6C5B0}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Debug|x64 = Debug|x64
+		EmuDebug|Win32 = EmuDebug|Win32
+		EmuDebug|x64 = EmuDebug|x64
+		EmuRelease|Win32 = EmuRelease|Win32
+		EmuRelease|x64 = EmuRelease|x64
+		Release|Win32 = Release|Win32
+		Release|x64 = Release|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B7DBD1CA-BABB-4F4A-8C68-AE4E53F6C5B0}.Debug|Win32.ActiveCfg = Debug|Win32
+		{B7DBD1CA-BABB-4F4A-8C68-AE4E53F6C5B0}.Debug|Win32.Build.0 = Debug|Win32
+		{B7DBD1CA-BABB-4F4A-8C68-AE4E53F6C5B0}.Debug|x64.ActiveCfg = Debug|x64
+		{B7DBD1CA-BABB-4F4A-8C68-AE4E53F6C5B0}.Debug|x64.Build.0 = Debug|x64
+		{B7DBD1CA-BABB-4F4A-8C68-AE4E53F6C5B0}.EmuDebug|Win32.ActiveCfg = EmuDebug|Win32
+		{B7DBD1CA-BABB-4F4A-8C68-AE4E53F6C5B0}.EmuDebug|Win32.Build.0 = EmuDebug|Win32
+		{B7DBD1CA-BABB-4F4A-8C68-AE4E53F6C5B0}.EmuDebug|x64.ActiveCfg = EmuDebug|x64
+		{B7DBD1CA-BABB-4F4A-8C68-AE4E53F6C5B0}.EmuDebug|x64.Build.0 = EmuDebug|x64
+		{B7DBD1CA-BABB-4F4A-8C68-AE4E53F6C5B0}.EmuRelease|Win32.ActiveCfg = EmuRelease|Win32
+		{B7DBD1CA-BABB-4F4A-8C68-AE4E53F6C5B0}.EmuRelease|Win32.Build.0 = EmuRelease|Win32
+		{B7DBD1CA-BABB-4F4A-8C68-AE4E53F6C5B0}.EmuRelease|x64.ActiveCfg = EmuRelease|x64
+		{B7DBD1CA-BABB-4F4A-8C68-AE4E53F6C5B0}.EmuRelease|x64.Build.0 = EmuRelease|x64
+		{B7DBD1CA-BABB-4F4A-8C68-AE4E53F6C5B0}.Release|Win32.ActiveCfg = Release|Win32
+		{B7DBD1CA-BABB-4F4A-8C68-AE4E53F6C5B0}.Release|Win32.Build.0 = Release|Win32
+		{B7DBD1CA-BABB-4F4A-8C68-AE4E53F6C5B0}.Release|x64.ActiveCfg = Release|x64
+		{B7DBD1CA-BABB-4F4A-8C68-AE4E53F6C5B0}.Release|x64.Build.0 = Release|x64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,71 @@
+// Melissa - Multi-Layer Soft Shadows
+// Copyright (C) 2007, Louis Bavoil
+//
+// This software is licensed under the BSD open-source license. See
+// http://www.opensource.org/licenses/bsd-license.php for more detail.
+//
+// Redistribution and use in source and binary forms, with or
+// without modification, are permitted provided that the following
+// conditions are met:
+//
+// Redistributions of source code must retain the above copyright notice,
+// this list of conditions and the following disclaimer.
+//
+// Redistributions in binary form must reproduce the above copyright notice,
+// this list of conditions and the following disclaimer in the documentation
+// and/or other materials provided with the distribution.
+//
+// Neither the name of the University of Utah nor the names of
+// the contributors may be used to endorse or promote products derived
+// from this software without specific prior written permission.
+//
+// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+// "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+// LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
+// FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL
+// THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT,
+// INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+// DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE
+// GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+// INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+// WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+// (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF
+// THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY
+// OF SUCH DAMAGE.
+
+#include "config.h"
+
+//-----------------------------------------------------------------------
+struct v2f
+{
+	float4 Position		: POSITION;
+	float4 Color		: COLOR0;
+	float4 WorldPosition    : TEXCOORD0;
+	float3 Normal		: TEXCOORD1;
+};
+
+//-----------------------------------------------------------------------
+struct f2p
+{
+	float4 Position		: COLOR0;
+	float4 Color		: COLOR1;
+};
+
+//-----------------------------------------------------------------------
+f2p main(v2f IN,
+	uniform float3 LightPosition)
+{	
+	f2p OUT;
+
+	OUT.Position = float4(IN.WorldPosition.xyz, 1);
+	// OUT.Color1 *= kd * IN.Color;
+	OUT.Color = 1;
+
+#ifdef DIFFUSE_COLOR
+	float3 LP = LightPosition.xyz - IN.WorldPosition.xyz;
+	float cosThetaLight = dot(IN.Normal, normalize(LP));
+	OUT.Color *= cosThetaLight;
+#endif
+
+	return OUT;
+}

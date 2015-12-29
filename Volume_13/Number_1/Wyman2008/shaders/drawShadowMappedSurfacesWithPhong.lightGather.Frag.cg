@@ -1,0 +1,70 @@
+
+struct vertout
+{
+	float4 oPosition		  : POSITION;
+	float4 wPosition          : WPOS;
+	float4 shadMapTexCoord    : TEXCOORD0;
+	float4 eyeSpaceNormal     : TEXCOORD4;
+	float4 lightDir	  		  : TEXCOORD1;
+	float4 eyePos             : TEXCOORD5;
+};
+
+void main( vertout IN,
+           uniform sampler2D shadowMap 	         : TEXUNIT0,
+           uniform sampler2D lsCausticMap        : TEXUNIT2,
+           uniform sampler2D lsBackgroundDepth : TEXUNIT3,
+           uniform float temporalFilterFactor,
+		   uniform float4 temporalChannelUse,
+		   uniform float4 ambientMaterial    : state.material.ambient,
+		   uniform float4 diffuseMaterial    : state.material.diffuse,
+		   uniform float4 specularMaterial   : state.material.specular,
+		   uniform float shininess           : state.material.shininess,
+		   uniform float4x4 prog0it          : state.matrix.program[0].invtrans,
+		   uniform float usePhotonDirection,
+		   out float4 oColor0: COLOR )
+{
+	// Phong Computations	 
+	float3 esNormalVec = normalize(IN.eyeSpaceNormal.xyz);
+    float3 eyeVec = normalize(IN.eyePos.xyz);
+	 
+	// Figure out Shadow Map contribution
+	float shadMapTest = tex2Dproj( shadowMap, IN.shadMapTexCoord.xyw ).a;
+	
+	// Indext into caustic texture
+	float4 caustic = tex2D( lsCausticMap, IN.shadMapTexCoord.xy / IN.shadMapTexCoord.w );
+	
+	// Index into the background depth buffer to determine if this point is shaded.
+	float bgShadow = tex2D( lsBackgroundDepth, IN.shadMapTexCoord.xy / IN.shadMapTexCoord.w ).r;
+	caustic = (bgShadow > IN.shadMapTexCoord.z / IN.shadMapTexCoord.w ? 1 : 0 ) * caustic;
+	
+	// Add a predefined 0.2 ambient term with the (if any) caustic contribution
+	float shadowed = (shadMapTest < 1 ? 0.2 : 1.2 ) + temporalFilterFactor * dot( caustic, temporalChannelUse );
+	
+	// Determine if we'll use the photon direction or the light direction for Phong Computation.
+	float3 halfVec, photonLight;
+    float4 diffuse, specular;
+    
+    // This first bit is right...  the second bit doesn't work so well.... 
+    //    using (UsePhotonDirection == 1) (instead of 0) gives reasonable approx while fixing this
+    if ((usePhotonDirection == 1) || shadMapTest == 1)
+    {
+		halfVec = normalize( IN.lightDir.xyz - eyeVec.xyz );
+		diffuse = max( dot(esNormalVec, IN.lightDir.xyz), 0.0 ) * diffuseMaterial;
+		specular = pow(max( dot(esNormalVec, halfVec), 0.0 ), shininess) * specularMaterial;
+	}
+	//else
+	//{
+	//	photonLight = mul(prog0it, incident).xyz;
+	//    halfVec = normalize( photonLight - eyeVec.xyz );
+	//	diffuse = max( dot(esNormalVec, photonLight), 0.0 ) * diffuseMaterial;
+	//	specular = pow(max( dot(esNormalVec, halfVec), 0.0 ), shininess) * specularMaterial;
+	//}
+	
+    // 1.5 factor is due to a light of brightness 1.5...  this should really check OpenGL.
+    //     Except we're not using it, we're 'compensating' by making the material darker -- again, should see OGL.
+	oColor0 = ( ambientMaterial + (diffuse + specular)*shadowed );	
+    
+	//oColor0 = bgDepth;
+	oColor0.w = 1;
+}
+

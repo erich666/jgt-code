@@ -1,0 +1,41 @@
+template<class Coord>
+inline R4MatrixTC<Coord> R4MatrixTC<Coord>::Log( ) const
+{
+   R4MatrixTC<Coord> A = (*this);           // call it A to be like Alexa's pseudocode
+   R4MatrixTC<Coord> I; I.MakeIdentity();   // identity matrix
+   //A.PrintMatlab();
+
+   int k = 0;
+   int n1 = 30;
+   double eps1 = 0.0001;
+   while ((A-I).NormF() > eps1 /*&& k < in_n*/ ) {
+      double error = (A-I).NormF();
+      A = A.Sqrt();
+      k++;
+
+      if (k > n1) {
+         printf("log: repeated square roots failed to converge after %d iterations\n", n1);
+         break;
+      }
+   }
+
+   A = A - I;
+   R4MatrixTC<Coord> Z = A;
+   R4MatrixTC<Coord> X = A;
+   Coord i = 1.0;
+   double eps2 = 0.000000001;
+   int n2 = 7;
+
+   while ( Z.NormF() > eps2 ) {
+      Z = Z*A;
+      i++;
+      X = X + Z/i;
+      if (i > n2) { 
+         printf("log: failed to converge after %d iterations\n", n2);
+         break;
+      }
+   }
+
+   X = (Coord)pow(2.0,k)*X;
+   return X;
+}

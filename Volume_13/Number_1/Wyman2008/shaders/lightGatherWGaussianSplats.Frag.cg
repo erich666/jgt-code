@@ -1,0 +1,55 @@
+
+struct vertout
+{
+	float4 oPosition		  : POSITION;
+	float4 wPosition          : WPOS;
+	float4 splatTexCoords     : TEXCOORD0;
+	float4 isValidPhoton      : TEXCOORD2;
+	float4 pointSize          : TEXCOORD3;
+	float4 pointNDCCoord      : TEXCOORD4;
+	float4 variablePointSize  : TEXCOORD7;
+};
+
+void main( vertout IN,
+           uniform sampler2D bgNormal 	  : TEXUNIT0,
+           uniform float causticMapRes,
+		   uniform float photonResolutionMultiplier,
+		   out float4 oColor0: COLOR0,
+		   out float4 oColor1: COLOR1,
+		   out float4 oDepth: DEPTH )
+{
+    //float4 splatSizes = { 3.0, 7.0, 11.0, 15.0 };
+    float4 splatSizes = { 2.5, 6.5, 10.5, 14.5 };
+	float4 isInsideGaussian = { 0, 0, 0, 0 };
+
+	if (IN.variablePointSize.x < 0) 
+		discard; 
+		
+    if (IN.isValidPhoton.x < 0) 
+		discard;
+ 
+	// We need to compute how far this fragment is from the center of the point.  We could do
+	//    this using point sprites, but the __final__ framerate is 10x faster this way.
+	float2 fragLocation = IN.wPosition.xy;
+	float2 pointLocation = (IN.pointNDCCoord.xy * 0.5 + 0.5) * causticMapRes;
+    
+    // Gaussian from Graphics Gems I, "Convenient anti-aliaseing filters that minimize bumpy sampling"
+    float alpha = 0.918;
+    float beta_x2 = 3.906;     // == beta*2 == 1.953 * 2; 
+    float denom = 0.858152111; // == 1 - exp(-beta);
+    
+    float distSqrToSplatCtr = dot(fragLocation - pointLocation, fragLocation - pointLocation);
+    
+    // new approach using a single point size, specified in the shader.
+    float4 exponents = -beta_x2*distSqrToSplatCtr/(IN.variablePointSize*IN.variablePointSize);
+    float4 expResults;
+    expResults = exp( exponents.x );
+    
+    isInsideGaussian = (distSqrToSplatCtr/(IN.variablePointSize*IN.variablePointSize)) < 0.25  ? float4(1,1,1,1) : float4(0,0,0,0) ;
+	float4 normalizeFactor = 10.5 * ( IN.variablePointSize*IN.variablePointSize ) / 25;
+    
+    expResults = alpha + alpha*((expResults-1)/denom);
+    oColor0 = photonResolutionMultiplier * isInsideGaussian * expResults / normalizeFactor;
+    oColor1 = isInsideGaussian*(1/2047.0);
+}
+

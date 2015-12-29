@@ -1,0 +1,76 @@
+/*
+ ***************************************************************************
+ *                                                                         *
+ * GPU RAINFALL                                                            *
+ * Pierre Rousseau, Vincent Jolivet and Djamchid Ghazanfarpour             *
+ * Institut XLIM, UMR CNRS 6172, Limoges, France                           *
+ *                                                                         *
+ ***************************************************************************
+ *                                                                         *
+ * Vertex program which draws the collision texture                        *
+ *                                                                         *
+ ***************************************************************************
+ *                                                                         *
+ * Copyright 2008, Pierre Rousseau (pierre.rousseau@xlim.fr)               *
+ *                                                                         *
+ * This program is free software; you can redistribute it and/or           *
+ * modify it under the terms of the GNU General Public License as          *
+ * published by the Free Software Foundation; either version 2 of          *
+ * the License, or (at your option) any later version.                     *
+ *                                                                         *
+ * This program is distributed in the hope that it will be useful,         *
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of          *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the           *
+ * GNU General Public License for more details.                            *
+ *                                                                         *
+ * You should have received a copy of the GNU General Public License       *
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.   *
+ *                                                                         *
+ ***************************************************************************
+*/
+
+//input to the vertex program
+struct vert_in
+{
+    float4 position   : POSITION;
+    float2 texCoords0 : TEXCOORD0;
+    float2 texCoords1 : TEXCOORD1;
+    float4 norm       : NORMAL;
+};
+
+// output of the vertex program, and input to the fragment program
+struct vert2frag
+{
+    float4 position      : POSITION;
+    float2 texCoords0    : TEXCOORD0;
+    float2 texCoords1    : TEXCOORD1;
+    float4 normal_height : TEXCOORD2;
+};
+
+
+vert2frag main(vert_in IN,
+               uniform float4x4 worldviewproj,
+               uniform float4x4 world)
+{
+    vert2frag OUT;
+
+    OUT.position = mul(worldviewproj, IN.position);
+
+
+    // texture coordinates remain unchanged
+    OUT.texCoords0 = IN.texCoords0;
+    OUT.texCoords1 = IN.texCoords1;
+
+    // we have to apply the transform matrix to the object. However, we wan't no translation !
+    float4x4 anti_translate = world;
+    anti_translate[0][3]=0;
+    anti_translate[1][3]=0;
+    anti_translate[2][3]=0;
+    anti_translate[3][3]=0;
+
+    OUT.normal_height.rgb = normalize(mul(anti_translate, IN.norm).xyz);
+    OUT.normal_height.a = mul(world, IN.position).y;
+    
+    
+    return OUT;
+}

@@ -1,0 +1,46 @@
+
+
+struct appin
+{
+	float4 iPosition	: POSITION;
+	float4 iNormal		: NORMAL;
+};
+
+struct vertout
+{
+	float4 oPosition	: POSITION;
+	float4 eyeNorm     	: TEXCOORD1;
+	float4 eyePos		: TEXCOORD2;
+	float4 lightDir		: TEXCOORD3;
+};
+
+
+vertout main( appin IN,
+			  uniform float4x4 mvp  : state.matrix.mvp,
+			  uniform float4x4 mv   : state.matrix.modelview, 
+			  uniform float4x4 mvit : state.matrix.modelview.invtrans,
+			  uniform float4 lightPos )
+{
+	vertout OUT;
+	float4 eyeTmp;
+	
+	// Transform vertex position to clip coordinates
+	OUT.oPosition = mul( mvp, IN.iPosition );
+
+	// Compute vertex location in eye coordinates.  This also serves
+	//   as the view vector, if normalized.  We need both, so we store
+	//   two values here.
+    eyeTmp = mul( mv, IN.iPosition );
+    eyeTmp = eyeTmp / eyeTmp.w;
+	OUT.eyePos = eyeTmp; 
+	
+	OUT.eyeNorm.xyz = mul( mvit, IN.iNormal );
+	OUT.eyeNorm.w = IN.iNormal.w;
+
+	// Direction from this vertex to the light
+	float3 lightTmp = lightPos.xyz-eyeTmp.xyz;
+	OUT.lightDir.xyz = normalize(lightTmp);
+	OUT.lightDir.w = 0;
+
+	return OUT;
+}

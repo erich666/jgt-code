@@ -1,0 +1,26 @@
+template<class Coord>
+inline R4MatrixTC<Coord> R4MatrixTC<Coord>::Sqrt( ) const
+{
+   R4MatrixTC<Coord> A = (*this);          // call it A to be like Alexa's pseudocode
+   R4MatrixTC<Coord> X = (*this);
+   R4MatrixTC<Coord> Y; Y.MakeIdentity();
+
+   WINbool bSuc = FALSE;
+   int i = 0;
+   double eps3 = 0.000001;
+   int n3 = 10;
+
+   while ((X*X - A).NormF() > eps3) {
+      double error = (X*X - A).NormF();
+      R4MatrixTC<Coord> iX = X.Inverse(bSuc);
+      R4MatrixTC<Coord> iY = Y.Inverse(bSuc);
+      X = (X + iY)/(Coord)2.0;
+      Y = (Y + iX)/(Coord)2.0;
+      i++;
+      if (i > n3) { 
+         printf("sqrt: failed to converge, error = %f\n", error);
+         break;
+      }
+   }
+   return X;
+}

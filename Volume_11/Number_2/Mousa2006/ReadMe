@@ -1,0 +1,3 @@
+To compile this package, the following packages are required
+1- gsl GNU scientific library, http://www.gnu.org/software/gsl/
+2- CGAL,  http://www.cgal.org/

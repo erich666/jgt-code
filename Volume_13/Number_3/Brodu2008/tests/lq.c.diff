@@ -1,0 +1,20 @@
+67a68
+> #include <math.h>
+69c70
+< #include "OpenSteer/lq.h"
+---
+> #include "lq.h"
+492,497c493,498
+<     minBinX = (int) ((((x - radius) - lq->originx) / lq->sizex) * lq->divx);
+<     minBinY = (int) ((((y - radius) - lq->originy) / lq->sizey) * lq->divy);
+<     minBinZ = (int) ((((z - radius) - lq->originz) / lq->sizez) * lq->divz);
+<     maxBinX = (int) ((((x + radius) - lq->originx) / lq->sizex) * lq->divx);
+<     maxBinY = (int) ((((y + radius) - lq->originy) / lq->sizey) * lq->divy);
+<     maxBinZ = (int) ((((z + radius) - lq->originz) / lq->sizez) * lq->divz);
+---
+>     minBinX = (int) floorf((((x - radius) - lq->originx) / lq->sizex) * lq->divx);
+>     minBinY = (int) floorf((((y - radius) - lq->originy) / lq->sizey) * lq->divy);
+>     minBinZ = (int) floorf((((z - radius) - lq->originz) / lq->sizez) * lq->divz);
+>     maxBinX = (int) floorf((((x + radius) - lq->originx) / lq->sizex) * lq->divx);
+>     maxBinY = (int) floorf((((y + radius) - lq->originy) / lq->sizey) * lq->divy);
+>     maxBinZ = (int) floorf((((z + radius) - lq->originz) / lq->sizez) * lq->divz);

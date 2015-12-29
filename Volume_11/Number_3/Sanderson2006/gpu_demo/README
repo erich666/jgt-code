@@ -1,0 +1,101 @@
+Allen Sanderson's GPU Version of doing reaction and didfusion. The
+tarball contains the following files:
+
+README
+Main.cpp
+ReactDiffuse.cpp
+ReactDiffuseImplicit.cpp
+ReactDiffuseAux.cpp
+Fbuffer.cc
+initializer.cg
+textureRECT.cg
+turing_explicit.cg
+turing_explicit_uniform.cg
+gray_scott_explicit.cg
+brusselator_explicit.cg
+turing_implicit_rhs.cg
+turing_implicit_relax.cg
+turing_implicit_residuals.cg
+turing_implicit_theta_rhs.cg
+implicit_clamp.cg
+summation.cg
+ReactDiffuse.h
+Fbuffer.h
+gammp.h
+rand.h
+gammp_skeleton.c
+rand_skeleton.c
+
+
+IMPORTANT IMPORTANT IMPORTANT IMPORTANT IMPORTANT IMPORTANT 
+IMPORTANT IMPORTANT IMPORTANT IMPORTANT IMPORTANT IMPORTANT 
+
+This code depends on the following functions from "Numerical Recipies
+in C":
+
+float ran1(long *idum);
+float gasdev(long *idum);
+
+float gammp(float a, float x);
+float gammln(float xx);
+void gser(float *gamser, float a, float x, float *gln);
+void gcf(float *gammcf, float a, float x, float *gln);
+void nrerror(char error_text[]);
+
+The source code for these functions CAN NOT be distributed. I have
+supplied the header files:
+
+rand.h
+gammp.h
+
+Which has the function definitions. I put the C source code into two
+files rand.c and gammp.c You will need to obtain the source code which
+is verbatim from the book and accompanying software. See the two
+skeleton files, rand_skeleton.c and gammp_skeleton.c for a template.
+
+
+You will also need GLEW, GLUT, GLUI, GL libs which can be found on
+their respective web sites (sourceforge). The GL libs should be
+installed as part of the installation of the GPU driver.
+
+
+This code also uses Nvidia's Cg header files and libraries which can
+be found on vNidia's website.
+
+
+When using the makefile it is necessary to set the environment
+variable "OS" to be either "Linux" or "Darwin". FWIW - the variable
+can be set by using the following "setenv OS `uname`"
+
+How to run (AKA Really crappy instructions):
+
+Adjust the parameters and see what you get. Just make sure you press
+"Restart" so that everything is initalized properly.
+
+The default underlying vector field is circular. So if you run it as
+is a circluar tear drop spot pattern will form.
+
+See my paper "Advanced Reaction-Diffusion Models for Texture
+Synthesis" published in the Journal of Graphics Tools, 2006 for more
+information on setting the paramenters.
+
+To see some example patterns from our paper edit the ReactDiffuse.h
+file and change one of the following defines from 0 to 1
+
+#define NORMAL 1
+#define SPOTTED_PUFFER 0
+#define MAP_TOBY_PUFFER 0
+#define PAPUA_TOBY_PUFFER 0
+#define ZEBRA_GOBY 0
+
+For details on the GPU implementation see my paper "A Frameowrk for
+Exploring Numerical Solutions of Advection-Reaction-Diffusion Using a
+GPU-based Approach" submitted to Computing in Visualization and
+Science", 2006.
+
+
+Known bugs - there seems to be problems when switching between models so
+             it is best to quit and restart.
+
+           - The system must be initalized via the "Restart" button
+             before starting.

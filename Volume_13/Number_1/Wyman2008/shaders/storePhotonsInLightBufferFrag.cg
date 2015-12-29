@@ -1,0 +1,32 @@
+
+struct vertout
+{
+	float4 oPosition		  : POSITION;
+	float4 wPosition          : WPOS;
+	float4 photonIncidentDir  : TEXCOORD0;
+	float4 isValidPhoton      : TEXCOORD1;
+	float4 distanceToEye      : TEXCOORD2;
+	float4 LS_Position        : TEXCOORD3;
+};
+
+
+void main( vertout IN,
+           uniform sampler2D bgNormals 	  : TEXUNIT0,
+           uniform float causticResolution,
+		   uniform float bgTexResolution,
+		   uniform float farDistance,
+		   out float4 oColor: COLOR )
+{
+	float4 toLight = -normalize( IN.LS_Position );
+	float4 hitPointNormal = tex2D( bgNormals, IN.wPosition.xy/bgTexResolution );
+
+	// photon isn't valid! (perhaps hit environment map?)
+    if (IN.isValidPhoton.x < 0) 
+		discard;
+	
+	// If we need the light space normal...
+	oColor.rgb = IN.photonIncidentDir.xyz;
+	//oColor.a = dot( hitPointNormal.xyz, IN.photonIncidentDir.xyz) / 255.0;
+	oColor.a = 1.0 / 255.0;
+}
+

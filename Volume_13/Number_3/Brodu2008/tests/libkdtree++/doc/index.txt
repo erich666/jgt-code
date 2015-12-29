@@ -1,0 +1,18 @@
+/**
+
+@mainpage libkdtree++: a C++ template container for KD-Tree sorting
+
+Author: Martin F. Krafft <krafft@ailab.ch>
+
+Source:
+  http://cvs.ailab.ch/cgi-bin/viewcvs.cgi/libkdtree%2B%2B/
+
+  cvs -d :pserver:anoncvs@cvs.ailab.ch login   (empty password)<br>
+  cvs -z3 -d :pserver:anoncvs@cvs.ailab.ch co libikdtree++
+
+License: Artistic Licence
+
+This library is still undocumented. If you would like to document it, please
+feel free (but use Doxygen).
+
+*/

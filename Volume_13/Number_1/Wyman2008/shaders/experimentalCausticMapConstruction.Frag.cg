@@ -1,0 +1,518 @@
+
+#define TMAX1    1.1
+#define TMIN1    0.9
+
+#define TMAX2    0.3
+#define TMIN2    0.2
+
+#define PHOTON_MIN  0.0
+
+struct vertout
+{
+	float4 imgTexCoord        : TEXCOORD0;
+};
+
+
+
+void main( vertout IN,
+           uniform sampler2D causticLv0       : TEXUNIT0,
+           uniform sampler2D causticLv1       : TEXUNIT1,
+           uniform sampler2D causticLv2       : TEXUNIT2,
+           uniform sampler2D causticLv3       : TEXUNIT3,
+           uniform sampler1D offsetTex        : TEXUNIT4,
+           uniform sampler2D gaussianGather   : TEXUNIT5,
+           uniform float texDelta,		
+		   uniform float gaussianSigma,       
+	       uniform float rangeSigma,          
+           out float4 oColor0: COLOR )
+{
+	float4 currVal, centralVal, photonCount=float4(0,0,0,0);
+	float2 temp;
+
+	//float4 result = { 0.0, 0.0, 0.0, 0.0 };
+	//float4 tmp = { 1.0, 0.25, 0.0, 0.0 };
+	//float4 weights = { 0.0, 0.0, 0.0, 0.0 };
+	float4 lv0 = tex2D( causticLv0, IN.imgTexCoord.xy );	
+	float4 lv1 = tex2D( causticLv1, IN.imgTexCoord.xy );	
+	float4 lv2 = tex2D( causticLv2, IN.imgTexCoord.xy );	
+	float4 lv3 = tex2D( causticLv3, IN.imgTexCoord.xy );	
+	//float4 gaussCol = tex2D( gaussianGather, IN.imgTexCoord.xy );	
+
+	float4 vals[25];
+	float4 swapTmp;
+	float median;
+	float average;
+    float i, j;
+	float minVal = 1;
+	
+	vals[0] = tex2D( causticLv0, IN.imgTexCoord.xy + float2(-1,0)*texDelta );
+	vals[1] = tex2D( causticLv0, IN.imgTexCoord.xy + float2(0,0)*texDelta );
+	vals[2] = tex2D( causticLv0, IN.imgTexCoord.xy + float2(1,0)*texDelta );
+	vals[3] = tex2D( causticLv0, IN.imgTexCoord.xy + float2(0,-1)*texDelta );
+	vals[4] = tex2D( causticLv0, IN.imgTexCoord.xy + float2(0,1)*texDelta ); 
+	
+	minVal = min( max( vals[0].w, vals[1].w ), max( vals[0].w, vals[2].w ) );
+	minVal = min( minVal, max( vals[0].w, vals[3].w ) );
+	minVal = min( minVal, max( vals[0].w, vals[4].w ) );
+	
+	minVal = min( minVal, max( vals[1].w, vals[2].w ) );
+	minVal = min( minVal, max( vals[1].w, vals[3].w ) );
+	minVal = min( minVal, max( vals[1].w, vals[4].w ) );
+	
+	minVal = min( minVal, max( vals[2].w, vals[3].w ) );
+	minVal = min( minVal, max( vals[2].w, vals[4].w ) );
+	
+	minVal = min( minVal, max( vals[3].w, vals[4].w ) );
+	
+	/*
+	vals[0] = tex2D( causticLv0, IN.imgTexCoord.xy + float2(-1,-1)*texDelta );
+	vals[1] = tex2D( causticLv0, IN.imgTexCoord.xy + float2(-1,0)*texDelta );
+	vals[2] = tex2D( causticLv0, IN.imgTexCoord.xy + float2(-1,1)*texDelta );
+	vals[3] = tex2D( causticLv0, IN.imgTexCoord.xy + float2(0,-1)*texDelta );
+	vals[4] = tex2D( causticLv0, IN.imgTexCoord.xy + float2(0,0)*texDelta ); 
+	vals[5] = tex2D( causticLv0, IN.imgTexCoord.xy + float2(0,1)*texDelta );
+	vals[6] = tex2D( causticLv0, IN.imgTexCoord.xy + float2(1,-1)*texDelta );
+	vals[7] = tex2D( causticLv0, IN.imgTexCoord.xy + float2(1,0)*texDelta );
+	vals[8] = tex2D( causticLv0, IN.imgTexCoord.xy + float2(1,1)*texDelta );
+	
+	minVal = min( max( vals[0].w, vals[1].w ), max( vals[0].w, vals[2].w ) );
+	minVal = min( minVal, max( vals[0].w, vals[3].w ) );
+	minVal = min( minVal, max( vals[0].w, vals[4].w ) );
+	minVal = min( minVal, max( vals[0].w, vals[5].w ) );
+	minVal = min( minVal, max( vals[0].w, vals[6].w ) );
+	minVal = min( minVal, max( vals[0].w, vals[7].w ) );
+	minVal = min( minVal, max( vals[0].w, vals[8].w ) );
+	
+	minVal = min( minVal, max( vals[1].w, vals[2].w ) );
+	minVal = min( minVal, max( vals[1].w, vals[3].w ) );
+	minVal = min( minVal, max( vals[1].w, vals[4].w ) );
+	minVal = min( minVal, max( vals[1].w, vals[5].w ) );
+	minVal = min( minVal, max( vals[1].w, vals[6].w ) );
+	minVal = min( minVal, max( vals[1].w, vals[7].w ) );
+	minVal = min( minVal, max( vals[1].w, vals[8].w ) );
+	
+	minVal = min( minVal, max( vals[2].w, vals[3].w ) );
+	minVal = min( minVal, max( vals[2].w, vals[4].w ) );
+	minVal = min( minVal, max( vals[2].w, vals[5].w ) );
+	minVal = min( minVal, max( vals[2].w, vals[6].w ) );
+	minVal = min( minVal, max( vals[2].w, vals[7].w ) );
+	minVal = min( minVal, max( vals[2].w, vals[8].w ) );
+	
+	minVal = min( minVal, max( vals[3].w, vals[4].w ) );
+	minVal = min( minVal, max( vals[3].w, vals[5].w ) );
+	minVal = min( minVal, max( vals[3].w, vals[6].w ) );
+	minVal = min( minVal, max( vals[3].w, vals[7].w ) );
+	minVal = min( minVal, max( vals[3].w, vals[8].w ) );
+	
+	minVal = min( minVal, max( vals[4].w, vals[5].w ) );
+	minVal = min( minVal, max( vals[4].w, vals[6].w ) );
+	minVal = min( minVal, max( vals[4].w, vals[7].w ) );
+	minVal = min( minVal, max( vals[4].w, vals[8].w ) );
+
+	minVal = min( minVal, max( vals[5].w, vals[6].w ) );
+	minVal = min( minVal, max( vals[5].w, vals[7].w ) );
+	minVal = min( minVal, max( vals[5].w, vals[8].w ) );
+	
+	minVal = min( minVal, max( vals[6].w, vals[7].w ) );
+	minVal = min( minVal, max( vals[6].w, vals[8].w ) );
+	
+	minVal = min( minVal, max( vals[7].w, vals[8].w ) );
+	*/
+	
+	/*
+	vals[0] = tex2D( causticLv0, IN.imgTexCoord.xy + float2(-2,-2)*texDelta );
+	vals[1] = tex2D( causticLv0, IN.imgTexCoord.xy + float2(-2,-1)*texDelta );
+	vals[2] = tex2D( causticLv0, IN.imgTexCoord.xy + float2(-2,0)*texDelta );
+	vals[3] = tex2D( causticLv0, IN.imgTexCoord.xy + float2(-2,1)*texDelta );
+	vals[4] = tex2D( causticLv0, IN.imgTexCoord.xy + float2(-2,2)*texDelta ); 
+	vals[5] = tex2D( causticLv0, IN.imgTexCoord.xy + float2(-1,-2)*texDelta );
+	vals[6] = tex2D( causticLv0, IN.imgTexCoord.xy + float2(-1,-1)*texDelta );
+	vals[7] = tex2D( causticLv0, IN.imgTexCoord.xy + float2(-1,0)*texDelta );
+	vals[8] = tex2D( causticLv0, IN.imgTexCoord.xy + float2(-1,1)*texDelta );
+	vals[9] = tex2D( causticLv0, IN.imgTexCoord.xy + float2(-1,2)*texDelta ); 
+	vals[10] = tex2D( causticLv0, IN.imgTexCoord.xy + float2(0,-2)*texDelta );
+	vals[11] = tex2D( causticLv0, IN.imgTexCoord.xy + float2(0,-1)*texDelta );
+	vals[12] = tex2D( causticLv0, IN.imgTexCoord.xy + float2(0,0)*texDelta );
+	vals[13] = tex2D( causticLv0, IN.imgTexCoord.xy + float2(0,1)*texDelta );
+	vals[14] = tex2D( causticLv0, IN.imgTexCoord.xy + float2(0,2)*texDelta ); 
+	vals[15] = tex2D( causticLv0, IN.imgTexCoord.xy + float2(1,-2)*texDelta );
+	vals[16] = tex2D( causticLv0, IN.imgTexCoord.xy + float2(1,-1)*texDelta );
+	vals[17] = tex2D( causticLv0, IN.imgTexCoord.xy + float2(1,0)*texDelta );
+	vals[18] = tex2D( causticLv0, IN.imgTexCoord.xy + float2(1,1)*texDelta );
+	vals[19] = tex2D( causticLv0, IN.imgTexCoord.xy + float2(1,2)*texDelta ); 
+	vals[20] = tex2D( causticLv0, IN.imgTexCoord.xy + float2(2,-2)*texDelta );
+	vals[21] = tex2D( causticLv0, IN.imgTexCoord.xy + float2(2,-1)*texDelta );
+	vals[22] = tex2D( causticLv0, IN.imgTexCoord.xy + float2(2,0)*texDelta );
+	vals[23] = tex2D( causticLv0, IN.imgTexCoord.xy + float2(2,1)*texDelta );
+	vals[24] = tex2D( causticLv0, IN.imgTexCoord.xy + float2(2,2)*texDelta ); 
+	
+	minVal = min( max( vals[0].w, vals[1].w ), max( vals[0].w, vals[2].w ) );
+	minVal = min( minVal, max( vals[0].w, vals[3].w ) );
+	minVal = min( minVal, max( vals[0].w, vals[4].w ) );
+	minVal = min( minVal, max( vals[0].w, vals[5].w ) );
+	minVal = min( minVal, max( vals[0].w, vals[6].w ) );
+	minVal = min( minVal, max( vals[0].w, vals[7].w ) );
+	minVal = min( minVal, max( vals[0].w, vals[8].w ) );
+	minVal = min( minVal, max( vals[0].w, vals[9].w ) );
+	minVal = min( minVal, max( vals[0].w, vals[10].w ) );
+	minVal = min( minVal, max( vals[0].w, vals[11].w ) );
+	minVal = min( minVal, max( vals[0].w, vals[12].w ) );
+	minVal = min( minVal, max( vals[0].w, vals[13].w ) );
+	minVal = min( minVal, max( vals[0].w, vals[14].w ) );
+	minVal = min( minVal, max( vals[0].w, vals[15].w ) );
+	minVal = min( minVal, max( vals[0].w, vals[16].w ) );
+	minVal = min( minVal, max( vals[0].w, vals[17].w ) );
+	minVal = min( minVal, max( vals[0].w, vals[18].w ) );
+	minVal = min( minVal, max( vals[0].w, vals[19].w ) );
+	minVal = min( minVal, max( vals[0].w, vals[20].w ) );
+	minVal = min( minVal, max( vals[0].w, vals[21].w ) );
+	minVal = min( minVal, max( vals[0].w, vals[22].w ) );
+	minVal = min( minVal, max( vals[0].w, vals[23].w ) );
+	minVal = min( minVal, max( vals[0].w, vals[24].w ) );
+	
+	minVal = min( minVal, max( vals[1].w, vals[2].w ) );
+	minVal = min( minVal, max( vals[1].w, vals[3].w ) );
+	minVal = min( minVal, max( vals[1].w, vals[4].w ) );
+	minVal = min( minVal, max( vals[1].w, vals[5].w ) );
+	minVal = min( minVal, max( vals[1].w, vals[6].w ) );
+	minVal = min( minVal, max( vals[1].w, vals[7].w ) );
+	minVal = min( minVal, max( vals[1].w, vals[8].w ) );
+	minVal = min( minVal, max( vals[1].w, vals[9].w ) );
+	minVal = min( minVal, max( vals[1].w, vals[10].w ) );
+	minVal = min( minVal, max( vals[1].w, vals[11].w ) );
+	minVal = min( minVal, max( vals[1].w, vals[12].w ) );
+	minVal = min( minVal, max( vals[1].w, vals[13].w ) );
+	minVal = min( minVal, max( vals[1].w, vals[14].w ) );
+	minVal = min( minVal, max( vals[1].w, vals[15].w ) );
+	minVal = min( minVal, max( vals[1].w, vals[16].w ) );
+	minVal = min( minVal, max( vals[1].w, vals[17].w ) );
+	minVal = min( minVal, max( vals[1].w, vals[18].w ) );
+	minVal = min( minVal, max( vals[1].w, vals[19].w ) );
+	minVal = min( minVal, max( vals[1].w, vals[20].w ) );
+	minVal = min( minVal, max( vals[1].w, vals[21].w ) );
+	minVal = min( minVal, max( vals[1].w, vals[22].w ) );
+	minVal = min( minVal, max( vals[1].w, vals[23].w ) );
+	minVal = min( minVal, max( vals[1].w, vals[24].w ) );
+	
+	minVal = min( minVal, max( vals[2].w, vals[3].w ) );
+	minVal = min( minVal, max( vals[2].w, vals[4].w ) );
+	minVal = min( minVal, max( vals[2].w, vals[5].w ) );
+	minVal = min( minVal, max( vals[2].w, vals[6].w ) );
+	minVal = min( minVal, max( vals[2].w, vals[7].w ) );
+	minVal = min( minVal, max( vals[2].w, vals[8].w ) );
+	minVal = min( minVal, max( vals[2].w, vals[9].w ) );
+	minVal = min( minVal, max( vals[2].w, vals[10].w ) );
+	minVal = min( minVal, max( vals[2].w, vals[11].w ) );
+	minVal = min( minVal, max( vals[2].w, vals[12].w ) );
+	minVal = min( minVal, max( vals[2].w, vals[13].w ) );
+	minVal = min( minVal, max( vals[2].w, vals[14].w ) );
+	minVal = min( minVal, max( vals[2].w, vals[15].w ) );
+	minVal = min( minVal, max( vals[2].w, vals[16].w ) );
+	minVal = min( minVal, max( vals[2].w, vals[17].w ) );
+	minVal = min( minVal, max( vals[2].w, vals[18].w ) );
+	minVal = min( minVal, max( vals[2].w, vals[19].w ) );
+	minVal = min( minVal, max( vals[2].w, vals[20].w ) );
+	minVal = min( minVal, max( vals[2].w, vals[21].w ) );
+	minVal = min( minVal, max( vals[2].w, vals[22].w ) );
+	minVal = min( minVal, max( vals[2].w, vals[23].w ) );
+	minVal = min( minVal, max( vals[2].w, vals[24].w ) );
+	
+	minVal = min( minVal, max( vals[3].w, vals[4].w ) );
+	minVal = min( minVal, max( vals[3].w, vals[5].w ) );
+	minVal = min( minVal, max( vals[3].w, vals[6].w ) );
+	minVal = min( minVal, max( vals[3].w, vals[7].w ) );
+	minVal = min( minVal, max( vals[3].w, vals[8].w ) );
+	minVal = min( minVal, max( vals[3].w, vals[9].w ) );
+	minVal = min( minVal, max( vals[3].w, vals[10].w ) );
+	minVal = min( minVal, max( vals[3].w, vals[11].w ) );
+	minVal = min( minVal, max( vals[3].w, vals[12].w ) );
+	minVal = min( minVal, max( vals[3].w, vals[13].w ) );
+	minVal = min( minVal, max( vals[3].w, vals[14].w ) );
+	minVal = min( minVal, max( vals[3].w, vals[15].w ) );
+	minVal = min( minVal, max( vals[3].w, vals[16].w ) );
+	minVal = min( minVal, max( vals[3].w, vals[17].w ) );
+	minVal = min( minVal, max( vals[3].w, vals[18].w ) );
+	minVal = min( minVal, max( vals[3].w, vals[19].w ) );
+	minVal = min( minVal, max( vals[3].w, vals[20].w ) );
+	minVal = min( minVal, max( vals[3].w, vals[21].w ) );
+	minVal = min( minVal, max( vals[3].w, vals[22].w ) );
+	minVal = min( minVal, max( vals[3].w, vals[23].w ) );
+	minVal = min( minVal, max( vals[3].w, vals[24].w ) );
+	
+	minVal = min( minVal, max( vals[4].w, vals[5].w ) );
+	minVal = min( minVal, max( vals[4].w, vals[6].w ) );
+	minVal = min( minVal, max( vals[4].w, vals[7].w ) );
+	minVal = min( minVal, max( vals[4].w, vals[8].w ) );
+	minVal = min( minVal, max( vals[4].w, vals[9].w ) );
+	minVal = min( minVal, max( vals[4].w, vals[10].w ) );
+	minVal = min( minVal, max( vals[4].w, vals[11].w ) );
+	minVal = min( minVal, max( vals[4].w, vals[12].w ) );
+	minVal = min( minVal, max( vals[4].w, vals[13].w ) );
+	minVal = min( minVal, max( vals[4].w, vals[14].w ) );
+	minVal = min( minVal, max( vals[4].w, vals[15].w ) );
+	minVal = min( minVal, max( vals[4].w, vals[16].w ) );
+	minVal = min( minVal, max( vals[4].w, vals[17].w ) );
+	minVal = min( minVal, max( vals[4].w, vals[18].w ) );
+	minVal = min( minVal, max( vals[4].w, vals[19].w ) );
+	minVal = min( minVal, max( vals[4].w, vals[20].w ) );
+	minVal = min( minVal, max( vals[4].w, vals[21].w ) );
+	minVal = min( minVal, max( vals[4].w, vals[22].w ) );
+	minVal = min( minVal, max( vals[4].w, vals[23].w ) );
+	minVal = min( minVal, max( vals[4].w, vals[24].w ) );
+	
+	minVal = min( minVal, max( vals[5].w, vals[6].w ) );
+	minVal = min( minVal, max( vals[5].w, vals[7].w ) );
+	minVal = min( minVal, max( vals[5].w, vals[8].w ) );
+	minVal = min( minVal, max( vals[5].w, vals[9].w ) );
+	minVal = min( minVal, max( vals[5].w, vals[10].w ) );
+	minVal = min( minVal, max( vals[5].w, vals[11].w ) );
+	minVal = min( minVal, max( vals[5].w, vals[12].w ) );
+	minVal = min( minVal, max( vals[5].w, vals[13].w ) );
+	minVal = min( minVal, max( vals[5].w, vals[14].w ) );
+	minVal = min( minVal, max( vals[5].w, vals[15].w ) );
+	minVal = min( minVal, max( vals[5].w, vals[16].w ) );
+	minVal = min( minVal, max( vals[5].w, vals[17].w ) );
+	minVal = min( minVal, max( vals[5].w, vals[18].w ) );
+	minVal = min( minVal, max( vals[5].w, vals[19].w ) );
+	minVal = min( minVal, max( vals[5].w, vals[20].w ) );
+	minVal = min( minVal, max( vals[5].w, vals[21].w ) );
+	minVal = min( minVal, max( vals[5].w, vals[22].w ) );
+	minVal = min( minVal, max( vals[5].w, vals[23].w ) );
+	minVal = min( minVal, max( vals[5].w, vals[24].w ) );
+	
+	minVal = min( minVal, max( vals[6].w, vals[7].w ) );
+	minVal = min( minVal, max( vals[6].w, vals[8].w ) );
+	minVal = min( minVal, max( vals[6].w, vals[9].w ) );
+	minVal = min( minVal, max( vals[6].w, vals[10].w ) );
+	minVal = min( minVal, max( vals[6].w, vals[11].w ) );
+	minVal = min( minVal, max( vals[6].w, vals[12].w ) );
+	minVal = min( minVal, max( vals[6].w, vals[13].w ) );
+	minVal = min( minVal, max( vals[6].w, vals[14].w ) );
+	minVal = min( minVal, max( vals[6].w, vals[15].w ) );
+	minVal = min( minVal, max( vals[6].w, vals[16].w ) );
+	minVal = min( minVal, max( vals[6].w, vals[17].w ) );
+	minVal = min( minVal, max( vals[6].w, vals[18].w ) );
+	minVal = min( minVal, max( vals[6].w, vals[19].w ) );
+	minVal = min( minVal, max( vals[6].w, vals[20].w ) );
+	minVal = min( minVal, max( vals[6].w, vals[21].w ) );
+	minVal = min( minVal, max( vals[6].w, vals[22].w ) );
+	minVal = min( minVal, max( vals[6].w, vals[23].w ) );
+	minVal = min( minVal, max( vals[6].w, vals[24].w ) );
+	
+	minVal = min( minVal, max( vals[7].w, vals[8].w ) );
+	minVal = min( minVal, max( vals[7].w, vals[9].w ) );
+	minVal = min( minVal, max( vals[7].w, vals[10].w ) );
+	minVal = min( minVal, max( vals[7].w, vals[11].w ) );
+	minVal = min( minVal, max( vals[7].w, vals[12].w ) );
+	minVal = min( minVal, max( vals[7].w, vals[13].w ) );
+	minVal = min( minVal, max( vals[7].w, vals[14].w ) );
+	minVal = min( minVal, max( vals[7].w, vals[15].w ) );
+	minVal = min( minVal, max( vals[7].w, vals[16].w ) );
+	minVal = min( minVal, max( vals[7].w, vals[17].w ) );
+	minVal = min( minVal, max( vals[7].w, vals[18].w ) );
+	minVal = min( minVal, max( vals[7].w, vals[19].w ) );
+	minVal = min( minVal, max( vals[7].w, vals[20].w ) );
+	minVal = min( minVal, max( vals[7].w, vals[21].w ) );
+	minVal = min( minVal, max( vals[7].w, vals[22].w ) );
+	minVal = min( minVal, max( vals[7].w, vals[23].w ) );
+	minVal = min( minVal, max( vals[7].w, vals[24].w ) );
+	
+	minVal = min( minVal, max( vals[8].w, vals[9].w ) );
+	minVal = min( minVal, max( vals[8].w, vals[10].w ) );
+	minVal = min( minVal, max( vals[8].w, vals[11].w ) );
+	minVal = min( minVal, max( vals[8].w, vals[12].w ) );
+	minVal = min( minVal, max( vals[8].w, vals[13].w ) );
+	minVal = min( minVal, max( vals[8].w, vals[14].w ) );
+	minVal = min( minVal, max( vals[8].w, vals[15].w ) );
+	minVal = min( minVal, max( vals[8].w, vals[16].w ) );
+	minVal = min( minVal, max( vals[8].w, vals[17].w ) );
+	minVal = min( minVal, max( vals[8].w, vals[18].w ) );
+	minVal = min( minVal, max( vals[8].w, vals[19].w ) );
+	minVal = min( minVal, max( vals[8].w, vals[20].w ) );
+	minVal = min( minVal, max( vals[8].w, vals[21].w ) );
+	minVal = min( minVal, max( vals[8].w, vals[22].w ) );
+	minVal = min( minVal, max( vals[8].w, vals[23].w ) );
+	minVal = min( minVal, max( vals[8].w, vals[24].w ) );
+	
+	minVal = min( minVal, max( vals[9].w, vals[10].w ) );
+	minVal = min( minVal, max( vals[9].w, vals[11].w ) );
+	minVal = min( minVal, max( vals[9].w, vals[12].w ) );
+	minVal = min( minVal, max( vals[9].w, vals[13].w ) );
+	minVal = min( minVal, max( vals[9].w, vals[14].w ) );
+	minVal = min( minVal, max( vals[9].w, vals[15].w ) );
+	minVal = min( minVal, max( vals[9].w, vals[16].w ) );
+	minVal = min( minVal, max( vals[9].w, vals[17].w ) );
+	minVal = min( minVal, max( vals[9].w, vals[18].w ) );
+	minVal = min( minVal, max( vals[9].w, vals[19].w ) );
+	minVal = min( minVal, max( vals[9].w, vals[20].w ) );
+	minVal = min( minVal, max( vals[9].w, vals[21].w ) );
+	minVal = min( minVal, max( vals[9].w, vals[22].w ) );
+	minVal = min( minVal, max( vals[9].w, vals[23].w ) );
+	minVal = min( minVal, max( vals[9].w, vals[24].w ) );
+	
+	minVal = min( minVal, max( vals[10].w, vals[11].w ) );
+	minVal = min( minVal, max( vals[10].w, vals[12].w ) );
+	minVal = min( minVal, max( vals[10].w, vals[13].w ) );
+	minVal = min( minVal, max( vals[10].w, vals[14].w ) );
+	minVal = min( minVal, max( vals[10].w, vals[15].w ) );
+	minVal = min( minVal, max( vals[10].w, vals[16].w ) );
+	minVal = min( minVal, max( vals[10].w, vals[17].w ) );
+	minVal = min( minVal, max( vals[10].w, vals[18].w ) );
+	minVal = min( minVal, max( vals[10].w, vals[19].w ) );
+	minVal = min( minVal, max( vals[10].w, vals[20].w ) );
+	minVal = min( minVal, max( vals[10].w, vals[21].w ) );
+	minVal = min( minVal, max( vals[10].w, vals[22].w ) );
+	minVal = min( minVal, max( vals[10].w, vals[23].w ) );
+	minVal = min( minVal, max( vals[10].w, vals[24].w ) );
+	
+	minVal = min( minVal, max( vals[11].w, vals[12].w ) );
+	minVal = min( minVal, max( vals[11].w, vals[13].w ) );
+	minVal = min( minVal, max( vals[11].w, vals[14].w ) );
+	minVal = min( minVal, max( vals[11].w, vals[15].w ) );
+	minVal = min( minVal, max( vals[11].w, vals[16].w ) );
+	minVal = min( minVal, max( vals[11].w, vals[17].w ) );
+	minVal = min( minVal, max( vals[11].w, vals[18].w ) );
+	minVal = min( minVal, max( vals[11].w, vals[19].w ) );
+	minVal = min( minVal, max( vals[11].w, vals[20].w ) );
+	minVal = min( minVal, max( vals[11].w, vals[21].w ) );
+	minVal = min( minVal, max( vals[11].w, vals[22].w ) );
+	minVal = min( minVal, max( vals[11].w, vals[23].w ) );
+	minVal = min( minVal, max( vals[11].w, vals[24].w ) );
+	
+	minVal = min( minVal, max( vals[12].w, vals[13].w ) );
+	minVal = min( minVal, max( vals[12].w, vals[14].w ) );
+	minVal = min( minVal, max( vals[12].w, vals[15].w ) );
+	minVal = min( minVal, max( vals[12].w, vals[16].w ) );
+	minVal = min( minVal, max( vals[12].w, vals[17].w ) );
+	minVal = min( minVal, max( vals[12].w, vals[18].w ) );
+	minVal = min( minVal, max( vals[12].w, vals[19].w ) );
+	minVal = min( minVal, max( vals[12].w, vals[20].w ) );
+	minVal = min( minVal, max( vals[12].w, vals[21].w ) );
+	minVal = min( minVal, max( vals[12].w, vals[22].w ) );
+	minVal = min( minVal, max( vals[12].w, vals[23].w ) );
+	minVal = min( minVal, max( vals[12].w, vals[24].w ) );
+	
+	minVal = min( minVal, max( vals[13].w, vals[14].w ) );
+	minVal = min( minVal, max( vals[13].w, vals[15].w ) );
+	minVal = min( minVal, max( vals[13].w, vals[16].w ) );
+	minVal = min( minVal, max( vals[13].w, vals[17].w ) );
+	minVal = min( minVal, max( vals[13].w, vals[18].w ) );
+	minVal = min( minVal, max( vals[13].w, vals[19].w ) );
+	minVal = min( minVal, max( vals[13].w, vals[20].w ) );
+	minVal = min( minVal, max( vals[13].w, vals[21].w ) );
+	minVal = min( minVal, max( vals[13].w, vals[22].w ) );
+	minVal = min( minVal, max( vals[13].w, vals[23].w ) );
+	minVal = min( minVal, max( vals[13].w, vals[24].w ) );
+	
+	minVal = min( minVal, max( vals[14].w, vals[15].w ) );
+	minVal = min( minVal, max( vals[14].w, vals[16].w ) );
+	minVal = min( minVal, max( vals[14].w, vals[17].w ) );
+	minVal = min( minVal, max( vals[14].w, vals[18].w ) );
+	minVal = min( minVal, max( vals[14].w, vals[19].w ) );
+	minVal = min( minVal, max( vals[14].w, vals[20].w ) );
+	minVal = min( minVal, max( vals[14].w, vals[21].w ) );
+	minVal = min( minVal, max( vals[14].w, vals[22].w ) );
+	minVal = min( minVal, max( vals[14].w, vals[23].w ) );
+	minVal = min( minVal, max( vals[14].w, vals[24].w ) );
+	
+	minVal = min( minVal, max( vals[15].w, vals[16].w ) );
+	minVal = min( minVal, max( vals[15].w, vals[17].w ) );
+	minVal = min( minVal, max( vals[15].w, vals[18].w ) );
+	minVal = min( minVal, max( vals[15].w, vals[19].w ) );
+	minVal = min( minVal, max( vals[15].w, vals[20].w ) );
+	minVal = min( minVal, max( vals[15].w, vals[21].w ) );
+	minVal = min( minVal, max( vals[15].w, vals[22].w ) );
+	minVal = min( minVal, max( vals[15].w, vals[23].w ) );
+	minVal = min( minVal, max( vals[15].w, vals[24].w ) );
+	
+	minVal = min( minVal, max( vals[16].w, vals[17].w ) );
+	minVal = min( minVal, max( vals[16].w, vals[18].w ) );
+	minVal = min( minVal, max( vals[16].w, vals[19].w ) );
+	minVal = min( minVal, max( vals[16].w, vals[20].w ) );
+	minVal = min( minVal, max( vals[16].w, vals[21].w ) );
+	minVal = min( minVal, max( vals[16].w, vals[22].w ) );
+	minVal = min( minVal, max( vals[16].w, vals[23].w ) );
+	minVal = min( minVal, max( vals[16].w, vals[24].w ) );
+	
+	minVal = min( minVal, max( vals[17].w, vals[18].w ) );
+	minVal = min( minVal, max( vals[17].w, vals[19].w ) );
+	minVal = min( minVal, max( vals[17].w, vals[20].w ) );
+	minVal = min( minVal, max( vals[17].w, vals[21].w ) );
+	minVal = min( minVal, max( vals[17].w, vals[22].w ) );
+	minVal = min( minVal, max( vals[17].w, vals[23].w ) );
+	minVal = min( minVal, max( vals[17].w, vals[24].w ) );
+	
+	minVal = min( minVal, max( vals[18].w, vals[19].w ) );
+	minVal = min( minVal, max( vals[18].w, vals[20].w ) );
+	minVal = min( minVal, max( vals[18].w, vals[21].w ) );
+	minVal = min( minVal, max( vals[18].w, vals[22].w ) );
+	minVal = min( minVal, max( vals[18].w, vals[23].w ) );
+	minVal = min( minVal, max( vals[18].w, vals[24].w ) );
+	
+	minVal = min( minVal, max( vals[19].w, vals[20].w ) );
+	minVal = min( minVal, max( vals[19].w, vals[21].w ) );
+	minVal = min( minVal, max( vals[19].w, vals[22].w ) );
+	minVal = min( minVal, max( vals[19].w, vals[23].w ) );
+	minVal = min( minVal, max( vals[19].w, vals[24].w ) );
+	
+	minVal = min( minVal, max( vals[20].w, vals[21].w ) );
+	minVal = min( minVal, max( vals[20].w, vals[22].w ) );
+	minVal = min( minVal, max( vals[20].w, vals[23].w ) );
+	minVal = min( minVal, max( vals[20].w, vals[24].w ) );
+	
+	minVal = min( minVal, max( vals[21].w, vals[22].w ) );
+	minVal = min( minVal, max( vals[21].w, vals[23].w ) );
+	minVal = min( minVal, max( vals[21].w, vals[24].w ) );
+	
+	minVal = min( minVal, max( vals[22].w, vals[23].w ) );
+	minVal = min( minVal, max( vals[22].w, vals[24].w ) );
+	
+	minVal = min( minVal, max( vals[23].w, vals[24].w ) );
+	*/
+
+    oColor0 = minVal*255;
+    //oColor0 = average*255;
+    //oColor0 = lv0.w*255;
+    //oColor0 = lv1.w*64;
+    
+    //oColor0 = (average < median ? 1 : 0);
+
+/*
+	if (lv0.w > 0 && lv0.w <= lv1.w)	
+		centralVal = lv0;
+	else if (lv1.w > 0 && lv1.w <= lv2.w)	
+		centralVal = lv1*0.25;
+	else 
+		centralVal = lv2*0.0625;
+
+	centralVal = gaussCol;
+
+	// IF USING DYNAMIC BILATERAL DISTRIBUTION, UNCOMMENT THIS:
+	for (float i = 0; i < 49; i++)
+	{
+	    float eValue;
+	    float4 offset = 255.0*tex1D( offsetTex, i/128.0 )-128.0;
+	    temp = -(offset.xy*offset.xy)/(2*gaussianSigma*gaussianSigma);
+	    eValue = exp(temp.x) * exp(temp.y);
+	    //if (centralVal.w == lv0.w)
+		//	currVal = tex2D( causticLv0, IN.imgTexCoord.xy + offset.xy*texDelta );
+		//else if (centralVal.w == lv1.w*0.25)
+		//	currVal = 0.25*tex2D( causticLv1, IN.imgTexCoord.xy + 2*offset.xy*texDelta );
+		//else
+		//	currVal = 0.0625*tex2D( causticLv2, IN.imgTexCoord.xy + 4*offset.xy*texDelta );
+		//currVal = tex2D( causticLv0, IN.imgTexCoord.xy + offset.xy*texDelta );
+	    //currVal = tex2D( causticLv1, IN.imgTexCoord.xy + offset.xy*texDelta )*0.25;
+	    currVal = 0.0625*tex2D( causticLv2, IN.imgTexCoord.xy + offset.xy*texDelta );
+        temp.x = exp( (currVal.a-centralVal.a)*(centralVal.a-currVal.a)/(2*rangeSigma*rangeSigma) );
+	    if (rangeSigma > 0) eValue = eValue * temp.x;
+	    photonCount.x = photonCount.x + eValue*currVal.a*255;  
+	    photonCount.y = photonCount.y + eValue;
+	}
+	photonCount.x = photonCount.x / photonCount.y;
+	oColor0 = photonCount.x;
+*/
+
+	
+
+}
+

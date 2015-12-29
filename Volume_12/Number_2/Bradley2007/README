@@ -1,0 +1,1 @@
+Note that we use the Open Source Computer Vision Library to display images in windows.  In order to compile this application you must download OpenCV from http://sourceforge.net/projects/opencvlibrary/.  However, the adaptive thresholding method does not rely on OpenCV.

@@ -1,0 +1,22 @@
+
+struct vertout
+{
+	float4 iPosition	: POSITION;
+	float4 iTexCoord    : TEXCOORD0;
+};
+
+void main( vertout IN,
+		   uniform sampler2D colorTex 	: TEXUNIT0,
+		   uniform sampler2D maskTex	: TEXUNIT1,
+		   out float4 oColor: COLOR )
+{
+    float4 mask = tex2D( maskTex, IN.iTexCoord.xy );
+    float4 color = tex2D( colorTex, IN.iTexCoord.xy );	
+    float maskDot = dot(mask.xyz,mask.xyz);
+    float colorDot = dot(color.xyz,color.xyz);
+    if (maskDot > 0 && maskDot < 3)
+        discard; 
+    if (colorDot == 0)
+        discard;
+	oColor = color;	
+}

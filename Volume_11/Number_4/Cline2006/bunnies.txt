@@ -1,0 +1,265 @@
+
+# Test file for LBVHtrace
+
+objectsPerLeaf 4
+ambientLight 0.1 0.1 0.1
+backgroundColor 0 0 0.3
+
+camera
+lookFrom -0.1 0.3 10
+lookAt -0.1 0.3 0
+viewUp 0 1 0
+fieldOfView 0.55
+imageSize 1024 1024
+end_camera
+
+directionalLight
+color 0.4 0.4 0.4
+direction 1 1 0.3
+end_directionalLight
+
+directionalLight
+color 0.4 0.4 0.4
+direction 0 0 1
+end_directionalLight
+
+directionalLight
+color 0.2 0.2 0.2
+direction 0 1 0.2
+end_directionalLight
+
+# ========================================== ROW
+
+polyMesh
+plyFile bunny.ply
+scale 4 4 4
+translate -2 -2 0
+diffuse 1 0 0
+specular 0.5 0.5 0.5
+exponent 10
+end_polyMesh
+
+polyMesh
+plyFile bunny.ply
+scale 4 4 4
+translate -1 -2 0
+diffuse 1 0 0
+specular 0.5 0.5 0.5
+exponent 10
+end_polyMesh
+
+polyMesh
+plyFile bunny.ply
+scale 4 4 4
+translate 0 -2 0
+diffuse 1 0 0
+specular 0.5 0.5 0.5
+exponent 10
+end_polyMesh
+
+polyMesh
+plyFile bunny.ply
+scale 4 4 4
+translate 1 -2 0
+diffuse 1 0 0
+specular 0.5 0.5 0.5
+exponent 10
+end_polyMesh
+
+polyMesh
+plyFile bunny.ply
+scale 4 4 4
+translate 2 -2 0
+diffuse 1 0 0
+specular 0.5 0.5 0.5
+exponent 10
+end_polyMesh
+
+# ========================================== ROW
+
+polyMesh
+plyFile bunny.ply
+scale 4 4 4
+translate -2 -1 0
+diffuse 1 0 0
+specular 0.5 0.5 0.5
+exponent 10
+end_polyMesh
+
+polyMesh
+plyFile bunny.ply
+scale 4 4 4
+translate -1 -1 0
+diffuse 1 0 0
+specular 0.5 0.5 0.5
+exponent 10
+end_polyMesh
+
+polyMesh
+plyFile bunny.ply
+scale 4 4 4
+translate 0 -1 2
+diffuse 1 0 0
+specular 0.5 0.5 0.5
+exponent 10
+end_polyMesh
+
+polyMesh
+plyFile bunny.ply
+scale 4 4 4
+translate 1 -1 0
+diffuse 1 0 0
+specular 0.5 0.5 0.5
+exponent 10
+end_polyMesh
+
+polyMesh
+plyFile bunny.ply
+scale 4 4 4
+translate 2 -1 0
+diffuse 1 0 0
+specular 0.5 0.5 0.5
+exponent 10
+end_polyMesh
+
+# ========================================== ROW
+
+polyMesh
+plyFile bunny.ply
+scale 4 4 4
+translate -2 0 0
+diffuse 1 0 0
+specular 0.5 0.5 0.5
+exponent 10
+end_polyMesh
+
+polyMesh
+plyFile bunny.ply
+scale 4 4 4
+translate -1 0 2
+diffuse 1 0 0
+specular 0.5 0.5 0.5
+exponent 10
+end_polyMesh
+
+polyMesh
+plyFile bunny.ply
+scale 4 4 4
+translate 0 0 4
+diffuse 1 0 0
+specular 0.5 0.5 0.5
+exponent 10
+end_polyMesh
+
+polyMesh
+plyFile bunny.ply
+scale 4 4 4
+translate 1 0 2
+diffuse 1 0 0
+specular 0.5 0.5 0.5
+exponent 10
+end_polyMesh
+
+polyMesh
+plyFile bunny.ply
+scale 4 4 4
+translate 2 0 0
+diffuse 1 0 0
+specular 0.5 0.5 0.5
+exponent 10
+end_polyMesh
+
+# ========================================== ROW
+
+polyMesh
+plyFile bunny.ply
+scale 4 4 4
+translate -2 1 0
+diffuse 1 0 0
+specular 0.5 0.5 0.5
+exponent 10
+end_polyMesh
+
+polyMesh
+plyFile bunny.ply
+scale 4 4 4
+translate -1 1 0
+diffuse 1 0 0
+specular 0.5 0.5 0.5
+exponent 10
+end_polyMesh
+
+polyMesh
+plyFile bunny.ply
+scale 4 4 4
+translate 0 1 2
+diffuse 1 0 0
+specular 0.5 0.5 0.5
+exponent 10
+end_polyMesh
+
+polyMesh
+plyFile bunny.ply
+scale 4 4 4
+translate 1 1 0
+diffuse 1 0 0
+specular 0.5 0.5 0.5
+exponent 10
+end_polyMesh
+
+polyMesh
+plyFile bunny.ply
+scale 4 4 4
+translate 2 1 0
+diffuse 1 0 0
+specular 0.5 0.5 0.5
+exponent 10
+end_polyMesh
+
+# ========================================== ROW
+
+polyMesh
+plyFile bunny.ply
+scale 4 4 4
+translate -2 2 0
+diffuse 1 0 0
+specular 0.5 0.5 0.5
+exponent 10
+end_polyMesh
+
+polyMesh
+plyFile bunny.ply
+scale 4 4 4
+translate -1 2 0
+diffuse 1 0 0
+specular 0.5 0.5 0.5
+exponent 10
+end_polyMesh
+
+polyMesh
+plyFile bunny.ply
+scale 4 4 4
+translate 0 2 0
+diffuse 1 0 0
+specular 0.5 0.5 0.5
+exponent 10
+end_polyMesh
+
+polyMesh
+plyFile bunny.ply
+scale 4 4 4
+translate 1 2 0
+diffuse 1 0 0
+specular 0.5 0.5 0.5
+exponent 10
+end_polyMesh
+
+polyMesh
+plyFile bunny.ply
+scale 4 4 4
+translate 2 2 0
+diffuse 1 0 0
+specular 0.5 0.5 0.5
+exponent 10
+end_polyMesh
+

@@ -1,0 +1,284 @@
+
+
+
+struct vertout
+{
+	float4 Position		: WPOS;
+	float4 NDCcoord         : TEXCOORD0;
+	float4 eyeNorm      	: TEXCOORD1;
+	float4 eyePos		: TEXCOORD2;
+	float4 planeEq		: TEXCOORD3;
+	float4 curvature    : TEXCOORD7;
+};
+
+
+float4 refraction( float3 incident, float3 normal, float ni_nt, float ni_nt_sqr )
+{
+    float4 returnVal;
+    float tmp = 1;
+	float IdotN = dot( -incident, normal );
+	float cosSqr = 1 - ni_nt_sqr*(1 - IdotN*IdotN);
+	if (cosSqr < 0) 
+        cosSqr = 0; 
+	else
+		cosSqr = sqrt( cosSqr );
+	returnVal.xyz = (cosSqr == 0? reflect( incident, normal ) : normalize( ni_nt * incident + (ni_nt* IdotN - cosSqr) * normal )); 
+	//returnVal.xyz = normalize( ni_nt * incident + (ni_nt* IdotN - cosSqr) * normal ); 
+	
+	returnVal.w = (cosSqr == 0 ? -1 : 1 );
+	return returnVal;
+}
+
+void main( vertout IN,
+		   uniform float4x4 proj       : state.matrix.projection,
+		   uniform float4x4 mvit       : state.matrix.modelview.invtrans,
+		   uniform float4x4 prog0      : state.matrix.program[0],         // user environment rotation
+		   uniform float4 local0,
+		   uniform float4 local1,
+		   uniform float4 local2,
+		   uniform float4 local3,
+		   uniform float4 local4,
+		   uniform float4 up,
+		   uniform float4 lookat,
+		   uniform float normalizationFactor,
+		   uniform samplerCUBE environmentMap 	: TEXUNIT0,
+		   uniform sampler2D otherObjsEyeDepth  : TEXUNIT1,
+		   uniform sampler2D prevDistances    	: TEXUNIT5,
+		   uniform sampler2D otherObjsEye	    : TEXUNIT6,
+		   uniform sampler1D aCos_and_Fresnel 	: TEXUNIT4,
+		   uniform sampler2D backFace		    : TEXUNIT3,
+		   out float4 oColor0: COLOR0 )
+{
+	float4 tmp;
+	float2 Dist;
+	
+	float2 fresnel;
+	float4 reflectedColor;
+	float4 refractedColor;
+
+	// Stuff that we know from the beginning
+	float3 N_1 = normalize( IN.eyeNorm.xyz );   // Surface Normal
+	float3 V   = normalize( IN.eyePos.xyz  );   // View direction
+
+	// Using the normalized device coordiantes, find distance to back-facing surfaces
+	//    (these were stored in a previous pass)
+	Dist.x = tex2D( prevDistances, IN.NDCcoord.xy ).z;	
+
+	// Take the position above and the fragment's current z-value (distance to front
+	//    facing surfaces) and convert back to world coordinates
+	Dist.y = IN.NDCcoord.z;
+	Dist.x = local1.x / (Dist.x * local1.y - local1.z);
+	Dist.y = local1.x / (Dist.y * local1.y - local1.z);
+
+	// Distance between front & back surfaces
+	float d_V = Dist.y - Dist.x;
+
+	// Dot product is necessary to determine the fresnel term 
+	float NdotV = dot( -V, N_1 );
+
+	// Find the relective (.x) and refractive (.y) fresnel coefficients 
+	fresnel = tex1D( aCos_and_Fresnel, NdotV ).xy;
+
+	// compute the reflection direction and the reflection color
+	//    we do a matrix multiply to account for (potential) user rotation of the environment
+	tmp.xyz = reflect( V, N_1 );
+	tmp.w = 0;
+	reflectedColor = fresnel.x * texCUBE( environmentMap, mul( prog0, tmp ).xyz );	
+
+	// find the refraction direction
+	float3 T_1 = refraction( V, N_1, local2.x, local2.y );
+
+	// We need to find the angle betwen T_1 & N and T_1 & V, so we'll compute
+	//    the dot product, scale to [0..1] and look up the arc-cosine in a precomputed texture
+	float TDotN = dot( T_1, N_1 );
+	float TDotV = dot( T_1, V );
+
+	float scaledTDotN = 0.5 * -TDotN + 0.5;
+	float scaledTDotV = 0.5 * TDotV + 0.5;
+
+	float angle_T_N = tex1D( aCos_and_Fresnel, scaledTDotN ).z + 0.0001;
+	float angle_T_V = tex1D( aCos_and_Fresnel, scaledTDotV ).z + 0.0001;
+
+	// Use these angles to compute a weighting between d_V and d_N
+	float angleSum = angle_T_N + angle_T_V;
+
+	// out approx distance is: ( obj_scale * precomputed_d_N * angle_T_V +
+    //    d_V * angle_T_N ) / sumOfAngles_TV_and_TN 
+	float d_tilde = (local3.z * IN.eyeNorm.w * angle_T_V + d_V * angle_T_N) / angleSum;
+    
+    // Uncomment to display JUST the distance approximation d_tilde.
+	//oColor0.xyz = d_tilde/4;
+	//return;
+
+	// Compute approximate exitant location 
+	float4 P_2_tilde;
+	P_2_tilde.xyz = T_1 * d_tilde + IN.eyePos.xyz;
+	P_2_tilde.w = 1.0;
+
+	// Project P_2_tilde to screen-space, scale & bias to get [0..1] for tex lookup.
+	tmp = mul( proj, P_2_tilde );
+	tmp.xyz = 0.5 * (tmp.xyz / tmp.w) + 0.5;
+
+	float P_2_zBuf = tmp.z;
+
+	// Look up exitant surface normal from previous pass
+	float4 normTexture = tex2D( backFace, tmp.xy ); 
+	float3 N_2 = normTexture.xyz;
+
+	// What happens if we lie in a black-texel?  Means no normal!  (d_tilde is too big...)
+	if ( dot( N_2.xyz, N_2.xyz ) == 0 )
+	{
+		// Conceptually, we pass thru the "side" of the object (not front/back)
+		// Use a 'normal' perpindicular to view direction (but generally along same
+		//     direction as our refracted direction T_1)
+		tmp.xyz = float3( T_1.x, T_1.y , 0 );	
+		tmp.w = dot( tmp.xyz, tmp.xyz );
+		N_2 = tmp.xyz / tmp.w;
+	}
+	else  // we got a valid color
+	{
+		// Scale/bias normal (N_2) back to [-1..1] from [0..1], and then
+		//    transform the normal into eye-space
+		tmp.xyz = 2.0*N_2-1.0;
+		tmp.w = 0;
+		N_2 = normalize( mul( mvit, tmp ).xyz );
+	}
+
+	// Refract at the second surface
+	float4 T_2;
+	T_2 = refraction( T_1, -N_2, local3.x, local3.y );
+	float TIR = T_2.w;
+	T_2.w = 0;
+	
+	// Scale the vector so that it's got a unit-length z-component
+	float4 tmpT2 = T_2 / -T_2.z;
+
+	// compute distance to P_2_tilde from object center
+    float4 ctrToP2tilde;
+    ctrToP2tilde.xyz = P_2_tilde.xyz; // - float3(0,0,-5);
+    ctrToP2tilde.w = 0;
+    float deltaSqr = dot( ctrToP2tilde.xyz, ctrToP2tilde.xyz );
+	float delta = sqrt( deltaSqr );
+	
+	// Compute the texture locations of ctrPlusT2 and refractToNear.
+	float4 imgLoc1, imgLoc2;
+
+
+	float index, distA, distB;
+	float4 texel;
+	float minDist = 1000;
+	float deltaDist = 1000;
+	for (index = 0; index < 2; index += 1)
+	{
+		float4 transDir =  P_2_tilde + tmpT2 * index;
+		imgLoc1 = mul( proj, transDir );
+		imgLoc1.xyz = 0.5*(imgLoc1.xyz / imgLoc1.w) + 0.5; 
+		
+		// This worsk for all passes
+		texel = tex2D( otherObjsEyeDepth, imgLoc1.xy ).x;
+		
+		// This works for 1st (i.e., non-caustic pass)
+		//texel = tex2D( otherObjsEye, imgLoc1.xy ).a;
+		
+		distA = -(local4.x / (texel.x * local4.y - local4.z)) + P_2_tilde.z;
+		
+		if ( abs(distA-index) < abs(deltaDist) && distA < 25 )
+		{
+			deltaDist = abs(distA-index);
+			minDist = index;
+		}
+	}
+	
+	index = 0;
+	float distOld = minDist;	
+	float4 texel1, dist;
+	
+	for (index = 0; index < 10; index += 1)
+	{
+		float4 refrLoc1 = P_2_tilde + distOld * tmpT2;
+		float4 projLoc1 = mul( proj, refrLoc1 );
+		float2 index = 0.5*(projLoc1.xy / projLoc1.w) + 0.5;
+		
+		// This works for all passes
+		texel1 = tex2D( otherObjsEyeDepth, index.xy ).x;
+		
+		// This works for the 1st (i.e., non-caustic pass)
+		//texel1 = tex2D( otherObjsEye, index.xy ).a;
+		
+		dist.z = -(local4.x / (texel1.x * local4.y - local4.z)) + P_2_tilde.z;
+		distOld = dist.z;
+	}
+	
+	float comparisonCheck;
+	if (distOld < 25+P_2_tilde.z)
+		comparisonCheck = 1;
+	
+	float4 refrLoc1 = P_2_tilde + distOld * tmpT2;
+	
+	float4 projLoc1 = mul( proj, refrLoc1 );
+	float2 index2D = 0.5*(projLoc1.xy / projLoc1.w) + 0.5;
+	refrLoc1 = tex2D( otherObjsEye, index2D.xy );	
+	if (dot(refrLoc1.xyz, refrLoc1.xyz) > 0 && comparisonCheck)
+		refractedColor = refrLoc1;		
+	else
+	{
+		refractedColor = texCUBE( environmentMap, mul( prog0, T_2 ).xyz );
+	}
+	// Now we know the reflected color and refracted color... Add for final result
+	oColor0.xyz = reflectedColor + fresnel.y * refractedColor;
+	oColor0.w = 1.0;
+	
+	
+	
+	
+	
+	
+	
+	
+	/*
+	
+	// Use curvature information, compute a thin lens approximation to 
+	//     figure out splat size
+	// length(IN.eyePos.xyz) == distance from view to front facing surface.
+	// distOld == distance from back face surface to background objects
+	// local3.x == index of refraction of object (relative to external media)
+	// local3.z == the current scale of the object (note this affects the curvature, 
+	//             which is computed for objects in the normalized [-1..1]^3 scale)
+	
+	float objectScale          = local3.z;
+	float indexOfRefraction    = local3.x;
+	float one_over_index       = local2.x;
+	float distanceToBackground = distOld*T_2.z;
+	float floatFFCurvature     = IN.curvature.y / objectScale;
+	float floatBFCurvature     = (normTexture.a*64.0 - 32.0) / objectScale;
+	
+	// THE THICK LENS APPROXIMATION
+	//     (This should probably be restructured to improve numerical accuracy)
+	float surfacePowerF = (indexOfRefraction-1) * floatFFCurvature;
+	float surfacePowerB = (indexOfRefraction-1) * -floatBFCurvature; 
+	float equivalentPower = surfacePowerF + surfacePowerB - surfacePowerF*surfacePowerB*d_tilde*one_over_index;
+	
+	float distToPrincPlaneB = d_tilde*one_over_index*(surfacePowerB/equivalentPower);
+	distToPrincPlaneB = ( abs(equivalentPower) < 0.001 ? 0 : distToPrincPlaneB);
+	float distToPrincPlaneF = -d_tilde*one_over_index*(surfacePowerF/equivalentPower);
+	distToPrincPlaneF = ( abs(equivalentPower) < 0.001 ? 0 : distToPrincPlaneF);
+	
+	float one_over_I        = equivalentPower - 1.0/(length(IN.eyePos.xyz)+distToPrincPlaneB);
+	//float one_over_I        = equivalentPower - 1.0/(length(IN.eyePos.xyz)+distToPrincPlaneF);
+	
+	//float focalDistance     = -1/one_over_I;
+	
+	// THE THIN LENS APPROXIMATION	
+	//     (This should probably be restructured to improve numerical accuracy)
+	float one_over_f        = (indexOfRefraction-1)*(floatFFCurvature - floatBFCurvature);
+	float one_over_i        = one_over_f - 1.0/length(IN.eyePos.xyz);
+	float focalDistance     = -1/one_over_i;
+		
+	// Output a splat size for the photon, based on the focal distance
+	float tmppp= 0.25/abs(focalDistance/(distanceToBackground-focalDistance));
+	oColor0.xyz = tmppp;
+	
+	*/
+	
+	
+}

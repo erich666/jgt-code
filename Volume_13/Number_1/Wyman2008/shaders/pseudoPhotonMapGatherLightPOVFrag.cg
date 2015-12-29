@@ -1,0 +1,74 @@
+////////////////////////////////////////////////////////////////////////
+// Pixel shader code for the light-space photon gather                //
+//                                                                    //
+// "Interactive Image-Space Techniques for Approximating Caustics"    //
+//    Chris Wyman & Scott Davis, The University of Iowa               //
+// (September 27th, 2005)                                             //
+////////////////////////////////////////////////////////////////////////
+
+struct vertout
+{
+	float4 oPosition		  : POSITION;
+	float4 wPosition          : WPOS;
+};
+
+
+void main( vertout IN,
+           uniform sampler2D causticMap	          : TEXUNIT0,
+           uniform sampler1D offsetTex            : TEXUNIT3,
+		   uniform float texDelta,		
+		   uniform float farDistance,   
+		   uniform float resolutionMultiplier, // depending on resolution caustic coef might need scaling
+		   uniform float gaussianSigma,        // sets the sigma used in the gaussian distribution 
+		   uniform float rangeSigma,           // sets the sigma used in the bilateral distribution 
+		   out float4 oColor: COLOR )
+{
+    float4 photonCount=float4(0,0,0,0);
+	float2 texCoord = IN.wPosition.xy * texDelta;
+	float4 origPos, maxPos, minPos, tmpPos;
+	float dist = -1, distToLightSqr;
+	float area;
+	float2 tmp;
+	float4 lightSpaceCoord;
+	float4 objectColor;
+	float4 incident=float4(0,0,0,0);
+	
+	// The technique using LS coord at every pixel, not just photon locations
+	float4 currVal;
+	float distSqrToHitPos = 0.00001, tmpDist;
+	
+	// Over the 7x7 nearby neighborhood
+	// IF USING FIXED GAUSSIAN DISTRIBUTION, UNCOMMENT THIS:
+	/*
+	for (float i = 0; i < 49; i++)
+	{
+	    float useCurrent;
+	    float4 offset = tex1D( offsetTex, i/128.0 );
+		currVal = tex2D( causticMap, texCoord.xy + (255.0*offset.xy - 128.0)*texDelta );
+		photonCount.x = photonCount.x + offset.w*currVal.a*255;  // sum the photon counts
+		if (dot(incident.xyz,incident.xyz)<0.001)                // find the best (closest to central pixel)
+			incident.xyz = currVal.xyz;                          //    incident photon direction
+	}
+	*/
+	
+	// IF USING DYNAMIC BILATERAL DISTRIBUTION, UNCOMMENT THIS:
+	float4 centralVal = tex2D( causticMap, texCoord.xy );
+	for (float i = 0; i < 49; i++)
+	{
+	    float eValue;
+	    float4 offset = 255.0*tex1D( offsetTex, i/128.0 )-128.0;
+	    tmp = -(offset*offset)/(2*gaussianSigma*gaussianSigma);
+	    eValue = exp(tmp.x) * exp(tmp.y);
+		currVal = tex2D( causticMap, texCoord.xy + offset.xy*texDelta );
+		tmp.x = exp( (currVal.a-centralVal.a)*(centralVal.a-currVal.a)/(2*rangeSigma*rangeSigma) );
+		if (rangeSigma > 0) eValue = eValue * tmp.x;
+		photonCount.x = photonCount.x + eValue*currVal.a*255;
+		photonCount.y = photonCount.y + eValue;
+	}
+	photonCount.x = photonCount.x / photonCount.y;
+	
+	 
+	// Write the photon count & incident direction to the buffers.
+	oColor.xyzw = resolutionMultiplier * photonCount.x;
+}
+

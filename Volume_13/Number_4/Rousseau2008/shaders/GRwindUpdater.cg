@@ -1,0 +1,400 @@
+/*
+ ***************************************************************************
+ *                                                                         *
+ * GPU RAINFALL                                                            *
+ * Pierre Rousseau, Vincent Jolivet and Djamchid Ghazanfarpour             *
+ * Institut XLIM, UMR CNRS 6172, Limoges, France                           *
+ *                                                                         *
+ ***************************************************************************
+ *                                                                         *
+ * Fragment program which draws the wind texture                           *
+ *                                                                         *
+ ***************************************************************************
+ *                                                                         *
+ * Copyright 2008, Pierre Rousseau (pierre.rousseau@xlim.fr)               *
+ *                                                                         *
+ * This program is free software; you can redistribute it and/or           *
+ * modify it under the terms of the GNU General Public License as          *
+ * published by the Free Software Foundation; either version 2 of          *
+ * the License, or (at your option) any later version.                     *
+ *                                                                         *
+ * This program is distributed in the hope that it will be useful,         *
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of          *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the           *
+ * GNU General Public License for more details.                            *
+ *                                                                         *
+ * You should have received a copy of the GNU General Public License       *
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.   *
+ *                                                                         *
+ ***************************************************************************
+*/
+
+
+
+///////////////////////////////////////////////////////////////////////////
+//      Simple initialization shader
+///////////////////////////////////////////////////////////////////////////
+float4 copy (float2 coords : TEXCOORD0,
+             uniform sampler2D wind : TEXUNIT0) : COLOR
+{
+    return tex2D(wind, coords);
+}
+
+
+#define PI 3.1415926535
+
+
+///////////////////////////////////////////////////////////////////////////
+//  utility functions
+///////////////////////////////////////////////////////////////////////////
+float wrap(float a)
+{
+    return a - floor(a);
+}
+
+float2 wrap(float2 a)
+{
+    return a - floor(a);
+}
+
+float3 wrap(float3 a)
+{
+    return a - floor(a);
+}
+
+float4 wrap(float4 a)
+{
+    return a - floor(a);
+}
+
+
+
+
+
+///////////////////////////////////////////////////////////////////////////
+//  primitives computation
+///////////////////////////////////////////////////////////////////////////
+float4 handleVortex(float3 position, float3 vortexCenter, float3 vortexUpVector, float vortexStrength)
+{
+    float4 result; // rgb will contain direction, a will contain speed (module)
+    
+    float3 OA = position - vortexCenter; // OA is the vector from vortexCenter to the considered point.
+    float nOA = length(OA); // OA's norm
+    float3 uOA = OA / nOA; // OA's normalized version
+    
+    float alpha = 2.0 * acos( length( (uOA+vortexUpVector)/2.0 ) );
+    
+    float z = sin ((PI / 2.0) - alpha) * nOA;
+    float r = cos ((PI / 2.0) - alpha) * nOA;
+    
+    float3 OK = (OA - z * vortexUpVector) / r; // ok is a unitary vector along the vortex base plane.
+    
+    result.rgb = cross(OK, vortexUpVector); // direction of the resulting vector
+    result.a = vortexStrength / (2.0 * PI * r); // strength (module) of the resulting vector
+    
+    return result;
+}
+
+
+
+float4 handleSink(float3 position, float3 sinkCenter, float3 sinkUpVector, float sinkStrength)
+{
+    float4 result; // rgb will contain direction, a will contain speed (module)
+    
+    float3 OA = position - sinkCenter; // OA is the vector from vortexCenter to the considered point.
+    float nOA = length(OA); // OA's norm
+    float3 uOA = OA / nOA; // OA's normalized version
+    
+    float alpha = 2.0 * acos( length( (uOA+sinkUpVector)/2.0 ) );
+    
+    float z = sin ((PI / 2.0) - alpha) * nOA;
+    float r = cos ((PI / 2.0) - alpha) * nOA;
+    
+    float3 OK = (OA - z * sinkUpVector) / r; // ok is a unitary vector along the vortex base plane.
+    
+    result.rgb = OK; // direction of the resulting vector
+    result.a = sinkStrength / nOA; // strength (module) of the resulting vector
+    
+    return result;
+}
+
+
+float4 handleHomogeneousLaminary(float3 position, float3 direction, float strength)
+{
+    return float4(direction, strength);
+}
+
+float4 handleLocalizedLaminary(float3 position, float3 basePosition, float3 direction, float strength)
+{
+    float4 result; // rgb will contain direction, a will contain speed (module)
+    
+    float3 OA = position - basePosition; // OA is the vector from vortexCenter to the considered point.
+    float nOA = length(OA); // OA's norm
+    float3 uOA = normalize(OA); // OA's unitary version
+    
+    result.rgb = direction; // wind blows in this direction
+    result.a = max ( 0 , dot(uOA, normalize(direction)) * strength);// / (1.0+nOA);
+    
+    return result;
+}
+
+
+
+float4 tornado(float3 coords, float3 base, float3 axis, float strength)
+{
+    float4 returnColor;
+    
+    // just in case :
+    axis = normalize(axis);
+    
+    float4 vortex = handleVortex(coords, base, axis, 2 * strength);
+    float4 sinkTop = handleSink(coords, wrap(base + 0.9 * axis), axis, 0.05 * strength);
+    float4 sinkBottom = handleSink(coords, base, axis, -0.45 * strength);
+    
+    returnColor.xyz = vortex.xyz * vortex.a + sinkTop.xyz * sinkTop.a + sinkBottom.xyz * sinkBottom.a;
+    returnColor.w = 1;
+    
+    return returnColor;
+}
+
+
+
+
+
+
+
+
+///////////////////////////////////////////////////////////////////////////
+//  more utility functions
+///////////////////////////////////////////////////////////////////////////
+float2 getActualWidthHeight(float3 widthHeightDepth)
+{
+    float2 actualWidthHeight;
+    
+    float sqrtDepth = sqrt(widthHeightDepth.z);
+    int p = 0;
+    while (pow(2.0f,p) < sqrtDepth)
+    {
+        p++;
+    }
+    // p is now the desired power of two. we use 2^p depth tiles horizontally, and the appropriate number vertically (will be 2^p or 2^(p-1) )
+    actualWidthHeight.x = widthHeightDepth.x * int(pow(2.0f,p));
+    actualWidthHeight.y = widthHeightDepth.y * ceil(widthHeightDepth.z / pow(2.0f,p) );
+    
+    return actualWidthHeight;
+}
+
+
+
+
+
+float3 coords2dto3d(float2 orig, float3 widthHeightDepth)
+{
+    float3 returnColor;
+    float2 actualWH = getActualWidthHeight(widthHeightDepth);
+  
+    returnColor.x = (orig.x * actualWH.x / widthHeightDepth.x) - floor(orig.x * actualWH.x / widthHeightDepth.x);
+    returnColor.y = (orig.y * actualWH.y / widthHeightDepth.y) - floor(orig.y * actualWH.y / widthHeightDepth.y);
+    returnColor.z = (0.5 / widthHeightDepth.z) + ( floor(orig.x * actualWH.x / widthHeightDepth.x) + (floor(orig.y * actualWH.y / widthHeightDepth.y) * (actualWH.x / widthHeightDepth.x) ) ) / widthHeightDepth.z;
+  
+    return returnColor;
+}
+
+
+
+
+
+float2 coords3dto2d(float3 coords3d, float3 widthHeightDepth)
+{
+    float2 returnColor;
+    float2 actualWH = getActualWidthHeight(widthHeightDepth);
+  
+    coords3d=wrap(coords3d);
+  
+    returnColor.x = (coords3d.x / (actualWH.x / widthHeightDepth.x)) + ( int(coords3d.z * widthHeightDepth.z) % int(actualWH.x / widthHeightDepth.x) ) / (actualWH.x / widthHeightDepth.x) ;
+    returnColor.y = (coords3d.y / (actualWH.y / widthHeightDepth.y)) + ( floor( (coords3d.z * widthHeightDepth.z) / (actualWH.x / widthHeightDepth.x) ) / (actualWH.y / widthHeightDepth.y) ) ;
+
+    return returnColor;
+}
+
+
+
+
+
+
+float3 interpolateTexture(float3 coords,
+                          float3 widthHeightDepth,
+                          sampler2D tex)
+{
+    float3 min_interpol = (floor(coords.xyz * widthHeightDepth + 0.5) / widthHeightDepth) - (0.5 / widthHeightDepth);
+    float3 max_interpol = min_interpol.xyz + (1.0 / widthHeightDepth);
+    float3 ratio_interpol = (coords.xyz - min_interpol.xyz) / (max_interpol.xyz - min_interpol.xyz);
+    // front face
+    float3 wind_front_bottom = lerp(tex2D(tex, coords3dto2d(float3(min_interpol.x, min_interpol.y, min_interpol.z), widthHeightDepth)), tex2D(tex, coords3dto2d(float3(max_interpol.x, min_interpol.y, min_interpol.z), widthHeightDepth)), ratio_interpol.x);
+    float3 wind_front_top = lerp(tex2D(tex, coords3dto2d(float3(min_interpol.x, max_interpol.y, min_interpol.z), widthHeightDepth)), tex2D(tex, coords3dto2d(float3(max_interpol.x, max_interpol.y, min_interpol.z), widthHeightDepth)), ratio_interpol.x);
+    float3 wind_front = lerp(wind_front_bottom, wind_front_top, ratio_interpol.y);
+    // back face
+    float3 wind_back_bottom = lerp(tex2D(tex, coords3dto2d(float3(min_interpol.x, min_interpol.y, max_interpol.z), widthHeightDepth)), tex2D(tex, coords3dto2d(float3(max_interpol.x, min_interpol.y, max_interpol.z), widthHeightDepth)), ratio_interpol.x);
+    float3 wind_back_top = lerp(tex2D(tex, coords3dto2d(float3(min_interpol.x, max_interpol.y, max_interpol.z), widthHeightDepth)), tex2D(tex, coords3dto2d(float3(max_interpol.x, max_interpol.y, max_interpol.z), widthHeightDepth)), ratio_interpol.x);
+    float3 wind_back = lerp(wind_back_bottom, wind_back_top, ratio_interpol.y);
+    //final interpolation
+    float3 wind = lerp(wind_front, wind_back, ratio_interpol.z);
+    
+    // uncomment the following line for no interpolation
+    //return tex2D(tex, coords3dto2d(wrap(coords)));
+    return wind;
+}
+
+
+
+
+float3 neighbors_mean(float3 coords,
+                        float3 widthHeightDepth,
+                        sampler2D tex)
+{
+    float3 tmpSum = 0;
+    float4 neighbor;
+    float div = 0;
+    float impact;
+    float x, y, z;
+  
+    for (fixed i = -1 ; i <= 1 ; i++)
+        for (fixed j = -1 ; j <= 1 ; j++)
+            for (fixed k = -1 ; k <= 1 ; k++)
+            {
+                if (abs(i)+abs(j)+abs(k)==1)
+                {
+                    x = coords.x + i * 1.0 / widthHeightDepth.x;
+                    y = coords.y + j * 1.0 / widthHeightDepth.y;
+                    z = coords.z + k * 1.0 / widthHeightDepth.z;
+                    
+                    if (y > 0 && y < 1) // We don't wrap vertically
+                    {
+                        neighbor = tex2D(tex, coords3dto2d(float3(x, y, z), widthHeightDepth));
+                        
+                        impact = 1.0 / ( 1.0 + abs(coords.x - x) * widthHeightDepth.x + abs(coords.y - y) * widthHeightDepth.y + abs(coords.z - z) * widthHeightDepth.z ) ;
+                        if (neighbor.w == 1)
+                        {
+                            impact *= 2;
+                        } 
+                        tmpSum += neighbor.xyz * impact;
+                        div += impact;
+                    }
+                }
+            }
+
+    return div==0?float3(0.0, 2.0, 0.0):(tmpSum / div);
+}
+
+
+
+
+// can't be more than 24 : cgc unrolls the loop, and it would need more than 4096 instructions (max for fp40)
+#define MAX_WIND_PRIMITIVES     10
+
+
+
+
+
+
+///////////////////////////////////////////////////////////////////////////
+//  Main shader : draws the wind texture
+///////////////////////////////////////////////////////////////////////////
+float4 main(float2 coords   : TEXCOORD0,
+            uniform float3 widthHeightDepth,
+            uniform float3 collisionCameraPosition,
+            uniform float3 boxMin,
+            uniform float3 boxMax,
+            uniform float4x4 windPrimitives[MAX_WIND_PRIMITIVES],
+            uniform sampler2D formerWind : TEXUNIT0,
+            uniform sampler2D collisionTexture : TEXUNIT1) : COLOR
+{
+    float4 returnColor = float4(0, 0, 0, 0);
+    
+    float3 coords3d = coords2dto3d(coords, widthHeightDepth);
+    
+    
+    if (coords3d.x >1 || coords3d.y >1 || coords3d.z >1 )
+    {
+        // this is an unused part of the texture
+        return float4(0,0,0,0);
+    }
+    else
+    {
+        float4 previous = tex2D(formerWind, coords);
+        
+        
+        float3 neighborhood_mean = neighbors_mean(coords3d, widthHeightDepth, formerWind);
+    
+        // Is there a collision ?
+        
+        float2 tmpCoords;
+        tmpCoords.x = collisionCameraPosition.x;
+        tmpCoords.y = collisionCameraPosition.z;
+        float2 collisionCoords = wrap (-coords3d.xz + (tmpCoords.xy / (boxMax-boxMin).xz) + 0.5) ;
+        
+        float4 col = tex2D(collisionTexture, collisionCoords);
+        
+        
+        if (col.a >= (coords3d.y) * boxMax.y)
+        {
+            // position is inside an obstacle : no wind can blow inside an obstacle
+            returnColor.xyz = float3(0, 0, 0);
+        }
+        else
+        {
+            //take all wind primitives into account :
+            for (int wp=0 ; wp < MAX_WIND_PRIMITIVES ; wp++)
+            {
+                float4 tmpPrimitive = float4(0, 0, 0, 0);
+                
+                float3 V1 = float3(windPrimitives[wp][1][0], windPrimitives[wp][1][1], windPrimitives[wp][1][2]);
+                float3 V2 = float3(windPrimitives[wp][2][0], windPrimitives[wp][2][1], windPrimitives[wp][2][2]);
+                
+                // find the nearest base point (wind box is tiled)
+                V1.xz = V1.xz + floor(0.5 + (coords3d.xz-V1.xz));
+                
+                if (windPrimitives[wp][0][0] == 1 || windPrimitives[wp][0][0] == 2)
+                {
+                    // sink in and sink out (source)
+                    tmpPrimitive = handleSink(coords3d, V1, V2, windPrimitives[wp][0][1]);
+                }
+                else if (windPrimitives[wp][0][0] == 3)
+                {
+                    // vortex
+                    tmpPrimitive = handleVortex(coords3d, V1, V2, windPrimitives[wp][0][1]);
+                }
+                else if (windPrimitives[wp][0][0] == 4)
+                {
+                    // homogeneous laminary wind
+                    tmpPrimitive = handleHomogeneousLaminary(coords3d, V2, windPrimitives[wp][0][1]);
+                }
+                else if (windPrimitives[wp][0][0] == 5)
+                {
+                    // localized laminary wind
+                    tmpPrimitive = handleLocalizedLaminary(coords3d, V1, V2, windPrimitives[wp][0][1]);
+                }
+                else if (windPrimitives[wp][0][0] == 6)
+                {
+                    // tornado
+                    tmpPrimitive = tornado(coords3d, V1, V2, windPrimitives[wp][0][1]);
+                }
+                else
+                {
+                    // do nothing
+                    tmpPrimitive = float4(0, 0, 0, 1);
+                }
+                
+                returnColor.xyz += tmpPrimitive.xyz * tmpPrimitive.w;
+            }
+        }
+    
+        returnColor.w = previous.w;
+        
+        return returnColor;
+    }
+}
+
+
+
+

@@ -1,0 +1,11 @@
+libkdtree++ TODO list
+=====================
+
+- consistent use of throw () in function decl/defn.
+- keep tree balanced in insert() and erase().
+  maybe these can do it:
+    http://www.cgal.org/
+    http://www.cs.umd.edu/~mount/ANN/
+- erase(range)
+- improved copy constructor and operator= (Paul Harris)
+- possibly rename all __* variables, since __* is reserved for the compiler.

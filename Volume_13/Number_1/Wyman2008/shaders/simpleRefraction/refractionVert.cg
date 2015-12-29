@@ -1,0 +1,54 @@
+// Cg vertex shader code for the refraction pass of:
+//
+//     "An Approximate Image-Space Approach for Interactive Refraction"
+//     by Chris Wyman, University of Iowa.  
+//
+// Date: April 21, 2005
+
+// Vertex inputs
+struct appin
+{
+	float4 iPosition	: POSITION;  // Obj-space pos. of refractive geometry
+	float4 iNormal		: NORMAL;    // Obj-space norm. of refractive geometry
+};
+
+// Vertex outputs / fragment inputs
+struct vertout
+{
+	float4 oPosition	: POSITION;  // Transformed vertex location
+	float4 NDCcoord		: TEXCOORD0; // Normalized Device Coordinates (see below)
+	float4 eyeNorm      : TEXCOORD1; // Eye-space normal of geometry
+	float4 eyePos		: TEXCOORD2; // Eye-space position of geometry
+};
+
+vertout main( appin IN,
+			  uniform float4x4 mvp  : state.matrix.mvp,
+			  uniform float4x4 mv   : state.matrix.modelview, 
+			  uniform float4x4 mvit : state.matrix.modelview.invtrans )
+{
+	vertout OUT;
+	float4 eyeTmp;
+	
+	// Compute the transformed vertex location
+	OUT.oPosition = mul( mvp, IN.iPosition );
+    
+	// Compute the eye-space location of this geometry.
+    eyeTmp = mul( mv, IN.iPosition );
+	OUT.eyePos = eyeTmp / eyeTmp.w; 
+	
+	// Compute the surface normal in eye-space (inverse-transpose applied to normal)	
+	OUT.eyeNorm.xyz = mul( mvit, IN.iNormal );
+	OUT.eyeNorm.w = IN.iNormal.w;
+	
+	// For some reason, Cg does not want to allow me to access OUT.oPosition 
+    //    in the fragment shader.  Since I need this to index into textures,
+    //    I duplicate it and pass it down in a texture coordinate.  These lines
+    //    could be removed if Cg allowed me access, or if I was willing
+    //    to go into the compiled fragment shader and force access to the
+    //    ARB-provided "fragment.position"
+	eyeTmp = mul( mvp, IN.iPosition );
+	eyeTmp.xyz = eyeTmp.xyz / eyeTmp.w;
+	OUT.NDCcoord = 0.5 * eyeTmp + 0.5;
+	
+	return OUT;
+}

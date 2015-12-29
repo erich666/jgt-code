@@ -1,0 +1,76 @@
+/* When displaying the texture blend the gray scale RD b value and
+   with a rainbox colormap of the vector magnitude.
+
+   fcolor.x RD a morphiden value
+   fcolor.y RD b morphiden value
+   fcolor.z Vector Magnitude
+*/
+
+#define MAX_COLORS 28.0
+
+#define LERP( t, x0, x1 ) ( x0 + t * (x1 - x0) )
+
+void gamma_index( out float new_index, float old_index ) {
+  float gamma = 0.0;
+	
+  float bp = tan( 1.570796327*(0.5 + gamma*0.49999));
+
+  new_index = pow(old_index,bp);
+}
+
+
+void rainbow( out float4 rb_color, float u, uniform samplerRECT colormap )
+{
+  float mc = MAX_COLORS - 1.0;
+
+  float v = u;
+
+  gamma_index( v, u );
+
+  float i = floor(v * mc);
+  float t = v * mc - i;
+
+  float4 c0 = f4texRECT( colormap, float2( i,      0.0f ) );
+  float4 c1 = f4texRECT( colormap, float2( i+1.0f, 0.0f ) );
+
+  rb_color = LERP( t, c0, c1 );
+}
+
+
+void main(float2 texCoord :TEXCOORD0,
+          out float4 oColor : COLOR,
+	  uniform float4 min,
+	  uniform float4 scale,
+	  uniform int flag,
+          uniform samplerRECT colormap,
+          uniform samplerRECT texture)
+{
+  float4 fcolor = f4texRECT( texture, texCoord );
+
+//  float4 rb_color;
+
+//  rainbow( rb_color, fcolor.a, colormap );
+
+//  oColor = LERP( 0.3, float4( val, val, val, 0.0f), rb_color );
+
+  float4 val = (fcolor - min) * scale;
+
+  if( flag >= 8 ) {
+    flag -= 8;
+    val = 1.0 - val;
+  }
+
+  if( flag == 0 )
+    oColor = val.rrrr;
+  else if( flag == 1 )
+    oColor = val.gggg;
+  else if( flag == 2 )
+    oColor = val.bbbb;
+  else if( flag == 3 )
+    oColor = val.aaaa;
+
+  if( flag < 4 )
+    oColor.a = 0.0;
+  else
+    oColor = val;
+}

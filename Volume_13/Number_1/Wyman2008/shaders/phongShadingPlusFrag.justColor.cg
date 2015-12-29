@@ -1,0 +1,36 @@
+
+
+struct vertout
+{
+	float4 Position		: WPOS;
+	float4 normal      	: TEXCOORD1;
+	float4 eyePos		: TEXCOORD2;
+	float4 lightDir		: TEXCOORD3;
+};
+
+
+void main( vertout IN,
+           uniform float4 ambientMaterial    : state.material.ambient,
+		   uniform float4 diffuseMaterial    : state.material.diffuse,
+		   uniform float4 specularMaterial   : state.material.specular,
+		   uniform float shininess           : state.material.shininess,
+		   uniform float4 half               : state.light[0].half, 
+		   out float4 oColor: COLOR0 )
+{
+    float3 normalVec = normalize(IN.normal.xyz);
+
+    // calculate half angle vector
+    float3 eyeVec = normalize(IN.eyePos.xyz);
+    float3 halfVec = normalize( IN.lightDir.xyz - eyeVec.xyz );
+    
+    // calculate diffuse component
+    float4 diffuse = max( dot(normalVec, IN.lightDir.xyz), 0.0 ) * diffuseMaterial;
+
+    // calculate specular component
+    float4 specular = pow(max( dot(normalVec, halfVec), 0.0 ), shininess) * specularMaterial;
+    
+    // combine diffuse and specular contributions and output final vertex color
+    oColor = ambientMaterial + diffuse + specular;
+    oColor.a = IN.Position.z;
+}
+

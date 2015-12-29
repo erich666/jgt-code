@@ -1,0 +1,46 @@
+
+
+#define PHOTON_THRES_MAX  32.0
+#define PHOTON_THRES_MIN  16.0
+
+//#define PHOTON_THRES_MAX  128.0
+//#define PHOTON_THRES_MIN  64.0
+
+//#define PHOTON_THRES_MAX  512.0
+//#define PHOTON_THRES_MIN  256.0
+
+struct vertout
+{
+    float4 wPosition          : WPOS;
+	float4 imgTexCoord        : TEXCOORD0;
+	float4 NDCcoord           : TEXCOORD1;
+};
+
+void main( vertout IN,
+           uniform sampler2D photonCounts         : TEXUNIT0,
+           uniform sampler2D multiLevelGaussians  : TEXUNIT1,     
+           out float4 oColor0: COLOR )
+{
+	float4 phCount = tex2D( photonCounts, (IN.NDCcoord.xy * 0.5) + 0.5 );
+	float4 gaussians = tex2D( multiLevelGaussians, (IN.NDCcoord.xy * 0.5) + 0.5 );
+	
+	float4 weights = (2047*phCount/PHOTON_THRES_MIN) - float4(1,1,1,0);
+	weights.x = smoothstep( 0, 1, weights.x );
+	weights.y = smoothstep( 0, 1, weights.y );
+	weights.z = smoothstep( 0, 1, weights.z );
+	weights.w = smoothstep( 0, 1, 0.5 * weights.w );
+	
+	weights.w = weights.z >= 1.0 ? 0 : weights.w;
+	weights.z = weights.y >= 1.0 ? 0 : weights.z;
+	weights.y = weights.x >= 1.0 ? 0 : weights.y;
+	
+	gaussians.x = gaussians.x < gaussians.y ? gaussians.y : gaussians.x ;
+	gaussians.y = gaussians.y < gaussians.z ? gaussians.z : gaussians.y ;
+	gaussians.z = gaussians.z < gaussians.w ? gaussians.w : gaussians.z ;
+	
+	float weightSum = weights.x+weights.y+weights.z+weights.w;
+	weights =  weightSum > 0 ? weights/weightSum : 0 ;
+	
+	oColor0 = 1*dot( gaussians, weights );
+}
+

@@ -1,0 +1,30 @@
+
+struct appin
+{
+	float4 iPosition          : POSITION;
+    float4 imgTexCoord        : TEXCOORD0;
+};
+
+struct vertout
+{
+	float4 oPosition		  : POSITION;
+	float4 imgTexCoord        : TEXCOORD0;
+	float4 NDCcoord           : TEXCOORD1;
+};
+
+
+vertout main( appin IN,
+			  uniform float4x4 mvp  : state.matrix.mvp )
+{
+	vertout OUT;
+	float4 mvPos, lightPos;
+
+	OUT.oPosition = mul( mvp, IN.iPosition );
+	OUT.imgTexCoord = IN.imgTexCoord;
+	
+	float4 eyeTmp = mul( mvp, IN.iPosition );
+	eyeTmp.xyz = eyeTmp.xyz / eyeTmp.w;
+	OUT.NDCcoord = eyeTmp;
+		
+	return OUT;
+}
