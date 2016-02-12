@@ -95,7 +95,7 @@ The following articles have related code; look in the corresponding folder by Vo
 
 * Ruijters, Daniel, Bart M. ter Haar Romeny, and Paul Suetens, ["Efficient GPU-Based Texture Interpolation using Uniform B-Splines,"](http://www.tandfonline.com/doi/abs/10.1080/2151237X.2008.10129269) *journal of graphics tools*, 13(4):61-69, 2008. [**Code**](Volume_13/Number_4/Ruijters2008)
 
-It is a kind courtesy to the authors that the relevant paper is cited when the code is used.
+As a courtesy to the authors if possible, please cite their work when you use their code.
 
 Code in this repository is under this form of the [MIT License](https://en.wikipedia.org/wiki/MIT_License#License_terms) unless otherwise stated:
 
