@@ -1,0 +1,486 @@
+(***********************************************************************
+
+                    Mathematica-Compatible Notebook
+
+This notebook can be used on any computer system with Mathematica 3.0,
+MathReader 3.0, or any compatible application. The data for the notebook 
+starts with the line of stars above.
+
+To get the notebook into a Mathematica-compatible application, do one of 
+the following:
+
+* Save the data starting with the line of stars above into a file
+  with a name ending in .nb, then open the file inside the application;
+
+* Copy the data starting with the line of stars above to the
+  clipboard, then use the Paste menu command inside the application.
+
+Data for notebooks contains only printable 7-bit ASCII and can be
+sent directly in email or through ftp in text mode.  Newlines can be
+CR, LF or CRLF (Unix, Macintosh or MS-DOS style).
+
+NOTE: If you modify the data for this notebook not in a Mathematica-
+compatible application, you must delete the line below containing the 
+word CacheID, otherwise Mathematica-compatible applications may try to 
+use invalid cache data.
+
+For more information on notebooks and Mathematica-compatible 
+applications, contact Wolfram Research:
+  web: http://www.wolfram.com
+  email: info@wolfram.com
+  phone: +1-217-398-0700 (U.S.)
+
+Notebook reader applications are available free of charge from 
+Wolfram Research.
+***********************************************************************)
+
+(*CacheID: 232*)
+
+
+(*NotebookFileLineBreakTest
+NotebookFileLineBreakTest*)
+(*NotebookOptionsPosition[     16309,        399]*)
+(*NotebookOutlinePosition[     16959,        422]*)
+(*  CellTagsIndexPosition[     16915,        418]*)
+(*WindowFrame->Normal*)
+
+
+
+Notebook[{
+
+Cell[CellGroupData[{
+Cell[BoxData[
+    \(Rho = {RhoX, RhoY, RhoZ}\)], "Input"],
+
+Cell[BoxData[
+    \(General::"spell1" \( : \ \) 
+      "Possible spelling error: new symbol name \"\!\(RhoX\)\" is similar to \
+existing symbol \"\!\(Rho\)\"."\)], "Message"],
+
+Cell[BoxData[
+    \(General::"spell" \( : \ \) 
+      "Possible spelling error: new symbol name \"\!\(RhoY\)\" is similar to \
+existing symbols \!\({Rho, RhoX}\)."\)], "Message"],
+
+Cell[BoxData[
+    \(General::"spell" \( : \ \) 
+      "Possible spelling error: new symbol name \"\!\(RhoZ\)\" is similar to \
+existing symbols \!\({Rho, RhoX, RhoY}\)."\)], "Message"],
+
+Cell[BoxData[
+    \({RhoX, RhoY, RhoZ}\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(Phi = {PhiX, PhiY, PhiZ}\)], "Input"],
+
+Cell[BoxData[
+    \(General::"spell1" \( : \ \) 
+      "Possible spelling error: new symbol name \"\!\(PhiX\)\" is similar to \
+existing symbol \"\!\(Phi\)\"."\)], "Message"],
+
+Cell[BoxData[
+    \(General::"spell" \( : \ \) 
+      "Possible spelling error: new symbol name \"\!\(PhiY\)\" is similar to \
+existing symbols \!\({Phi, PhiX}\)."\)], "Message"],
+
+Cell[BoxData[
+    \(General::"spell" \( : \ \) 
+      "Possible spelling error: new symbol name \"\!\(PhiZ\)\" is similar to \
+existing symbols \!\({Phi, PhiX, PhiY}\)."\)], "Message"],
+
+Cell[BoxData[
+    \({PhiX, PhiY, PhiZ}\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(P = Rho*Sin[t + Phi]\)], "Input"],
+
+Cell[BoxData[
+    \({RhoX\ Sin[PhiX + t], RhoY\ Sin[PhiY + t], RhoZ\ Sin[PhiZ + t]}\)], 
+  "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(V = D[P, t] . P\)], "Input"],
+
+Cell[BoxData[
+    \(RhoX\^2\ Cos[PhiX + t]\ Sin[PhiX + t] + 
+      RhoY\^2\ Cos[PhiY + t]\ Sin[PhiY + t] + 
+      RhoZ\^2\ Cos[PhiZ + t]\ Sin[PhiZ + t]\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(\(FullSimplify[Solve[0 == V, t]]\n (*\ NOTE, \ 
+      since\ t\ represents\ theta, \ 
+      and\ we' re\ only\ concerned\ with\ theta\ in\ the\ 
+        interval\ [0, 2*Pi], \ 
+      the\ t -> 
+        \(-ArcCos[ ... ]\)\ results\ can\ be\ eliminated\nto\ leave\ only\ 4\ 
+          results . \ \ Of\ these\ 4\ results, \ 
+      Since\ ArcCos[]\ returns\ values\ only\ in\ the\ interval\ [0, Pi], \ 
+      some\ will\ actually\ need\ to\ be\ offset\nby\ Pi\ to\ get\ the\ 
+        correct\ vertex . \ \ Simplest\ solution\ is\ to\ find\ the\ t\ which
+        \ yields\ the\ smallest\ Magnitude[P[t]], \ 
+      use\ this\ for\ the\ minor\ axis\ vertex, \n
+      and\ find\ the\ other\ vertices\ as\ t + Pi/2, \ t + Pi, \ 
+      and\ t + 3  Pi/2\ *) \)\)], "Input"],
+
+Cell[BoxData[
+    \(Solve::"ifun" \( : \ \) 
+      "Inverse functions are being used by \!\(Solve\), so some solutions may \
+not be found."\)], "Message"],
+
+Cell[BoxData[
+    \({{t \[Rule] 
+          \(-ArcCos[
+              \(-\(\@\(\(RhoX\^2\ Cos[2\ PhiX] + RhoY\^2\ Cos[2\ PhiY] + 
+                            \@\(RhoX\^4 + RhoY\^4 + RhoZ\^4 + 
+                                2\ RhoX\^2\ RhoY\^2\ 
+                                  Cos[2\ \((PhiX - PhiY)\)] + 
+                                2\ RhoZ\^2\ 
+                                  \((RhoX\^2\ Cos[2\ \((PhiX - PhiZ)\)] + 
+                                      RhoY\^2\ Cos[2\ \((PhiY - PhiZ)\)])
+                                    \)\) + 
+                            RhoZ\^2\ Cos[2\ PhiZ]\)\/\@\(RhoX\^4 + RhoY\^4 + 
+                              RhoZ\^4 + 
+                              2\ RhoX\^2\ RhoY\^2\ 
+                                Cos[2\ \((PhiX - PhiY)\)] + 
+                              2\ RhoZ\^2\ 
+                                \((RhoX\^2\ Cos[2\ \((PhiX - PhiZ)\)] + 
+                                    RhoY\^2\ Cos[2\ \((PhiY - PhiZ)\)])
+                                  \)\)\)\/\@2\)\)]\)}, {
+        t \[Rule] 
+          ArcCos[\(-
+              \(\@\(\(RhoX\^2\ Cos[2\ PhiX] + RhoY\^2\ Cos[2\ PhiY] + 
+                          \@\(RhoX\^4 + RhoY\^4 + RhoZ\^4 + 
+                              2\ RhoX\^2\ RhoY\^2\ 
+                                Cos[2\ \((PhiX - PhiY)\)] + 
+                              2\ RhoZ\^2\ 
+                                \((RhoX\^2\ Cos[2\ \((PhiX - PhiZ)\)] + 
+                                    RhoY\^2\ Cos[2\ \((PhiY - PhiZ)\)])\)\) + 
+                          RhoZ\^2\ Cos[2\ PhiZ]\)\/\@\(RhoX\^4 + RhoY\^4 + 
+                            RhoZ\^4 + 
+                            2\ RhoX\^2\ RhoY\^2\ Cos[2\ \((PhiX - PhiY)\)] + 
+                            2\ RhoZ\^2\ 
+                              \((RhoX\^2\ Cos[2\ \((PhiX - PhiZ)\)] + 
+                                  RhoY\^2\ Cos[2\ \((PhiY - PhiZ)\)])
+                                \)\)\)\/\@2\)\)]}, {
+        t \[Rule] 
+          \(-ArcCos[
+              \@\(\(RhoX\^2\ Cos[2\ PhiX] + RhoY\^2\ Cos[2\ PhiY] + 
+                        \@\(RhoX\^4 + RhoY\^4 + RhoZ\^4 + 
+                            2\ RhoX\^2\ RhoY\^2\ Cos[2\ \((PhiX - PhiY)\)] + 
+                            2\ RhoZ\^2\ 
+                              \((RhoX\^2\ Cos[2\ \((PhiX - PhiZ)\)] + 
+                                  RhoY\^2\ Cos[2\ \((PhiY - PhiZ)\)])\)\) + 
+                        RhoZ\^2\ Cos[2\ PhiZ]\)\/\@\(RhoX\^4 + RhoY\^4 + 
+                          RhoZ\^4 + 
+                          2\ RhoX\^2\ RhoY\^2\ Cos[2\ \((PhiX - PhiY)\)] + 
+                          2\ RhoZ\^2\ 
+                            \((RhoX\^2\ Cos[2\ \((PhiX - PhiZ)\)] + 
+                                RhoY\^2\ Cos[2\ \((PhiY - PhiZ)\)])
+                              \)\)\)\/\@2]\)}, {
+        t \[Rule] 
+          ArcCos[\@\(\(RhoX\^2\ Cos[2\ PhiX] + RhoY\^2\ Cos[2\ PhiY] + 
+                      \@\(RhoX\^4 + RhoY\^4 + RhoZ\^4 + 
+                          2\ RhoX\^2\ RhoY\^2\ Cos[2\ \((PhiX - PhiY)\)] + 
+                          2\ RhoZ\^2\ 
+                            \((RhoX\^2\ Cos[2\ \((PhiX - PhiZ)\)] + 
+                                RhoY\^2\ Cos[2\ \((PhiY - PhiZ)\)])\)\) + 
+                      RhoZ\^2\ Cos[2\ PhiZ]\)\/\@\(RhoX\^4 + RhoY\^4 + 
+                        RhoZ\^4 + 
+                        2\ RhoX\^2\ RhoY\^2\ Cos[2\ \((PhiX - PhiY)\)] + 
+                        2\ RhoZ\^2\ 
+                          \((RhoX\^2\ Cos[2\ \((PhiX - PhiZ)\)] + 
+                              RhoY\^2\ Cos[2\ \((PhiY - PhiZ)\)])
+                            \)\)\)\/\@2]}, {
+        t \[Rule] 
+          \(-ArcCos[
+              \(-\@\(1\/2 - 
+                    \(RhoX\^2\ Cos[2\ PhiX] + RhoY\^2\ Cos[2\ PhiY] + 
+                        RhoZ\^2\ Cos[2\ PhiZ]\)\/\(2\ 
+                        \@\(RhoX\^4 + RhoY\^4 + RhoZ\^4 + 
+                            2\ RhoX\^2\ RhoY\^2\ Cos[2\ \((PhiX - PhiY)\)] + 
+                            2\ RhoZ\^2\ 
+                              \((RhoX\^2\ Cos[2\ \((PhiX - PhiZ)\)] + 
+                                  RhoY\^2\ Cos[2\ \((PhiY - PhiZ)\)])
+                                \)\)\)\)\)]\)}, {
+        t \[Rule] 
+          ArcCos[\(-
+              \@\(1\/2 - 
+                  \(RhoX\^2\ Cos[2\ PhiX] + RhoY\^2\ Cos[2\ PhiY] + 
+                      RhoZ\^2\ Cos[2\ PhiZ]\)\/\(2\ 
+                      \@\(RhoX\^4 + RhoY\^4 + RhoZ\^4 + 
+                          2\ RhoX\^2\ RhoY\^2\ Cos[2\ \((PhiX - PhiY)\)] + 
+                          2\ RhoZ\^2\ 
+                            \((RhoX\^2\ Cos[2\ \((PhiX - PhiZ)\)] + 
+                                RhoY\^2\ Cos[2\ \((PhiY - PhiZ)\)])
+                              \)\)\)\)\)]}, {
+        t \[Rule] 
+          \(-ArcCos[
+              \@\(1\/2 - 
+                  \(RhoX\^2\ Cos[2\ PhiX] + RhoY\^2\ Cos[2\ PhiY] + 
+                      RhoZ\^2\ Cos[2\ PhiZ]\)\/\(2\ 
+                      \@\(RhoX\^4 + RhoY\^4 + RhoZ\^4 + 
+                          2\ RhoX\^2\ RhoY\^2\ Cos[2\ \((PhiX - PhiY)\)] + 
+                          2\ RhoZ\^2\ 
+                            \((RhoX\^2\ Cos[2\ \((PhiX - PhiZ)\)] + 
+                                RhoY\^2\ Cos[2\ \((PhiY - PhiZ)\)])\)\)\)\)]
+              \)}, {t \[Rule] 
+          ArcCos[\@\(1\/2 - 
+                \(RhoX\^2\ Cos[2\ PhiX] + RhoY\^2\ Cos[2\ PhiY] + 
+                    RhoZ\^2\ Cos[2\ PhiZ]\)\/\(2\ 
+                    \@\(RhoX\^4 + RhoY\^4 + RhoZ\^4 + 
+                        2\ RhoX\^2\ RhoY\^2\ Cos[2\ \((PhiX - PhiY)\)] + 
+                        2\ RhoZ\^2\ 
+                          \((RhoX\^2\ Cos[2\ \((PhiX - PhiZ)\)] + 
+                              RhoY\^2\ Cos[2\ \((PhiY - PhiZ)\)])\)\)\)\)]}}
+      \)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(% /. 
+      RhoX\^4 + RhoY\^4 + RhoZ\^4 + 
+          2\ RhoX\^2\ RhoY\^2\ Cos[2\ \((PhiX - PhiY)\)] + 
+          2\ RhoZ\^2\ 
+            \((RhoX\^2\ Cos[2\ \((PhiX - PhiZ)\)] + 
+                RhoY\^2\ Cos[2\ \((PhiY - PhiZ)\)])\) -> root1\)], "Input"],
+
+Cell[BoxData[
+    \({{t \[Rule] 
+          \(-ArcCos[
+              \(-\(\@\(\(\@root1 + RhoX\^2\ Cos[2\ PhiX] + 
+                            RhoY\^2\ Cos[2\ PhiY] + 
+                            RhoZ\^2\ Cos[2\ PhiZ]\)\/\@root1\)\/\@2\)\)]\)}, {
+        t \[Rule] 
+          ArcCos[\(-
+              \(\@\(\(\@root1 + RhoX\^2\ Cos[2\ PhiX] + 
+                          RhoY\^2\ Cos[2\ PhiY] + 
+                          RhoZ\^2\ Cos[2\ PhiZ]\)\/\@root1\)\/\@2\)\)]}, {
+        t \[Rule] 
+          \(-ArcCos[
+              \@\(\(\@root1 + RhoX\^2\ Cos[2\ PhiX] + RhoY\^2\ Cos[2\ PhiY] + 
+                        RhoZ\^2\ Cos[2\ PhiZ]\)\/\@root1\)\/\@2]\)}, {
+        t \[Rule] 
+          ArcCos[\@\(\(\@root1 + RhoX\^2\ Cos[2\ PhiX] + 
+                      RhoY\^2\ Cos[2\ PhiY] + RhoZ\^2\ Cos[2\ PhiZ]\)\/\@root1
+                      \)\/\@2]}, {
+        t \[Rule] 
+          \(-ArcCos[
+              \(-\@\(1\/2 - 
+                    \(RhoX\^2\ Cos[2\ PhiX] + RhoY\^2\ Cos[2\ PhiY] + 
+                        RhoZ\^2\ Cos[2\ PhiZ]\)\/\(2\ \@root1\)\)\)]\)}, {
+        t \[Rule] 
+          ArcCos[\(-
+              \@\(1\/2 - 
+                  \(RhoX\^2\ Cos[2\ PhiX] + RhoY\^2\ Cos[2\ PhiY] + 
+                      RhoZ\^2\ Cos[2\ PhiZ]\)\/\(2\ \@root1\)\)\)]}, {
+        t \[Rule] 
+          \(-ArcCos[
+              \@\(1\/2 - 
+                  \(RhoX\^2\ Cos[2\ PhiX] + RhoY\^2\ Cos[2\ PhiY] + 
+                      RhoZ\^2\ Cos[2\ PhiZ]\)\/\(2\ \@root1\)\)]\)}, {
+        t \[Rule] 
+          ArcCos[\@\(1\/2 - 
+                \(RhoX\^2\ Cos[2\ PhiX] + RhoY\^2\ Cos[2\ PhiY] + 
+                    RhoZ\^2\ Cos[2\ PhiZ]\)\/\(2\ \@root1\)\)]}}\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \({{t \[Rule] 
+            \(-ArcCos[
+                \(-\(\@\(\(\@root1 + RhoX\^2\ Cos[2\ PhiX] + 
+                              RhoY\^2\ Cos[2\ PhiY] + 
+                              RhoZ\^2\ Cos[2\ PhiZ]\)\/\@root1\)\/\@2\)\)]
+                \)}, {t \[Rule] 
+            ArcCos[\(-
+                \(\@\(\(\@root1 + RhoX\^2\ Cos[2\ PhiX] + 
+                            RhoY\^2\ Cos[2\ PhiY] + 
+                            RhoZ\^2\ Cos[2\ PhiZ]\)\/\@root1\)\/\@2\)\)]}, {
+          t \[Rule] 
+            \(-ArcCos[
+                \@\(\(\@root1 + RhoX\^2\ Cos[2\ PhiX] + 
+                          RhoY\^2\ Cos[2\ PhiY] + 
+                          RhoZ\^2\ Cos[2\ PhiZ]\)\/\@root1\)\/\@2]\)}, {
+          t \[Rule] 
+            ArcCos[\@\(\(\@root1 + RhoX\^2\ Cos[2\ PhiX] + 
+                        RhoY\^2\ Cos[2\ PhiY] + 
+                        RhoZ\^2\ Cos[2\ PhiZ]\)\/\@root1\)\/\@2]}, {
+          t \[Rule] 
+            \(-ArcCos[
+                \(-\@\(1\/2 - 
+                      \(RhoX\^2\ Cos[2\ PhiX] + RhoY\^2\ Cos[2\ PhiY] + 
+                          RhoZ\^2\ Cos[2\ PhiZ]\)\/\(2\ \@root1\)\)\)]\)}, {
+          t \[Rule] 
+            ArcCos[\(-
+                \@\(1\/2 - 
+                    \(RhoX\^2\ Cos[2\ PhiX] + RhoY\^2\ Cos[2\ PhiY] + 
+                        RhoZ\^2\ Cos[2\ PhiZ]\)\/\(2\ \@root1\)\)\)]}, {
+          t \[Rule] 
+            \(-ArcCos[
+                \@\(1\/2 - 
+                    \(RhoX\^2\ Cos[2\ PhiX] + RhoY\^2\ Cos[2\ PhiY] + 
+                        RhoZ\^2\ Cos[2\ PhiZ]\)\/\(2\ \@root1\)\)]\)}, {
+          t \[Rule] 
+            ArcCos[\@\(1\/2 - 
+                  \(RhoX\^2\ Cos[2\ PhiX] + RhoY\^2\ Cos[2\ PhiY] + 
+                      RhoZ\^2\ Cos[2\ PhiZ]\)\/\(2\ \@root1\)\)]}} /. 
+      RhoX\^2\ Cos[2\ PhiX] + RhoY\^2\ Cos[2\ PhiY] + 
+          RhoZ\^2\ Cos[2\ PhiZ] -> term2\)], "Input"],
+
+Cell[BoxData[
+    \({{t \[Rule] 
+          \(-ArcCos[\(-\(\@\(\(\@root1 + term2\)\/\@root1\)\/\@2\)\)]\)}, {
+        t \[Rule] ArcCos[\(-\(\@\(\(\@root1 + term2\)\/\@root1\)\/\@2\)\)]}, {
+        t \[Rule] \(-ArcCos[\@\(\(\@root1 + term2\)\/\@root1\)\/\@2]\)}, {
+        t \[Rule] ArcCos[\@\(\(\@root1 + term2\)\/\@root1\)\/\@2]}, {
+        t \[Rule] \(-ArcCos[\(-\@\(1\/2 - term2\/\(2\ \@root1\)\)\)]\)}, {
+        t \[Rule] ArcCos[\(-\@\(1\/2 - term2\/\(2\ \@root1\)\)\)]}, {
+        t \[Rule] \(-ArcCos[\@\(1\/2 - term2\/\(2\ \@root1\)\)]\)}, {
+        t \[Rule] ArcCos[\@\(1\/2 - term2\/\(2\ \@root1\)\)]}}\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(CForm[
+      RhoX\^2\ Cos[2\ PhiX] + RhoY\^2\ Cos[2\ PhiY] + RhoZ\^2\ Cos[2\ PhiZ]]
+      \)], "Input"],
+
+Cell["\<\
+Power(RhoX,2)*Cos(2*PhiX) + Power(RhoY,2)*Cos(2*PhiY) + \
+Power(RhoZ,2)*Cos(2*PhiZ)\
+\>", "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(CForm[{{
+          t \[Rule] 
+            \(-ArcCos[\(-\(\@\(\(\@root1 + term2\)\/\@root1\)\/\@2\)\)]\)}, {
+          t \[Rule] 
+            ArcCos[\(-\(\@\(\(\@root1 + term2\)\/\@root1\)\/\@2\)\)]}, {
+          t \[Rule] \(-ArcCos[\@\(\(\@root1 + term2\)\/\@root1\)\/\@2]\)}, {
+          t \[Rule] ArcCos[\@\(\(\@root1 + term2\)\/\@root1\)\/\@2]}, {
+          t \[Rule] \(-ArcCos[\(-\@\(1\/2 - term2\/\(2\ \@root1\)\)\)]\)}, {
+          t \[Rule] ArcCos[\(-\@\(1\/2 - term2\/\(2\ \@root1\)\)\)]}, {
+          t \[Rule] \(-ArcCos[\@\(1\/2 - term2\/\(2\ \@root1\)\)]\)}, {
+          t \[Rule] ArcCos[\@\(1\/2 - term2\/\(2\ \@root1\)\)]}}]\)], "Input"],
+
+Cell["\<\
+List(List(Rule(t,-ArcCos(-(Sqrt((Sqrt(root1) + \
+term2)/Sqrt(root1))/Sqrt(2))))),List(Rule(t,ArcCos(-(Sqrt((Sqrt(root1) + \
+term2)/Sqrt(root1))/Sqrt(2))))),
+   List(Rule(t,-ArcCos(Sqrt((Sqrt(root1) + \
+term2)/Sqrt(root1))/Sqrt(2)))),List(Rule(t,ArcCos(Sqrt((Sqrt(root1) + \
+term2)/Sqrt(root1))/Sqrt(2)))),
+   List(Rule(t,-ArcCos(-Sqrt(0.5 - \
+term2/(2.*Sqrt(root1)))))),List(Rule(t,ArcCos(-Sqrt(0.5 - \
+term2/(2.*Sqrt(root1)))))),
+   List(Rule(t,-ArcCos(Sqrt(0.5 - \
+term2/(2.*Sqrt(root1)))))),List(Rule(t,ArcCos(Sqrt(0.5 - \
+term2/(2.*Sqrt(root1)))))))\
+\>", "Output"]
+}, Open  ]]
+},
+FrontEndVersion->"Microsoft Windows 3.0",
+ScreenRectangle->{{0, 1280}, {0, 966}},
+WindowSize->{1236, 882},
+WindowMargins->{{2, Automatic}, {Automatic, 5}}
+]
+
+
+(***********************************************************************
+Cached data follows.  If you edit this Notebook file directly, not using
+Mathematica, you must remove the line containing CacheID at the top of 
+the file.  The cache data will then be recreated when you save this file 
+from within Mathematica.
+***********************************************************************)
+
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+
+(*NotebookFileOutline
+Notebook[{
+
+Cell[CellGroupData[{
+Cell[1731, 51, 57, 1, 30, "Input"],
+Cell[1791, 54, 174, 3, 25, "Message"],
+Cell[1968, 59, 178, 3, 25, "Message"],
+Cell[2149, 64, 184, 3, 25, "Message"],
+Cell[2336, 69, 52, 1, 29, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[2425, 75, 57, 1, 30, "Input"],
+Cell[2485, 78, 174, 3, 25, "Message"],
+Cell[2662, 83, 178, 3, 25, "Message"],
+Cell[2843, 88, 184, 3, 25, "Message"],
+Cell[3030, 93, 52, 1, 29, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[3119, 99, 53, 1, 30, "Input"],
+Cell[3175, 102, 100, 2, 29, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[3312, 109, 48, 1, 30, "Input"],
+Cell[3363, 112, 165, 3, 29, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[3565, 120, 783, 14, 110, "Input"],
+Cell[4351, 136, 154, 3, 25, "Message"],
+Cell[4508, 141, 5702, 105, 584, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[10247, 251, 274, 6, 31, "Input"],
+Cell[10524, 259, 1670, 37, 292, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[12231, 301, 1874, 40, 292, "Input"],
+Cell[14108, 343, 624, 9, 132, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[14769, 357, 123, 3, 31, "Input"],
+Cell[14895, 362, 109, 3, 43, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[15041, 370, 670, 11, 134, "Input"],
+Cell[15714, 383, 579, 13, 94, "Output"]
+}, Open  ]]
+}
+]
+*)
+
+
+
+
+(***********************************************************************
+End of Mathematica Notebook file.
+***********************************************************************)
+

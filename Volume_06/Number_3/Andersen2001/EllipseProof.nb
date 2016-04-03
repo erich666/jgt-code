@@ -1,0 +1,461 @@
+(***********************************************************************
+
+                    Mathematica-Compatible Notebook
+
+This notebook can be used on any computer system with Mathematica 3.0,
+MathReader 3.0, or any compatible application. The data for the notebook 
+starts with the line of stars above.
+
+To get the notebook into a Mathematica-compatible application, do one of 
+the following:
+
+* Save the data starting with the line of stars above into a file
+  with a name ending in .nb, then open the file inside the application;
+
+* Copy the data starting with the line of stars above to the
+  clipboard, then use the Paste menu command inside the application.
+
+Data for notebooks contains only printable 7-bit ASCII and can be
+sent directly in email or through ftp in text mode.  Newlines can be
+CR, LF or CRLF (Unix, Macintosh or MS-DOS style).
+
+NOTE: If you modify the data for this notebook not in a Mathematica-
+compatible application, you must delete the line below containing the 
+word CacheID, otherwise Mathematica-compatible applications may try to 
+use invalid cache data.
+
+For more information on notebooks and Mathematica-compatible 
+applications, contact Wolfram Research:
+  web: http://www.wolfram.com
+  email: info@wolfram.com
+  phone: +1-217-398-0700 (U.S.)
+
+Notebook reader applications are available free of charge from 
+Wolfram Research.
+***********************************************************************)
+
+(*CacheID: 232*)
+
+
+(*NotebookFileLineBreakTest
+NotebookFileLineBreakTest*)
+(*NotebookOptionsPosition[     10261,        338]*)
+(*NotebookOutlinePosition[     10911,        361]*)
+(*  CellTagsIndexPosition[     10867,        357]*)
+(*WindowFrame->Normal*)
+
+
+
+Notebook[{
+
+Cell[CellGroupData[{
+Cell[BoxData[
+    \(\( (*
+      Proof\ that\ p = 
+        \(rho\ Sin[theta + phi] = {rhox\ Sin[theta + phix], 
+              rhoy\ Sin[theta + phiy], rhoz\ Sin[theta + phiz]}\ represents\ a
+            \ 3  D\ ellipse\)\ *) \n
+    \n (*Begin\ with\ a\ known\ 2  D\ parametric\ ellipse, \ 
+      expressed\ in\ 3  D*) \ \n
+    p0 = {rho0\ Sin[theta], rho1\ Sin[theta + Pi/2], 0}\)\)], "Input"],
+
+Cell[BoxData[
+    \({rho0\ Sin[theta], rho1\ Cos[theta], 0}\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(\( (*
+      Create\ arbitrary\ rotation\ matrices\ for\ rotations\ about\ the\ x, \ 
+      y, \ and\ z\ axes*) \n
+    EulerRx = {{1, 0, 0}, {0, Cos[thetax], Sin[thetax]}, {0, 
+          \(-Sin[thetax]\), Cos[thetax]}}\)\)], "Input"],
+
+Cell[BoxData[
+    \({{1, 0, 0}, {0, Cos[thetax], Sin[thetax]}, {0, \(-Sin[thetax]\), 
+        Cos[thetax]}}\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(EulerRy = {{Cos[thetay], 0, \(-Sin[thetay]\)}, {0, 1, 0}, {Sin[thetay], 
+          0, Cos[thetay]}}\)], "Input"],
+
+Cell[BoxData[
+    \({{Cos[thetay], 0, \(-Sin[thetay]\)}, {0, 1, 0}, {Sin[thetay], 0, 
+        Cos[thetay]}}\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(EulerRz = {{Cos[thetaz], Sin[thetaz], 0}, {\(-Sin[thetaz]\), 
+          Cos[thetaz], 0}, {0, 0, 1}}\)], "Input"],
+
+Cell[BoxData[
+    \({{Cos[thetaz], Sin[thetaz], 0}, {\(-Sin[thetaz]\), Cos[thetaz], 0}, {0, 
+        0, 1}}\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(\( (*Apply\ the\ arbitrary\ rotations\ to\ p0*) \n
+    EulerRx . EulerRy . EulerRz . p0\)\)], "Input"],
+
+Cell[BoxData[
+    \({rho0\ Cos[thetay]\ Cos[thetaz]\ Sin[theta] + 
+        rho1\ Cos[theta]\ Cos[thetay]\ Sin[thetaz], 
+      rho0\ Sin[theta]\ 
+          \((Cos[thetaz]\ Sin[thetax]\ Sin[thetay] - Cos[thetax]\ Sin[thetaz])
+            \) + rho1\ Cos[theta]\ 
+          \((Cos[thetax]\ Cos[thetaz] + Sin[thetax]\ Sin[thetay]\ Sin[thetaz])
+            \), rho0\ Sin[theta]\ 
+          \((Cos[thetax]\ Cos[thetaz]\ Sin[thetay] + Sin[thetax]\ Sin[thetaz])
+            \) + rho1\ Cos[theta]\ 
+          \((\(-Cos[thetaz]\)\ Sin[thetax] + 
+              Cos[thetax]\ Sin[thetay]\ Sin[thetaz])\)}\)], "Output"]
+}, Open  ]],
+
+Cell[BoxData[
+    \(\( (*\ 
+      Since\ \ A\ Sin[theta]\  + \ 
+        B\ Sin[theta]\ may\ be\ transformed\ to\ \ Sqrt[a^2 + b^2]\ 
+          Sin[theta + H], \ 
+      where\ H\ satisfies\ both\ \n\t\tCos[H] = 
+        \(A/Sqrt[a^2 + b^2]\ \ and\ \ Sin[H] = 
+          B/Sqrt[a^2 + b^2]\ \ 
+            \((See\ Heineman' s\ "\<Plane Trigonometry\>", \ section\ 46, \ 
+              pp . \ 115)\)\), \ 
+      each\ term\ of\ this\ result\ can\ be\ reduced\ as\ \(follows : \)*) \n
+    \)\)], "Input"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(\( (*\ First\ term\ *) \n
+    \((rho0\ \ Cos[thetaz]\ Sin[theta] + rho1\ \ Sin[thetaz] Cos[theta])\)\ 
+      Cos[thetay]\)\)], "Input"],
+
+Cell[BoxData[
+    \(Cos[thetay]\ 
+      \((rho0\ Cos[thetaz]\ Sin[theta] + rho1\ Cos[theta]\ Sin[thetaz])\)\)], 
+  "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(ax = rho0\ \ Cos[thetaz]\)], "Input"],
+
+Cell[BoxData[
+    \(rho0\ Cos[thetaz]\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(bx = rho1\ \ Sin[thetaz]\)], "Input"],
+
+Cell[BoxData[
+    \(rho1\ Sin[thetaz]\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(\(\ Cos[thetay] Sqrt[ax^2 + bx^2]\ Sin[theta + Hx]\)\)], "Input"],
+
+Cell[BoxData[
+    \(Cos[thetay]\ Sin[Hx + theta]\ 
+      \@\(rho0\^2\ Cos[thetaz]\^2 + rho1\^2\ Sin[thetaz]\^2\)\)], "Output"]
+}, Open  ]],
+
+Cell[BoxData[
+    \(\((Cos[thetay]\ \ 
+          \@\(rho0\^2\ Cos[thetaz]\^2 + rho1\^2\ Sin[thetaz]\^2\))\) 
+      Sin[Hx + theta]\)], "Input"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(\( (*\ Second\ term\ *) \n
+    rho0\ Sin[theta]\ 
+        \((Cos[thetaz]\ Sin[thetax]\ Sin[thetay] - Cos[thetax]\ Sin[thetaz])
+          \) + rho1\ Cos[theta]\ 
+        \((Cos[thetax]\ Cos[thetaz] + Sin[thetax]\ Sin[thetay]\ Sin[thetaz])
+          \)\)\)], "Input"],
+
+Cell[BoxData[
+    \(rho0\ Sin[theta]\ 
+        \((Cos[thetaz]\ Sin[thetax]\ Sin[thetay] - Cos[thetax]\ Sin[thetaz])
+          \) + rho1\ Cos[theta]\ 
+        \((Cos[thetax]\ Cos[thetaz] + Sin[thetax]\ Sin[thetay]\ Sin[thetaz])
+          \)\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(ay = 
+      rho0\ \ \((
+          Cos[thetaz]\ Sin[thetax]\ Sin[thetay] - Cos[thetax]\ Sin[thetaz])
+          \)\)], "Input"],
+
+Cell[BoxData[
+    \(rho0\ 
+      \((Cos[thetaz]\ Sin[thetax]\ Sin[thetay] - Cos[thetax]\ Sin[thetaz])
+        \)\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(by = 
+      rho1\ \ \((
+          Cos[thetax]\ Cos[thetaz] + Sin[thetax]\ Sin[thetay]\ Sin[thetaz])
+          \)\)], "Input"],
+
+Cell[BoxData[
+    \(rho1\ 
+      \((Cos[thetax]\ Cos[thetaz] + Sin[thetax]\ Sin[thetay]\ Sin[thetaz])
+        \)\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(Sqrt[ay^2 + by^2]\ Sin[theta + Hy]\)], "Input"],
+
+Cell[BoxData[
+    \(Sin[Hy + theta]\ 
+      \@\(rho0\^2\ 
+            \((Cos[thetaz]\ Sin[thetax]\ Sin[thetay] - 
+                  Cos[thetax]\ Sin[thetaz])\)\^2 + 
+          rho1\^2\ \((
+                Cos[thetax]\ Cos[thetaz] + 
+                  Sin[thetax]\ Sin[thetay]\ Sin[thetaz])\)\^2\)\)], "Output"]
+}, Open  ]],
+
+Cell[BoxData[
+    \(\(\n\ 
+    \(\@\(rho0\^2\ 
+              \((Cos[thetaz]\ Sin[thetax]\ Sin[thetay] - 
+                    Cos[thetax]\ Sin[thetaz])\)\^2 + 
+            rho1\^2\ \((
+                  Cos[thetax]\ Cos[thetaz] + 
+                    Sin[thetax]\ Sin[thetay]\ Sin[thetaz])\)\^2\)\) 
+      Sin[theta + Hy]\)\)], "Input"],
+
+Cell[BoxData[
+    \(\( (*\ Third\ term\ *) \n
+    rho0\ Sin[theta]\ 
+        \((Cos[thetax]\ Cos[thetaz]\ Sin[thetay] + Sin[thetax]\ Sin[thetaz])
+          \) + rho1\ Cos[theta]\ 
+        \((\(-Cos[thetaz]\)\ Sin[thetax] + 
+            Cos[thetax]\ Sin[thetay]\ Sin[thetaz])\)\)\)], "Input"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(az = 
+      rho0\ \((Cos[thetax]\ Cos[thetaz]\ Sin[thetay] + 
+            Sin[thetax]\ Sin[thetaz])\)\)], "Input"],
+
+Cell[BoxData[
+    \(rho0\ 
+      \((Cos[thetax]\ Cos[thetaz]\ Sin[thetay] + Sin[thetax]\ Sin[thetaz])
+        \)\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(bz = 
+      rho1\ \((\(-Cos[thetaz]\)\ Sin[thetax] + 
+            Cos[thetax]\ Sin[thetay]\ Sin[thetaz])\)\)], "Input"],
+
+Cell[BoxData[
+    \(rho1\ 
+      \((\(-Cos[thetaz]\)\ Sin[thetax] + 
+          Cos[thetax]\ Sin[thetay]\ Sin[thetaz])\)\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(Sqrt[az^2 + bz^2]\ Sin[theta + Hz]\)], "Input"],
+
+Cell[BoxData[
+    \(Sin[Hz + theta]\ 
+      \@\(rho0\^2\ 
+            \((Cos[thetax]\ Cos[thetaz]\ Sin[thetay] + 
+                  Sin[thetax]\ Sin[thetaz])\)\^2 + 
+          rho1\^2\ \((
+                \(-Cos[thetaz]\)\ Sin[thetax] + 
+                  Cos[thetax]\ Sin[thetay]\ Sin[thetaz])\)\^2\)\)], "Output"]
+}, Open  ]],
+
+Cell[BoxData[
+    \(\(\n\ 
+    \(\@\(rho0\^2\ 
+              \((Cos[thetax]\ Cos[thetaz]\ Sin[thetay] + 
+                    Sin[thetax]\ Sin[thetaz])\)\^2 + 
+            rho1\^2\ \((
+                  \(-Cos[thetaz]\)\ Sin[thetax] + 
+                    Cos[thetax]\ Sin[thetay]\ Sin[thetaz])\)\^2\)\) 
+      Sin[theta + Hz]\)\)], "Input"],
+
+Cell[BoxData[
+    \(\( (*\ if\ rho\ is\ defined\ as\ the\ \(coeficients : \)\ *) \n
+    rho = {Cos[thetay]\ \ 
+          \@\(rho0\^2\ Cos[thetaz]\^2 + rho1\^2\ Sin[thetaz]\^2\), 
+        \@\(rho0\^2\ 
+              \((Cos[thetaz]\ Sin[thetax]\ Sin[thetay] - 
+                    Cos[thetax]\ Sin[thetaz])\)\^2 + 
+            rho1\^2\ \((
+                  Cos[thetax]\ Cos[thetaz] + 
+                    Sin[thetax]\ Sin[thetay]\ Sin[thetaz])\)\^2\), 
+        \@\(rho0\^2\ 
+              \((Cos[thetax]\ Cos[thetaz]\ Sin[thetay] + 
+                    Sin[thetax]\ Sin[thetaz])\)\^2 + 
+            rho1\^2\ \((
+                  \(-Cos[thetaz]\)\ Sin[thetax] + 
+                    Cos[thetax]\ Sin[thetay]\ Sin[thetaz])\)\^2\)}\)\)], 
+  "Input"],
+
+Cell[BoxData[
+    \(\( (*\ and\ phi\ is\ defined\ as\ \(H : \)\ *) \n
+    phi = {Hx, Hy, Hz}\)\)], "Input"],
+
+Cell[BoxData[
+    \(\( (*Then\ this\ all\ simplifies\ to\ the\ familiar\ \(form : \)*) \n
+    p = rho\ Sin[theta + phi]\n (*
+      Which\ neatly\ proves\ that\ this\ parametric\ function\ describes\ an\ 
+        arbitrarily\ oriented\ ellipse\ in\ 3  D\ space\ *) \)\)], "Input"]
+},
+FrontEndVersion->"Microsoft Windows 3.0",
+ScreenRectangle->{{0, 1280}, {0, 966}},
+WindowSize->{1252, 898},
+WindowMargins->{{2, Automatic}, {Automatic, 2}}
+]
+
+
+(***********************************************************************
+Cached data follows.  If you edit this Notebook file directly, not using
+Mathematica, you must remove the line containing CacheID at the top of 
+the file.  The cache data will then be recreated when you save this file 
+from within Mathematica.
+***********************************************************************)
+
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+
+(*NotebookFileOutline
+Notebook[{
+
+Cell[CellGroupData[{
+Cell[1731, 51, 392, 8, 90, "Input"],
+Cell[2126, 61, 73, 1, 29, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[2236, 67, 252, 5, 50, "Input"],
+Cell[2491, 74, 121, 2, 29, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[2649, 81, 132, 2, 30, "Input"],
+Cell[2784, 85, 121, 2, 29, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[2942, 92, 132, 2, 30, "Input"],
+Cell[3077, 96, 121, 2, 29, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[3235, 103, 122, 2, 50, "Input"],
+Cell[3360, 107, 604, 11, 67, "Output"]
+}, Open  ]],
+Cell[3979, 121, 499, 11, 90, "Input"],
+
+Cell[CellGroupData[{
+Cell[4503, 136, 155, 3, 50, "Input"],
+Cell[4661, 141, 124, 3, 29, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[4822, 149, 57, 1, 30, "Input"],
+Cell[4882, 152, 51, 1, 29, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[4970, 158, 57, 1, 30, "Input"],
+Cell[5030, 161, 51, 1, 29, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[5118, 167, 85, 1, 30, "Input"],
+Cell[5206, 170, 126, 2, 35, "Output"]
+}, Open  ]],
+Cell[5347, 175, 143, 3, 37, "Input"],
+
+Cell[CellGroupData[{
+Cell[5515, 182, 285, 6, 50, "Input"],
+Cell[5803, 190, 253, 5, 29, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[6093, 200, 145, 4, 30, "Input"],
+Cell[6241, 206, 126, 3, 29, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[6404, 214, 145, 4, 30, "Input"],
+Cell[6552, 220, 126, 3, 29, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[6715, 228, 67, 1, 30, "Input"],
+Cell[6785, 231, 310, 7, 35, "Output"]
+}, Open  ]],
+Cell[7110, 241, 335, 8, 53, "Input"],
+Cell[7448, 251, 291, 6, 50, "Input"],
+
+Cell[CellGroupData[{
+Cell[7764, 261, 134, 3, 30, "Input"],
+Cell[7901, 266, 126, 3, 29, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[8064, 274, 139, 3, 30, "Input"],
+Cell[8206, 279, 133, 3, 29, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[8376, 287, 67, 1, 30, "Input"],
+Cell[8446, 290, 315, 7, 35, "Output"]
+}, Open  ]],
+Cell[8776, 300, 340, 8, 53, "Input"],
+Cell[9119, 310, 746, 16, 101, "Input"],
+Cell[9868, 328, 107, 2, 50, "Input"],
+Cell[9978, 332, 279, 4, 70, "Input"]
+}
+]
+*)
+
+
+
+
+(***********************************************************************
+End of Mathematica Notebook file.
+***********************************************************************)
+

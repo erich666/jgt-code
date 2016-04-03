@@ -1,0 +1,24 @@
+Example Automatic Differentiation Source Code
+accompanying "Automatic Differentiation, C++
+Templates, and Photogrammetry" published in
+the Journal of Graphics Tools, Vol 9, No. 4, 2004
+
+The attached code may be used to compute up to third
+derivatives of multivariate functions involving +, -,
+* and exp().
+Generalisation to more functions should be
+straightforward.
+
+Important note, this code is not "industrial strength".
+It is example code to illustrate the methods discussed
+in the paper. Some hints on how to make it industrial
+strength are contained in the source code as comments.
+
+MANIFEST
+--------
+README
+Dual.h
+example1.C
+example2.C
+Makefile -- To build for Unix-like systems
+make.bat -- Script to build under Windows

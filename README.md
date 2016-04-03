@@ -15,13 +15,33 @@ The following articles have related code; look in the corresponding folder by Vo
 
 * Shirley, Peter, and Kenneth Chiu, ["A Low Distortion Map Between Disk and Square,"](http://www.tandfonline.com/doi/abs/10.1080/10867651.1997.10487479) *journal of graphics tools*, 2(3):45-52, 1997. [**Code**](Volume_02/Number_3/Shirley1997)
 
+* Havran, Vlastimil, Tomas Kopal, Jirí Bittner, and Jirí Žára, ["Fast Robust BSP Tree Traversal Algorithm for Ray Tracing,"](http://www.tandfonline.com/doi/abs/10.1080/10867651.1997.10487481) *journal of graphics tools*, 2(4):15-23, 1997. [**Code**](Volume_02/Number_4/Havran1997)
+
+* Karabassi, Evaggelia-Aggeliki, Georgios Papaioannou, Theoharis Theoharis, and Alexander Boehm, ["Intersection Test for Collision Detection in Particle Systems,"](http://www.tandfonline.com/doi/abs/10.1080/10867651.1999.10487499) *journal of graphics tools*, 4(1):25-37, 1999. [**Code**](Volume_04/Number_1/Karabassi1999)
+
 * Möller, Tomas, and John F. Hughes, ["Efficiently Building a Matrix to Rotate One Vector to Another,"](http://www.tandfonline.com/doi/abs/10.1080/10867651.1999.10487509) *journal of graphics tools*, 4(4):1-4, 1999. [**Code**](Volume_04/Number_4/Moller1999)
 
-* Haines, Eric, ["A Shaft Culling Tool,"](http://www.tandfonline.com/doi/abs/10.1080/10867651.2000.10487518) *journal of graphics tools*, 5(1):23-26, 2000. [**Code**](Volume_05/Number_1/Haines2000)
+* Haines, Eric, ["Soft Planar Shadows Using Plateaus,"](http://www.tandfonline.com/doi/abs/10.1080/10867651.2001.10487534) *journal of graphics tools*, 6(1):19-27, 2001. [**Images**](Volume_06/Number_1/Haines2001)
+
+* Stam, Jos, ["A Simple Fluid Solver Based on the FFT,"](http://www.tandfonline.com/doi/abs/10.1080/10867651.2001.10487540) *journal of graphics tools*, 6(2):43-52, 2001. [**Code**](Volume_06/Number_2/Stam2001)
+
+* Nakamaru, Koji, and Yoshio Ohno, ["Enhanced Breadth-First Ray Tracing,"](http://www.tandfonline.com/doi/abs/10.1080/10867651.2001.10487547) *journal of graphics tools*, 6(4):13-28, 2001. [**Detailed Results**](Volume_06/Number_4/Nakamaru2001)
+
+* Sunday, Daniel, ["Fast Polygon Area and Newell Normal Computation,"](http://www.tandfonline.com/doi/abs/10.1080/10867651.2002.10487556) *journal of graphics tools*, 7(2):9-13, 2002. [**Code**](Volume_07/Number_2/Sunday2002)
+
+* Ganovelli, Fabio, Frederico Ponchio, and Claudio Rocchini, ["Fast Tetrahedron-Tetrahedron Overlap Algorithm,"](http://www.tandfonline.com/doi/abs/10.1080/10867651.2002.10487557) *journal of graphics tools*, 7(2):17-26, 2002. [**Code**](Volume_07/Number_2/Ganovelli2002)
+
+* Steed, Anthony, ["Pseudo-Shadowed Cursors for 3D Interaction,"](http://www.tandfonline.com/doi/abs/10.1080/10867651.2002.10487562) *journal of graphics tools*, 7(3):19-25, 2002. [**Code**](Volume_07/Number_3/Steed2002)
 
 * Guigue, Philippe, and Olivier Devillers, ["Fast and Robust Triangle-Triangle Overlap Test Using Orientation Predicates,"](http://www.tandfonline.com/doi/abs/10.1080/10867651.2003.10487580) *journal of graphics tools*, 8(1):25-32, 2003. [**Code**](Volume_08/Number_1/Guigue2003)
 
-* Mahovsky, Jeffrey, and Brian Wyvill, ["Fast Ray-Axis Aligned Bounding Box Overlap Tests with Plucker Coordinates,"](http://www.tandfonline.com/doi/abs/10.1080/10867651.2004.10487597) *journal of graphics tools*, 9(1):35-46, 2004. [**Code**](Volume_09/Number_1/Mahovsky2004)
+* Lewiner, Thomas, Hélio Lopes, Antônio Wilson Vieira, and Geovan Tavares, ["Efficient Implementation of Marching Cubes' Cases with Topological Guarantees,"](http://www.tandfonline.com/doi/abs/10.1080/10867651.2003.10487582) *journal of graphics tools*, 8(2):1-15, 2003. [**Only partial tables**](Volume_08/Number_2/Lewiner2003)
+
+* Mahovsky, Jeffrey, and Brian Wyvill, ["Fast Ray-Axis Aligned Bounding Box Overlap Tests with Plücker Coordinates,"](http://www.tandfonline.com/doi/abs/10.1080/10867651.2004.10487597) *journal of graphics tools*, 9(1):35-46, 2004. [**Code**](Volume_09/Number_1/Mahovsky2004)
+
+* Wang, Niniane, ["Realistic and Fast Cloud Rendering,"](http://www.tandfonline.com/doi/abs/10.1080/10867651.2004.10504901) *journal of graphics tools*, 9(3):21-40, 2004. [**Some images**](Volume_09/Number_3/Wang2004)
+
+* Piponi, Dan, ["Automatic Differentiation, C++ Templates, and Photogrammetry,"](http://www.tandfonline.com/doi/abs/10.1080/10867651.2004.10504901) *journal of graphics tools*, 9(4):41-55, 2004. [**Code and errata**](Volume_09/Number_4/Piponi2004)
 
 * Williams, Amy, Steve Barrus, R. Keith Morley, and Peter Shirley, ["An Efficient and Robust Ray-Box Intersection Algorithm,"](http://www.tandfonline.com/doi/abs/10.1080/2151237X.2005.10129188) *journal of graphics tools*, 10(1):49-54, 2005. [**Code**](Volume_10/Number_1/Williams2005)
 
@@ -97,13 +117,43 @@ The following articles have related code; look in the corresponding folder by Vo
 
 As a courtesy to the authors if possible, please cite their work when you use their code.
 
-Here are the articles where we don't have the code - please [let me know](mailto:erich@acm.org) if you can provide this code or know who could.
+Code in this repository is under this form of the [MIT License](https://en.wikipedia.org/wiki/MIT_License#License_terms) unless otherwise stated:
+
+Here are the articles where we know we don't have the code. There are others where we don't know if the article even had code; the [Wayback Machine](https://web.archive.org/web/20121208215031/http://jgt.akpeters.com/issues/?volume=1) has no page stored for some articles. Please [let me know](mailto:erich@acm.org) if you can provide any code or know who could.
 
 * ["HWB - A More Intuitive Hue-Based Color Model"](https://web.archive.org/web/20070826165209/http://jgt.akpeters.com/papers/SmithLyons96/)
 
 * ["Fast and Accurate Computation of Polyhedral Mass Properties"](https://web.archive.org/web/20120119014547/http://jgt.akpeters.com/papers/Mirtich96/)
 
-Code in this repository is under this form of the [MIT License](https://en.wikipedia.org/wiki/MIT_License#License_terms) unless otherwise stated:
+* ["High Quality Hardware Line Antialiasing"](https://web.archive.org/web/20120126105354/http://jgt.akpeters.com/papers/Nelson97/)
+
+* ["Sampling with Hammersley and Halton Points"](https://web.archive.org/web/20120715063002/http://jgt.akpeters.com/papers/WongLukHeng97/)
+
+* (["ERIT: A Collection of Efficient and Reliable Intersection Tests"](https://web.archive.org/web/20120506232036/http://jgt.akpeters.com/papers/Held97/)) - code was "available on request," not at JGT site.
+
+* ["Practical Parameterization of Rotations Using the Exponential Map"](https://web.archive.org/web/20061203032056/http://jgt.akpeters.com/papers/Grassia98/)
+
+* ["Fast Projected Area Computation for Three-Dimensional Bounding Boxes"](https://web.archive.org/web/20100715092624/http://jgt.akpeters.com/papers/SchmalstiegTobler99/)
+
+* ["A Simple Recursive Tessellator for Adaptive Surface Triangulation"](https://web.archive.org/web/20081013105726/http://jgt.akpeters.com/papers/ChungField00/)
+
+* ["Fast and Accurate Parametric Curve Length Computation"](https://web.archive.org/web/20100120094229/http://jgt.akpeters.com/papers/VincentForsey01/) - have CurveLength.c, missing SurfaceArea.c
+
+* ["Convolution Surfaces for Line Skeletons with Polynomial Weight Distributions"](https://web.archive.org/web/20080802204803/http://jgt.akpeters.com/papers/JinEtAl01/)
+
+* ["Simple and Efficient Traversal Methods for Quadtrees and Octrees"](https://web.archive.org/web/20060831174825/http://jgt.akpeters.com/papers/FriskenPerry02/)
+
+* ["Fast and Accurate Circle-Circle and Circle-Line 3D Distance Computation"](https://web.archive.org/web/20120126131623/http://jgt.akpeters.com/papers/Vranek02/)
+
+* ["Efficient Implementation of Marching Cubes' Cases with Topological Guarantees"](https://web.archive.org/web/20120107070650/http://jgt.akpeters.com/papers/LewinerEtAl03/) - have only a set of tables, no code.
+
+* ["Efficient Splatting Using Modern Graphics Hardware"](https://web.archive.org/web/20080921114738/http://jgt.akpeters.com/papers/XueCrawfis03/)
+
+* ["Observations on Silhouette Sizes"](https://web.archive.org/web/20101110220338/http://jgt.akpeters.com/papers/McGuire04/)
+
+* ["An Image Inpainting Technique Based on the Fast Marching Method"](https://web.archive.org/web/20080612001730/http://jgt.akpeters.com/papers/Telea04/) - missing AFMM_Inpainting.zip
+
+* ["Fast Distance Computation Between a Point and Cylinders, Cones, Line-Swept Spheres and Cone-Spheres"](https://web.archive.org/web/20120126111839/http://jgt.akpeters.com/papers/BarbierGalin04/) - missing Cone-Sphere.zip and documentation Cone-Sphere
 
 ```
 Copyright (c) <year> <copyright holders>

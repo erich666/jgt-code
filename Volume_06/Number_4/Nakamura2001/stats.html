@@ -1,0 +1,654 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>jgt: Enhanced Breadth-First Ray Tracing: Detailed Results</title>
+</head>
+<body bgcolor="#FFF9F6">
+
+<p><font size="-1">
+Koji Nakamaru and Yoshio Ohno.
+Enhanced breadth-first ray tracing.
+Journal of Graphics Tools, 6(4):13-28, 2001
+</font></p>
+
+<div align="CENTER"><h2>Detailed Results</h2></div>
+
+<p>
+We have run the implementation under Linux on a Pentium II (450MHz) PC
+with 256MB memory. All test data was produced in NFF with the SPD
+package (version 3.13, compiled with `JENKINS_HASH' for the scene
+`mount') and was converted into binary form. No instancing was
+used. Other parameters such as a screen resolution followed the
+testing procedure of SPD: 513x513 eye rays were shot and the maximum
+tracing depth was 5. Consult `Readme.txt' in the SPD package for more
+details and scenes' properties. Parameters for refinements were
+initialized as follows:
+</p>
+
+<ul>
+<li>For a bounding box hierarchy (Section&nbsp;3.1):<br>
+s=3, n=1,000, and l=4 (5 levels). For `balls', `gears', and `trees', t
+was set to 0.5 resulting two top-level boxes, while it was set to 1.0
+for other types of scenes resulting one top-level box. The number of
+resulting levels depends on types of scenes; for example, it was 3 for
+`balls', while 4 to 5 for `rings'.</li>
+<li>For two-level grids storing rays (Section&nbsp;3.2):<br>
+Ru=256 and Rl=4.</li>
+</ul>
+
+<p>
+We firstly tested relatively small data (up to 50,000,000 objects/6GB)
+for investigating various tendencies. Table&nbsp;<a href="https://web.archive.org/web/20090107035938/http://jgt.akpeters.com/papers/NakamaruOhno01/stats.html#tbl1">1</a> shows how refinements in Section&nbsp;3.1 -
+<i>separation of geometry and bounding boxes</i> (S), <i>lazy
+processing for each object's geometry</i> (G), and <i>lazy processing
+with a bounding box hierarchy</i> (B) - affect rendering (preprocess
+and tracing) time. Each grid resolution was determined by the method
+described in Section&nbsp;3.2 and high-resolution grids were employed
+if necessary. The percentage of each phase depends on both scenes and
+applied refinements, but it is approximately the following: the
+preprocess phase is 1-34%, the intersection phase is 49-89%, and the
+shading phase is 4-37%. In this table, `SGB' becomes more effective
+as data grows. Both `S' and `G' generally result in speed-up as was
+expected, while the effectiveness of `B' greatly depends on the depth
+complexity (how many objects a ray passes through) and/or the
+occlusion complexity (how many objects are occluded) as in other
+culling techniques. `B' however does not cause large overheads in
+worst cases such as `tetra' and `tree'.
+</p>
+
+<hr>
+<div align="CENTER"><a name="tbl1"></a>
+<div align="CENTER">
+<table cellpadding="4">
+<caption>
+<b>Table 1.</b> Statistics for test scenes containing up to 50,000,000
+objects
+</caption>
+<tbody><tr>
+<td></td>
+<td align="CENTER" colspan="1"><b>#objects</b></td>
+<td align="CENTER" colspan="1"><b>size (MB)</b></td>
+<td align="CENTER" colspan="1"><b>creation</b></td>
+<td align="CENTER" colspan="1"><b>base</b></td>
+<td align="CENTER" colspan="1"><b>SG</b></td>
+<td align="CENTER" colspan="1"><b>SGB</b></td>
+<td align="CENTER" colspan="1"><b>SGB/SG</b></td>
+</tr>
+<tr>
+<td align="LEFT">balls6</td>
+<td align="RIGHT">597,872</td>
+<td align="RIGHT">28</td>
+<td align="RIGHT">0:00:33</td>
+<td align="RIGHT">0:05:23</td>
+<td align="RIGHT">1.11</td>
+<td align="RIGHT">1.13</td>
+<td align="RIGHT">(1.02)</td>
+</tr>
+<tr>
+<td align="LEFT">balls7</td>
+<td align="RIGHT">5,380,841</td>
+<td align="RIGHT">251</td>
+<td align="RIGHT">0:04:45</td>
+<td align="RIGHT">0:14:18</td>
+<td align="RIGHT">1.48</td>
+<td align="RIGHT">1.57</td>
+<td align="RIGHT">(1.06)</td>
+</tr>
+<tr>
+<td align="LEFT">balls8</td>
+<td align="RIGHT">48,427,562</td>
+<td align="RIGHT">2,263</td>
+<td align="RIGHT">0:44:50</td>
+<td align="RIGHT">1:17:16</td>
+<td align="RIGHT">1.88</td>
+<td align="RIGHT">2.00</td>
+<td align="RIGHT">(1.07)</td>
+</tr>
+<tr>
+<td align="LEFT">gears18</td>
+<td align="RIGHT">851,473</td>
+<td align="RIGHT">107</td>
+<td align="RIGHT">0:03:09</td>
+<td align="RIGHT">0:06:12</td>
+<td align="RIGHT">1.28</td>
+<td align="RIGHT">1.34</td>
+<td align="RIGHT">(1.05)</td>
+</tr>
+<tr>
+<td align="LEFT">gears49</td>
+<td align="RIGHT">17,176,755</td>
+<td align="RIGHT">2,167</td>
+<td align="RIGHT">1:03:28</td>
+<td align="RIGHT">0:37:36</td>
+<td align="RIGHT">1.97</td>
+<td align="RIGHT">2.40</td>
+<td align="RIGHT">(1.21)</td>
+</tr>
+<tr>
+<td align="LEFT">gears61</td>
+<td align="RIGHT">33,139,227</td>
+<td align="RIGHT">4,181</td>
+<td align="RIGHT">2:02:32</td>
+<td align="RIGHT">1:03:58</td>
+<td align="RIGHT">1.88</td>
+<td align="RIGHT">2.57</td>
+<td align="RIGHT">(1.37)</td>
+</tr>
+<tr>
+<td align="LEFT">gears69</td>
+<td align="RIGHT">47,962,315</td>
+<td align="RIGHT">6,051</td>
+<td align="RIGHT">2:57:17</td>
+<td align="RIGHT">1:27:21</td>
+<td align="RIGHT">1.96</td>
+<td align="RIGHT">2.90</td>
+<td align="RIGHT">(1.48)</td>
+</tr>
+<tr>
+<td align="LEFT">mount9</td>
+<td align="RIGHT">524,292</td>
+<td align="RIGHT">49</td>
+<td align="RIGHT">0:01:08</td>
+<td align="RIGHT">0:04:53</td>
+<td align="RIGHT">1.27</td>
+<td align="RIGHT">1.34</td>
+<td align="RIGHT">(1.06)</td>
+</tr>
+<tr>
+<td align="LEFT">mount10</td>
+<td align="RIGHT">2,097,156</td>
+<td align="RIGHT">194</td>
+<td align="RIGHT">0:04:32</td>
+<td align="RIGHT">0:10:41</td>
+<td align="RIGHT">1.64</td>
+<td align="RIGHT">1.86</td>
+<td align="RIGHT">(1.13)</td>
+</tr>
+<tr>
+<td align="LEFT">mount11</td>
+<td align="RIGHT">8,388,612</td>
+<td align="RIGHT">776</td>
+<td align="RIGHT">0:18:06</td>
+<td align="RIGHT">0:28:45</td>
+<td align="RIGHT">2.12</td>
+<td align="RIGHT">2.67</td>
+<td align="RIGHT">(1.26)</td>
+</tr>
+<tr>
+<td align="LEFT">mount12</td>
+<td align="RIGHT">33,554,436</td>
+<td align="RIGHT">3,104</td>
+<td align="RIGHT">1:12:11</td>
+<td align="RIGHT">1:23:15</td>
+<td align="RIGHT">2.14</td>
+<td align="RIGHT">3.06</td>
+<td align="RIGHT">(1.43)</td>
+</tr>
+<tr>
+<td align="LEFT">rings36</td>
+<td align="RIGHT">972,361</td>
+<td align="RIGHT">86</td>
+<td align="RIGHT">0:01:29</td>
+<td align="RIGHT">0:08:46</td>
+<td align="RIGHT">1.27</td>
+<td align="RIGHT">1.51</td>
+<td align="RIGHT">(1.19)</td>
+</tr>
+<tr>
+<td align="LEFT">rings94</td>
+<td align="RIGHT">16,877,701</td>
+<td align="RIGHT">1,499</td>
+<td align="RIGHT">0:26:21</td>
+<td align="RIGHT">1:01:11</td>
+<td align="RIGHT">1.85</td>
+<td align="RIGHT">3.07</td>
+<td align="RIGHT">(1.65)</td>
+</tr>
+<tr>
+<td align="LEFT">rings118</td>
+<td align="RIGHT">33,279,541</td>
+<td align="RIGHT">2,955</td>
+<td align="RIGHT">0:52:10</td>
+<td align="RIGHT">1:42:10</td>
+<td align="RIGHT">1.83</td>
+<td align="RIGHT">3.62</td>
+<td align="RIGHT">(1.98)</td>
+</tr>
+<tr>
+<td align="LEFT">rings135</td>
+<td align="RIGHT">49,755,601</td>
+<td align="RIGHT">4,418</td>
+<td align="RIGHT">1:18:12</td>
+<td align="RIGHT">2:31:03</td>
+<td align="RIGHT">1.70</td>
+<td align="RIGHT">4.48</td>
+<td align="RIGHT">(2.63)</td>
+</tr>
+<tr>
+<td align="LEFT">teapot124</td>
+<td align="RIGHT">998,448</td>
+<td align="RIGHT">126</td>
+<td align="RIGHT">0:03:45</td>
+<td align="RIGHT">0:06:24</td>
+<td align="RIGHT">1.58</td>
+<td align="RIGHT">1.70</td>
+<td align="RIGHT">(1.08)</td>
+</tr>
+<tr>
+<td align="LEFT">teapot516</td>
+<td align="RIGHT">17,302,512</td>
+<td align="RIGHT">2,189</td>
+<td align="RIGHT">1:05:13</td>
+<td align="RIGHT">0:52:49</td>
+<td align="RIGHT">2.22</td>
+<td align="RIGHT">2.58</td>
+<td align="RIGHT">(1.17)</td>
+</tr>
+<tr>
+<td align="LEFT">teapot719</td>
+<td align="RIGHT">33,596,713</td>
+<td align="RIGHT">4,250</td>
+<td align="RIGHT">2:06:42</td>
+<td align="RIGHT">1:25:21</td>
+<td align="RIGHT">1.99</td>
+<td align="RIGHT">2.57</td>
+<td align="RIGHT">(1.29)</td>
+</tr>
+<tr>
+<td align="LEFT">teapot877</td>
+<td align="RIGHT">49,986,369</td>
+<td align="RIGHT">6,323</td>
+<td align="RIGHT">3:08:32</td>
+<td align="RIGHT">1:53:10</td>
+<td align="RIGHT">2.00</td>
+<td align="RIGHT">2.58</td>
+<td align="RIGHT">(1.29)</td>
+</tr>
+<tr>
+<td align="LEFT">tetra9</td>
+<td align="RIGHT">262,144</td>
+<td align="RIGHT">24</td>
+<td align="RIGHT">0:00:33</td>
+<td align="RIGHT">0:01:03</td>
+<td align="RIGHT">1.22</td>
+<td align="RIGHT">1.24</td>
+<td align="RIGHT">(1.02)</td>
+</tr>
+<tr>
+<td align="LEFT">tetra10</td>
+<td align="RIGHT">1,048,576</td>
+<td align="RIGHT">97</td>
+<td align="RIGHT">0:02:13</td>
+<td align="RIGHT">0:01:52</td>
+<td align="RIGHT">1.52</td>
+<td align="RIGHT">1.60</td>
+<td align="RIGHT">(1.05)</td>
+</tr>
+<tr>
+<td align="LEFT">tetra11</td>
+<td align="RIGHT">4,194,304</td>
+<td align="RIGHT">388</td>
+<td align="RIGHT">0:08:53</td>
+<td align="RIGHT">0:05:23</td>
+<td align="RIGHT">2.02</td>
+<td align="RIGHT">2.19</td>
+<td align="RIGHT">(1.09)</td>
+</tr>
+<tr>
+<td align="LEFT">tetra12</td>
+<td align="RIGHT">16,777,216</td>
+<td align="RIGHT">1,552</td>
+<td align="RIGHT">0:35:32</td>
+<td align="RIGHT">0:17:37</td>
+<td align="RIGHT">2.30</td>
+<td align="RIGHT">2.53</td>
+<td align="RIGHT">(1.10)</td>
+</tr>
+<tr>
+<td align="LEFT">tree17</td>
+<td align="RIGHT">524,287</td>
+<td align="RIGHT">47</td>
+<td align="RIGHT">0:00:42</td>
+<td align="RIGHT">0:03:53</td>
+<td align="RIGHT">1.05</td>
+<td align="RIGHT">1.04</td>
+<td align="RIGHT">(0.99)</td>
+</tr>
+<tr>
+<td align="LEFT">tree19</td>
+<td align="RIGHT">2,097,151</td>
+<td align="RIGHT">186</td>
+<td align="RIGHT">0:02:55</td>
+<td align="RIGHT">0:05:17</td>
+<td align="RIGHT">1.14</td>
+<td align="RIGHT">1.14</td>
+<td align="RIGHT">(0.99)</td>
+</tr>
+<tr>
+<td align="LEFT">tree21</td>
+<td align="RIGHT">8,388,607</td>
+<td align="RIGHT">744</td>
+<td align="RIGHT">0:11:42</td>
+<td align="RIGHT">0:09:44</td>
+<td align="RIGHT">1.31</td>
+<td align="RIGHT">1.31</td>
+<td align="RIGHT">(1.00)</td>
+</tr>
+<tr>
+<td align="LEFT">tree23</td>
+<td align="RIGHT">33,554,431</td>
+<td align="RIGHT">2,880</td>
+<td align="RIGHT">0:46:30</td>
+<td align="RIGHT">0:25:12</td>
+<td align="RIGHT">1.38</td>
+<td align="RIGHT">1.39</td>
+<td align="RIGHT">(1.00)</td>
+</tr>
+</tbody></table></div><table width="80%">
+<tbody><tr><td>
+where `creation' shows time for both executing a SPD command and
+converting its NFF output into binary form, and `base' shows rendering
+time without refinements. Time is shown in
+hours:minutes:seconds. Values in the next two columns show gain
+factors for `base' (thus dividing `base' time by the gain factor gets
+absolute time). `S' means <i>separation of geometry and bounding
+boxes</i>, `G' means <i>lazy processing for each object's
+geometry</i>, and `B' means <i>lazy processing with a bounding box
+hierarchy</i>. `SGB' includes time for creating a bounding box
+hierarchy. The values in parentheses show `SGB' to `SG' gain factors.
+</td></tr>
+</tbody></table>
+</div>
+<hr>
+
+<p>
+Figure&nbsp;<a href="https://web.archive.org/web/20090107035938/http://jgt.akpeters.com/papers/NakamaruOhno01/stats.html#fig:res">1</a> and Table&nbsp;<a href="https://web.archive.org/web/20090107035938/http://jgt.akpeters.com/papers/NakamaruOhno01/stats.html#tbl2">2</a> show how refinements in Section&nbsp;3.2 are
+efficient in realizing high-resolution grids. In the figure, slow
+growth of time is achieved with refinements, while limited-resolution
+grids result in more linear growth of time. Although shorter absolute
+time is achieved with limited-resolution grids in `gears', it changes
+linearly for latter three size factors. The table shows overheads of
+two-level grids. There is 10-20% loss, which is rewarded with the
+efficiency of high-resolution grids.
+</p>
+
+<hr>
+<div align="CENTER"><a name="fig:res"></a>
+<table>
+<caption align="BOTTOM"><div align="LEFT">
+<b>Figure 1.</b> Changes in rendering time with/without high-resolution
+grids. All refinements for redundant data processing were applied. No
+suffix means that high-resolution grids were used by applying
+refinements in Section&nbsp;3.2, while the suffix `-l' means that the
+maximum resolution for an axis was limited to 128 and single-level
+grids were used.
+</div></caption>
+<tbody><tr>
+<td><img border="0" src="./stats_files/changes-in-time-1.png"></td>
+<td><img border="0" src="./stats_files/changes-in-time-2.png"></td>
+</tr>
+<tr>
+<td align="CENTER">balls</td>
+<td align="CENTER">gears</td>
+</tr>
+<tr>
+<td><img border="0" src="./stats_files/changes-in-time-3.png"></td>
+<td><img border="0" src="./stats_files/changes-in-time-4.png"></td>
+</tr>
+<tr>
+<td align="CENTER">mount</td>
+<td align="CENTER">rings</td>
+</tr>
+<tr>
+<td><img border="0" src="./stats_files/changes-in-time-5.png"></td>
+<td><img border="0" src="./stats_files/changes-in-time-6.png"></td>
+</tr>
+<tr>
+<td align="CENTER">teapot</td>
+<td align="CENTER">tetra</td>
+</tr>
+<tr>
+<td><img border="0" src="./stats_files/changes-in-time-7.png"></td>
+<td></td>
+</tr>
+<tr>
+<td align="CENTER">tree</td>
+<td align="CENTER"></td>
+</tr>
+</tbody></table>
+</div>
+<hr>
+<div align="CENTER"><a name="tbl2"></a>
+<div align="CENTER">
+<table cellpadding="4">
+<caption>
+<b>Table 2.</b> Overheads of two-level grids
+</caption>
+<tbody><tr>
+<td></td>
+<td align="CENTER" colspan="1"><b>64/2</b></td>
+<td align="CENTER" colspan="1"><b>32/4</b></td>
+</tr>
+<tr>
+<td align="LEFT">balls8</td>
+<td align="RIGHT">0.89</td>
+<td align="RIGHT">0.90</td>
+</tr>
+<tr>
+<td align="LEFT">gears69</td>
+<td align="RIGHT">0.90</td>
+<td align="RIGHT">0.86</td>
+</tr>
+<tr>
+<td align="LEFT">mount12</td>
+<td align="RIGHT">0.81</td>
+<td align="RIGHT">0.86</td>
+</tr>
+<tr>
+<td align="LEFT">rings135</td>
+<td align="RIGHT">0.93</td>
+<td align="RIGHT">0.83</td>
+</tr>
+<tr>
+<td align="LEFT">teapot877</td>
+<td align="RIGHT">0.89</td>
+<td align="RIGHT">0.92</td>
+</tr>
+<tr>
+<td align="LEFT">tetra12</td>
+<td align="RIGHT">0.84</td>
+<td align="RIGHT">0.77</td>
+</tr>
+<tr>
+<td align="LEFT">tree23</td>
+<td align="RIGHT">0.93</td>
+<td align="RIGHT">0.91</td>
+</tr>
+</tbody></table></div><table width="80%">
+<tbody><tr>
+<td>
+where those values show gain factors, in comparison with single-level
+grids whose maximum resolution is limited to 128. `64/2' and `32/4'
+mean two-level grids whose maximum upper/lower resolutions are 64/2
+and 32/4 respectively.
+</td></tr>
+</tbody></table>
+</div>
+<hr>
+
+<p>
+The next results show how refinements are efficient for huge data.
+Table&nbsp;<a href="https://web.archive.org/web/20090107035938/http://jgt.akpeters.com/papers/NakamaruOhno01/stats.html#tbl3">3</a> and Table&nbsp;<a href="https://web.archive.org/web/20090107035938/http://jgt.akpeters.com/papers/NakamaruOhno01/stats.html#tbl:gain3">4</a> show statistics and Figure&nbsp;<a href="https://web.archive.org/web/20090107035938/http://jgt.akpeters.com/papers/NakamaruOhno01/stats.html#fig:images">2</a> shows their rendered images. These tables
+show that applying refinements for huge data further improves both
+preprocess and tracing time. The gain factors range from 5 to 14 in
+rendering time. The gain factor in tracing time is quite large for
+`rings368m' (`rings368' with different view data), because only a
+small portion of objects contributed to the image and many objects
+were culled by `B'. Note that it is not an ordinary view-frustum
+culling; there are reflection/shadow rays going outside the
+frustum. Note also that high-resolution grids were used by applying
+refinements in Section&nbsp;3.2 even for `base', as in Table&nbsp;<a href="https://web.archive.org/web/20090107035938/http://jgt.akpeters.com/papers/NakamaruOhno01/stats.html#tbl1">1</a>, in order to avoid lengthy computation
+time. The gain factors would be much larger if the grid resolution for
+`base' was limited.
+</p>
+
+<p>
+Creation time is extremely long for large data. This results from
+strictly following the testing procedure of SPD. In actual systems,
+however, it is important to cooperate with modeling systems for
+efficient rendering of huge data.
+</p>
+
+<hr>
+<div align="CENTER"><a name="tbl3"></a>
+<div align="CENTER">
+<table cellpadding="4">
+<caption>
+<b>Table 3.</b> Statistics for huge data (total)
+</caption>
+<tbody><tr>
+<td></td>
+<td align="CENTER" colspan="1"><b>#objects</b></td>
+<td align="CENTER" colspan="1"><b>size (MB)</b></td>
+<td align="CENTER" colspan="1"><b>creation</b></td>
+<td align="CENTER" colspan="1"><b>base</b></td>
+<td align="CENTER" colspan="1"><b>SG</b></td>
+<td align="CENTER" colspan="1"><b>SGB</b></td>
+<td align="CENTER" colspan="1"><b>SGB/SG</b></td>
+</tr>
+<tr>
+<td align="LEFT">mount14</td>
+<td align="RIGHT">536,870,916</td>
+<td align="RIGHT">49,664</td>
+<td align="RIGHT">19:16:15</td>
+<td align="RIGHT">19:26:15</td>
+<td align="RIGHT">2.04</td>
+<td align="RIGHT">5.33</td>
+<td align="RIGHT">(2.62)</td>
+</tr>
+<tr>
+<td align="LEFT">rings368</td>
+<td align="RIGHT">1,000,787,041</td>
+<td align="RIGHT">88,857</td>
+<td align="RIGHT">26:37:42</td>
+<td align="RIGHT">50:54:40</td>
+<td align="RIGHT">1.84</td>
+<td align="RIGHT">12.43</td>
+<td align="RIGHT">(6.76)</td>
+</tr>
+<tr>
+<td align="LEFT">rings368m</td>
+<td align="RIGHT">1,000,787,041</td>
+<td align="RIGHT">88,857</td>
+<td align="RIGHT">26:37:42</td>
+<td align="RIGHT">30:40:26</td>
+<td align="RIGHT">1.65</td>
+<td align="RIGHT">13.65</td>
+<td align="RIGHT">(8.26)</td>
+</tr>
+</tbody></table></div><table width="80%">
+<tbody><tr>
+<td>
+where data is shown in the same format of Table&nbsp;<a href="https://web.archive.org/web/20090107035938/http://jgt.akpeters.com/papers/NakamaruOhno01/stats.html#tbl1">1</a>. The view parameter is the only difference
+between `rings368m' and `rings368': the view frustum of `rings368m'
+contains approximately 1,000,000 objects.
+</td>
+</tr>
+</tbody></table>
+</div>
+<hr>
+<div align="CENTER"><a name="tbl:gain3"></a>
+<div align="CENTER">
+<table cellpadding="4">
+<caption>
+<b>Table 4.</b> Statistics for huge data (preprocess/tracing)
+</caption>
+<tbody><tr>
+<td></td>
+<td align="LEFT" colspan="4"><b>preprocess</b></td>
+<td align="LEFT" colspan="4"><b>tracing</b></td>
+</tr>
+<tr>
+<td></td>
+<td align="CENTER" colspan="1"><b>base</b></td>
+<td align="CENTER" colspan="1"><b>SG</b></td>
+<td align="CENTER" colspan="1"><b>SGB</b></td>
+<td align="CENTER" colspan="1"><b>SGB/SG</b></td>
+<td align="CENTER" colspan="1"><b>base</b></td>
+<td align="CENTER" colspan="1"><b>SG</b></td>
+<td align="CENTER" colspan="1"><b>SGB</b></td>
+<td align="CENTER" colspan="1"><b>SGB/SG</b></td>
+</tr>
+<tr>
+<td align="LEFT">mount14</td>
+<td align="RIGHT">6:31:37</td>
+<td align="RIGHT">2.10</td>
+<td align="RIGHT">8.87</td>
+<td align="RIGHT">(4.23)</td>
+<td align="RIGHT">12:54:37</td>
+<td align="RIGHT">2.01</td>
+<td align="RIGHT">4.44</td>
+<td align="RIGHT">(2.21)</td>
+</tr>
+<tr>
+<td align="LEFT">rings368</td>
+<td align="RIGHT">11:03:30</td>
+<td align="RIGHT">1.82</td>
+<td align="RIGHT">5.61</td>
+<td align="RIGHT">(3.09)</td>
+<td align="RIGHT">39:51:10</td>
+<td align="RIGHT">1.84</td>
+<td align="RIGHT">18.76</td>
+<td align="RIGHT">(10.17)</td>
+</tr>
+<tr>
+<td align="LEFT">rings368m</td>
+<td align="RIGHT">11:03:30</td>
+<td align="RIGHT">1.82</td>
+<td align="RIGHT">5.61</td>
+<td align="RIGHT">(3.09)</td>
+<td align="RIGHT">19:36:56</td>
+<td align="RIGHT">1.57</td>
+<td align="RIGHT">70.78</td>
+<td align="RIGHT">(45.01)</td>
+</tr>
+</tbody></table></div><table width="80%">
+<tbody><tr>
+<td>
+where data is shown in the same format of Table&nbsp;<a href="https://web.archive.org/web/20090107035938/http://jgt.akpeters.com/papers/NakamaruOhno01/stats.html#tbl3">3</a>.
+</td>
+</tr>
+</tbody></table>
+</div>
+<hr>
+<div align="CENTER"><a name="fig:images"></a>
+<table>
+<caption align="BOTTOM"><div align="LEFT">
+<b>Figure 2.</b> Rendered images for huge data. The view parameter is the
+only difference between `rings368m' and `rings368': the view frustum
+of `rings368m' contains approximately 1,000,000 objects.
+(Click on a thumbnail to see the full-resolution image.)
+</div></caption>
+<tbody><tr>
+<td><a href="./stats_files/mount14.png"><img src="./stats_files/mount14.png" width="160"></a></td>
+<td><a href="./stats_files/rings368.png"><img src="./stats_files/rings368.png" width="160"></a></td>
+<td><a href="./stats_files/rings368m.png"><img src="./stats_files/rings368m.png" width="160"></a></td>
+</tr>
+<tr>
+<td align="CENTER">mount14</td>
+<td align="CENTER">rings368</td>
+<td align="CENTER">rings368m</td>
+</tr>
+<tr>
+<td align="CENTER">#objects: 536,870,916</td>
+<td align="CENTER">#objects: 1,000,787,041</td>
+<td align="CENTER">#objects: 1,000,787,041</td>
+</tr>
+<tr>
+<td align="CENTER">48.50GB</td>
+<td align="CENTER">86.77GB</td>
+<td align="CENTER">86.77GB</td>
+</tr>
+</tbody></table>
+</div>
+<hr>
+</body>
+</html>

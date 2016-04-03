@@ -1,0 +1,1 @@
+Code is missing. See https://web.archive.org/web/20120107070650/http://jgt.akpeters.com/papers/LewinerEtAl03/ for partial tables.

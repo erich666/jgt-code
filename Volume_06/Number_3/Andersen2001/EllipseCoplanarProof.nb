@@ -1,0 +1,207 @@
+(***********************************************************************
+
+                    Mathematica-Compatible Notebook
+
+This notebook can be used on any computer system with Mathematica 3.0,
+MathReader 3.0, or any compatible application. The data for the notebook 
+starts with the line of stars above.
+
+To get the notebook into a Mathematica-compatible application, do one of 
+the following:
+
+* Save the data starting with the line of stars above into a file
+  with a name ending in .nb, then open the file inside the application;
+
+* Copy the data starting with the line of stars above to the
+  clipboard, then use the Paste menu command inside the application.
+
+Data for notebooks contains only printable 7-bit ASCII and can be
+sent directly in email or through ftp in text mode.  Newlines can be
+CR, LF or CRLF (Unix, Macintosh or MS-DOS style).
+
+NOTE: If you modify the data for this notebook not in a Mathematica-
+compatible application, you must delete the line below containing the 
+word CacheID, otherwise Mathematica-compatible applications may try to 
+use invalid cache data.
+
+For more information on notebooks and Mathematica-compatible 
+applications, contact Wolfram Research:
+  web: http://www.wolfram.com
+  email: info@wolfram.com
+  phone: +1-217-398-0700 (U.S.)
+
+Notebook reader applications are available free of charge from 
+Wolfram Research.
+***********************************************************************)
+
+(*CacheID: 232*)
+
+
+(*NotebookFileLineBreakTest
+NotebookFileLineBreakTest*)
+(*NotebookOptionsPosition[      3958,        135]*)
+(*NotebookOutlinePosition[      4608,        158]*)
+(*  CellTagsIndexPosition[      4564,        154]*)
+(*WindowFrame->Normal*)
+
+
+
+Notebook[{
+
+Cell[CellGroupData[{
+Cell[BoxData[
+    \(\( (*\ 
+      Determination\ that\ the\ path\ p = 
+        rho*Sin[theta + phi]\ is\ coplanar\ *) \n\n
+    rho = {rhox, rhoy, rhoz}\)\)], "Input"],
+
+Cell[BoxData[
+    \({rhox, rhoy, rhoz}\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(phi = {phix, phiy, phiz}\)], "Input"],
+
+Cell[BoxData[
+    \({phix, phiy, phiz}\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(p = rho*Sin[theta + phi]\)], "Input"],
+
+Cell[BoxData[
+    \({rhox\ Sin[phix + theta], rhoy\ Sin[phiy + theta], 
+      rhoz\ Sin[phiz + theta]}\)], "Output"]
+}, Open  ]],
+
+Cell[BoxData[
+    \(Mag[{x1_, x2_, x3_}] := Sqrt[x1*x1 + x2*x2 + x3*x3]\)], "Input"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(\( (*\ 
+      Find\ cross\ product\ of\ first\ and\ second\ derivatives\ of\ p\ *) \n
+    \ncross = Cross[D[p, theta], D[D[p, theta], theta]]\)\)], "Input"],
+
+Cell[BoxData[
+    \({rhoy\ rhoz\ Cos[phiz + theta]\ Sin[phiy + theta] - 
+        rhoy\ rhoz\ Cos[phiy + theta]\ Sin[phiz + theta], 
+      \(-rhox\)\ rhoz\ Cos[phiz + theta]\ Sin[phix + theta] + 
+        rhox\ rhoz\ Cos[phix + theta]\ Sin[phiz + theta], 
+      rhox\ rhoy\ Cos[phiy + theta]\ Sin[phix + theta] - 
+        rhox\ rhoy\ Cos[phix + theta]\ Sin[phiy + theta]}\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(\(FullSimplify[cross]\n (*
+      Notice\ that\ all\ references\ to\ theta\ are\ eliminated, \ 
+      leaving\ only\ a\ constant*) \)\)], "Input"],
+
+Cell[BoxData[
+    \({rhoy\ rhoz\ Sin[phiy - phiz], \(-rhox\)\ rhoz\ Sin[phix - phiz], 
+      rhox\ rhoy\ Sin[phix - phiy]}\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(\(\n (*\ Check ... \ *) \n
+    \n (*\ Find\ projection\ of\ p\ along\ cross\ *) \n
+    FullSimplify[\((Dot[p, cross]/Mag[cross]^2)\)*cross]\)\)], "Input"],
+
+Cell[BoxData[
+    \({0, 0, 0}\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(\( (*\ Find\ orthogonal\ projection\ of\ p\ along\ cross\ *) \n
+    FullSimplify[p - \((Dot[p, cross]/Mag[cross]^2)\)*cross]\)\)], "Input"],
+
+Cell[BoxData[
+    \({rhox\ Sin[phix + theta], rhoy\ Sin[phiy + theta], 
+      rhoz\ Sin[phiz + theta]}\)], "Output"]
+}, Open  ]],
+
+Cell[BoxData[""], "Input"]
+},
+FrontEndVersion->"Microsoft Windows 3.0",
+ScreenRectangle->{{0, 1280}, {0, 966}},
+WindowSize->{1252, 898},
+WindowMargins->{{2, Automatic}, {Automatic, 2}}
+]
+
+
+(***********************************************************************
+Cached data follows.  If you edit this Notebook file directly, not using
+Mathematica, you must remove the line containing CacheID at the top of 
+the file.  The cache data will then be recreated when you save this file 
+from within Mathematica.
+***********************************************************************)
+
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+
+(*NotebookFileOutline
+Notebook[{
+
+Cell[CellGroupData[{
+Cell[1731, 51, 166, 4, 70, "Input"],
+Cell[1900, 57, 52, 1, 29, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[1989, 63, 57, 1, 30, "Input"],
+Cell[2049, 66, 52, 1, 29, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[2138, 72, 57, 1, 30, "Input"],
+Cell[2198, 75, 116, 2, 29, "Output"]
+}, Open  ]],
+Cell[2329, 80, 84, 1, 30, "Input"],
+
+Cell[CellGroupData[{
+Cell[2438, 85, 176, 3, 70, "Input"],
+Cell[2617, 90, 383, 6, 67, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[3037, 101, 165, 3, 50, "Input"],
+Cell[3205, 106, 136, 2, 29, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[3378, 113, 174, 3, 110, "Input"],
+Cell[3555, 118, 43, 1, 29, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[3635, 124, 159, 2, 50, "Input"],
+Cell[3797, 128, 116, 2, 29, "Output"]
+}, Open  ]],
+Cell[3928, 133, 26, 0, 30, "Input"]
+}
+]
+*)
+
+
+
+
+(***********************************************************************
+End of Mathematica Notebook file.
+***********************************************************************)
+
