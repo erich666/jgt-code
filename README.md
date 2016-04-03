@@ -9,6 +9,10 @@ This is a repository of code developed and some supplemental material for [artic
 
 The following articles have related code; look in the corresponding folder by Volume, Number, and last name of the first author for the code itself.
 
+* Smith, Alvy Ray, and Eric Ray Lyons, ["HWB - A More Intuitive Hue-Based Color Model,"](http://www.tandfonline.com/doi/abs/10.1080/10867651.1996.10487451) *journal of graphics tools*, 1(1):3-17, 1996. [**Code**](Volume_01/Number_1/Smith1996)
+
+* Mirtich, Brian, ["Fast and Accurate Computation of Polyhedral Mass Properties,"](http://www.tandfonline.com/doi/abs/10.1080/10867651.1996.10487451) *journal of graphics tools*, 1(2):31-50, 1996. [**Code**](Volume_01/Number_2/Mirtich1996)
+
 * Möller, Tomas, and Ben Trumbore, ["Fast, Minimum Storage Ray-Triangle Intersection,"](http://www.tandfonline.com/doi/abs/10.1080/10867651.1997.10487468) *journal of graphics tools*, 2(1):21-28, 1997. [**Code**](Volume_02/Number_1/Moller1997a)
 
 * Möller, Tomas, ["A Fast Triangle-Triangle Intersection Test,"](http://www.tandfonline.com/doi/abs/10.1080/10867651.1997.10487472) *journal of graphics tools*, 2(2):25-30, 1997. [**Code**](Volume_02/Number_2/Moller1997b)
@@ -120,10 +124,6 @@ As a courtesy to the authors if possible, please cite their work when you use th
 Code in this repository is under this form of the [MIT License](https://en.wikipedia.org/wiki/MIT_License#License_terms) unless otherwise stated:
 
 Here are the articles where we know we don't have the code. There are others where we don't know if the article even had code; the [Wayback Machine](https://web.archive.org/web/20121208215031/http://jgt.akpeters.com/issues/?volume=1) has no page stored for some articles. Please [let me know](mailto:erich@acm.org) if you can provide any code or know who could.
-
-* ["HWB - A More Intuitive Hue-Based Color Model"](https://web.archive.org/web/20070826165209/http://jgt.akpeters.com/papers/SmithLyons96/)
-
-* ["Fast and Accurate Computation of Polyhedral Mass Properties"](https://web.archive.org/web/20120119014547/http://jgt.akpeters.com/papers/Mirtich96/)
 
 * ["High Quality Hardware Line Antialiasing"](https://web.archive.org/web/20120126105354/http://jgt.akpeters.com/papers/Nelson97/)
 
