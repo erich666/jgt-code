@@ -97,6 +97,12 @@ The following articles have related code; look in the corresponding folder by Vo
 
 As a courtesy to the authors if possible, please cite their work when you use their code.
 
+Here are the articles where we don't have the code - please [let me know](mailto:erich@acm.org) if you can provide this code or know who could.
+
+* ["HWB - A More Intuitive Hue-Based Color Model"](https://web.archive.org/web/20070826165209/http://jgt.akpeters.com/papers/SmithLyons96/)
+
+* ["Fast and Accurate Computation of Polyhedral Mass Properties"](https://web.archive.org/web/20120119014547/http://jgt.akpeters.com/papers/Mirtich96/)
+
 Code in this repository is under this form of the [MIT License](https://en.wikipedia.org/wiki/MIT_License#License_terms) unless otherwise stated:
 
 ```
