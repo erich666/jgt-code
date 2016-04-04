@@ -1,0 +1,120 @@
+#!/bin/sh
+# config.sh
+# This file was produced by running the Configure script.
+
+d_eunice='undef'
+d_xenix='undef'
+d_bsd='define'
+define='define'
+eunicefix=':'
+loclist='
+cat
+echo
+expr
+grep
+rm
+sed
+sort
+uniq
+'
+expr='/bin/expr'
+awk=''
+sed='/bin/sed'
+echo='/bin/echo'
+cat='/bin/cat'
+chgrp=''
+chmod=''
+chown=''
+rm='/bin/rm'
+mv=''
+cp=''
+tail=''
+tr=''
+mkdir=''
+sort='/bin/sort'
+uniq='/bin/uniq'
+grep='/bin/grep'
+trylist='
+bison
+cpp
+test
+'
+test='test'
+inews=''
+egrep=''
+more=''
+pg=''
+Mcc=''
+vi=''
+mail=''
+bison='/usr/local/bin/bison'
+cpp='cpp'
+perl=''
+Log='$Log'
+Header='$Header'
+Id='$Id'
+bin='/uac/gds/ttwong/rayshade.4.0/rayshade'
+contains='grep'
+cppstdin='cpp'
+cppminus=''
+d_bzero='undef'
+d_cbrt='define'
+d_index='define'
+d_memset='define'
+d_popen='define'
+d_rusage='define'
+d_times='define'
+clocktype='int'
+i_string='define'
+strings='/usr/include/string.h'
+i_sysresrc='define'
+i_systypes='define'
+i_time='undef'
+i_systime='define'
+i_systimek='undef'
+timeincl='/usr/include/sys/time.h'
+inhdr='echo " ";
+xxx=`loc $1 x /usr/include /usr/local/include $inclwanted`;
+if $test -f $xxx;
+then echo "<$1> found."; eval "$2=$define";
+else echo "No <$1> found."; eval "$2=$undef"; fi'
+inlibc='echo " ";
+if $contains "^$1\$" libc.list >/dev/null 2>&1;
+then echo "$1() found."; eval "$2=$define";
+else echo "$1() not found."; eval "$2=$undef"; fi'
+libs='-lm'
+models='none'
+split=''
+small=''
+medium=''
+large=''
+huge=''
+ccflags=' -DLANGUAGE_C'
+ldflags=''
+cc='gcc'
+cppflags=' -DLANGUAGE_C -D__GNUC__'
+optimize='-O'
+n='-n'
+c=''
+orderlib='false'
+ranlib='/usr/bin/ranlib'
+package='rayshade'
+randfunc='drand48'
+mrand='drand48()'
+seedfunc='srand48'
+nrandbits=''
+spitshell='cat'
+shsharp='true'
+sharpbang='#!'
+startsh='#!/bin/sh'
+sysman='/usr/man/man1'
+voidflags='11'
+defvoidused='11'
+yacc='bison -y'
+d_urt='define'
+urtinc='-I/usr/local/urt/include'
+urtlib='/usr/local/urt/lib/librle.a'
+i_stdlib='define'
+libc='/usr/lib/libc.so.1.9'
+mkdep='/tmp_mnt/uac/gds1/ttwong/rayshade.4.0/mkdep'
+CONFIG=true

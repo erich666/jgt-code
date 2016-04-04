@@ -1,0 +1,17 @@
+This directory contains some testing program of Hammersley and Halton
+points. Note that subdirectories only contains the snapshot of the
+source codes when I submitted the paper to Journal of Graphics Tools
+
+Name       Description
+====	   ===========
+raytrace/  A ray tracer with supersampling. Implemented on Rayshade 4.0.6.
+	   Enhanced 2.
+
+sampexp/   Sample the surface exposure. Implemented on Rayshade 4.0.6
+	   Enhanced 2.
+
+udpoint/   An OpenGL program demo the appearance of Hammersley and Halton
+	   points on sphere and plane.
+
+
+T T

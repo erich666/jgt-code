@@ -1,0 +1,1 @@
+See http://www.cs.rug.nl/svcg/Shapes/Inpainting for more information.

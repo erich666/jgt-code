@@ -1,0 +1,12 @@
+lookp 0.0 0.0 0.0
+eyep  0.0 -6.0 1.0
+fov 45. 45.
+screen 256 256
+
+light 1. directional 0. 0. 1.
+
+surface white ambient .02 .02 .02 diffuse .9 .9 .9 specular .8 .8 .8 specpow 32
+surface black ambient 0. 0. 0. diffuse 0. 0. 0. specular 0. 0. 0. 
+
+plane white 0 0 -0.2  0. 0. 1.
+texture checker black scale 0.45 0.45 1.0

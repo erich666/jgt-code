@@ -1,0 +1,63 @@
+This archive contains the source code of a demo program showing the
+appearance various pointsets on the surface of sphere and plane.
+It also contains source codes listed in the paper "Sampling with 
+Hammersley and Halton Points" published in the Journal of Graphics Tools.
+
+System Requirement: UNIX platform with OpenGL (Mesa or SGI OpenGL), GLUT,
+		    and X11.
+		    OR
+		    Windows with Visual C++ 6.0 or above, OpenGL and GLUT
+
+
+Here is the listing of files and their corresponding function in this
+archive.
+
+FILE  		DESCRIPTION
+====		===========
+LICENSE		License statement of using the source code.
+
+Makefile.sgi	Makefile for compiling the source code on SGI machines.
+		Rename it as "Makefile" if you are running on SGI.
+		Modify the path setting in the Makefile to match your 
+		system configuration in order to compile correctly.
+
+Makefile.solaris Makefile for compiling the source code on SUN Solaris.
+		Rename it as "Makefile" when compiling on Solaris.
+		Modify the path setting in the Makefile to match your
+		system configuration in order to compile correctly.
+
+plane.dsp       Visual C++ 6.0 project files for compiling "plane" 
+plane.dsw       demo.
+
+sphere.dsp      Visual C++ 6.0 project files for compiling "sphere"
+sphere.dsw      demo.
+
+common.h	Header file defines some useful macros.
+
+plane.cpp	A program demostrating the appearance of various pointsets
+		on the 2D plane. Require OpenGL and GLUT.
+
+readme		This file.
+
+sphere.cpp	A program demonstrating the appearance of various pointsets
+		on the surface of a sphere. Require OpenGL and GLUT.
+
+trackball.cpp	Trackball interface implementation from SGI.
+trackball.h
+
+udpoint.cpp	The module contains the implementation of generation of
+udpoint.h	Hammersley and Halton point sets. Contains source codes
+		listed in the appendix of the paper. It is written to be
+		used has a system independent module.
+
+vecmath.cpp	A library of useful vector mathematics.
+vecmath.h
+
+
+If you find any bug, error or problem in compiling, using the source code,
+please report to "ttwong@acm.org".
+
+
+Tien-Tsin Wong
+19 August 2000.
+

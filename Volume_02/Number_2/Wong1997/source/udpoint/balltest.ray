@@ -1,0 +1,28 @@
+/*
+ * This ray is designed to test the uniformity of point distributed on 
+ * the surface of a sphere and record them as exposure value.
+ */
+
+surface blueshine
+	ambient 0 0 0.02
+	diffuse 0 0 0.5
+	specular 0.4 0.4 0.6
+	specpow 100
+	reflect 1
+
+applysurf blueshine
+
+sphere 2  0 0 0
+
+list balltest.rle 256 256 /* Exposure map x y resolution */
+		  0       /* posno,neglected */
+		  10      /* expo_scale */
+		  200      /* sampleperpos */
+		  1.2     /* half-effect distance */
+ triangleuv   -10 0 -10    0 -1 0   0 1
+	       10 0  10    0 -1 0   1 0
+	       10 0 -10    0 -1 0   1 1
+ triangleuv   -10 0 -10    0 -1 0   0 1
+	      -10 0  10    0 -1 0   0 0 
+	       10 0  10    0 -1 0   1 0 
+end

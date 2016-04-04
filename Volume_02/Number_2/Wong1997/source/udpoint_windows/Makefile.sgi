@@ -1,0 +1,78 @@
+# This Makefile is designed for compilation on SGI machines.
+# However, there should be no problem in compiling the program on
+# other platforms, provided that there is Mesa and GLUT installed.
+# Usually the problem in compilation is due to the incorrect path setting.
+
+##### PLEASE FILL IN THE FOLLOWING MACROS ######
+# The path of your X11 library. e.g. /usr/X11R5/lib
+X11LIB = /usr/X11R5/lib
+
+# The path of your X11 include directory. e.g. /usr/X11R5/include
+X11INC = /usr/X11R5/include
+
+# The path of your GLUT library. e.g. /usr/local/glut/lib
+GLUTLIB = /usr/local/glut/lib
+
+# The path of your GLUT include. e.g. /usr/local/glut/include
+GLUTINC = /usr/local/glut/include
+
+##### MACROS #####
+## for SGI
+GL_LIB = libGL.a  
+GLU_LIB = libGLU.a
+GLUT_LIB = libglut.a
+TK_LIB = libtk.a
+AUX_LIB = libaux.a
+CC = cc
+CPP = CC
+CFLAGS = -O2 -DUNIX
+MAKELIB = ar ruv
+RANLIB = ranlib
+XLIBS = -L$(X11LIB) -lX11 -lXext -lXmu -lXt -lXi
+INCDIR = -I/usr/include
+LIBS = -L/usr/lib 
+GL_INCDIR = -I$(X11INC) -I$(GLUTINC)
+GL_LIBS =  -L$(GLUTLIB) -lglut -lGL -lGLU $(XLIBS)
+LIB_DEP = /usr/lib/$(GL_LIB) /usr/lib/$(GLU_LIB) /usr/lib/$(TK_LIB) /usr/lib/$(AUX_LIB)
+
+
+##### RULES #####
+
+.SUFFIXES:
+.SUFFIXES: .c .o .cpp
+
+
+.c.o:
+	$(CC) $(INCDIR) $(GL_INCDIR) $(CFLAGS) -c $<
+
+.c: 
+	$(CC) $(INCDIR) $(GL_INCDIR) $(LIBS) $(GL_LIBS) $(CFLAG) $< -o $@ -lm
+
+.cpp.o:
+	$(CPP) $(GL_INCDIR) $(CFLAGS) -c $<
+
+
+
+##### TARGETS #####
+
+OBJFILES = vecmath.o trackball.o udpoint.o
+HFILES = common.h vecmath.h trackball.h udpoint.h
+
+
+all:	demo
+
+
+clean:
+	-rm *.o core
+
+realclean:
+	-rm $(PROGS)
+	-rm *.o *~
+
+targets: $(PROGS)
+
+
+demo: $(HFILES) $(OBJFILES) sphere.o plane.o
+	$(CPP) $(CFLAGS) sphere.o $(OBJFILES) $(GL_LIBS) $(LIBS) -o sphere -lm
+	$(CPP) $(CFLAGS) plane.o  $(OBJFILES) $(GL_LIBS) $(LIBS) -o plane -lm
+

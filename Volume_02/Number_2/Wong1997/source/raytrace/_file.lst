@@ -1,0 +1,24 @@
+FILE			DESCRIPTION
+----			-----------
+Makefile*		
+Makefile.SH*
+Makefile.original*
+
+check.ray		Test scene "checker"
+check45.ray		Test scene "checker45"
+
+compare.m		Matlab program to analyze the pixel error in
+			luminance.
+
+main.c			-+
+raytrace.c		 |
+raytrace.h		 |-- Original rayshade 4.0.6 enhanced 2 files.
+version.c		-+
+
+rthalton.c		Ray trace using Halton sequences.
+rthammersley.c		Ray trace using Hammersley pointsets.
+rtjitter.c		Ray trace using jittered sampling.
+rtpoisson.c		Ray trace using Poisson disk. When D=0, it is random
+			sampling.
+rtregular.c		Ray trace using regular sampling.
+rtmultijit.c            Ray trace using multijittered sampling.
