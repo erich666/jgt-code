@@ -2,6 +2,7 @@ See more at http://www.cse.cuhk.edu.hk/~ttwong/papers/udpoint/udpoints.html
 
 Executable Demo
 
+Two executable demonstration programs (sphere and plane) are available for download. Program sphere demonstrates the appearances of various Hammersley and Halton point sets on the sphere. Program plane demonstrates the appearances of various Hammersley and Halton point sets on the 2D plane. Both programs run on Windows.
 
 Running instructions for both programs: When the program (both demo programs) starts, users can press key "1" - "9" and "A" - "B". Each key toggles the drawing of one point set (see the following table):
 
