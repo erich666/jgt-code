@@ -45,7 +45,7 @@ The following articles have related code; look in the corresponding folder by Vo
 
 * Lewiner, Thomas, Hélio Lopes, Antônio Wilson Vieira, and Geovan Tavares, ["Efficient Implementation of Marching Cubes' Cases with Topological Guarantees,"](http://www.tandfonline.com/doi/abs/10.1080/10867651.2003.10487582) *journal of graphics tools*, 8(2):1-15, 2003. [**Only partial tables**](Volume_08/Number_2/Lewiner2003)
 
-* Telea, Alexandru, ["An Image Inpainting Technique Based on the Fast Marching Method,"](http://www.tandfonline.com/doi/abs/10.1080/10867651.2004.10487596) *journal of graphics tools*, 9(1):23-34, 2004. [**Code**](Volume_09/Number_1/Telea2004)
+* Telea, Alexandru, ["An Image Inpainting Technique Based on the Fast Marching Method,"](http://www.tandfonline.com/doi/abs/10.1080/10867651.2004.10487596) *journal of graphics tools*, 9(1):23-34, 2004. [**Code and executable**](Volume_09/Number_1/Telea2004)
 
 * Mahovsky, Jeffrey, and Brian Wyvill, ["Fast Ray-Axis Aligned Bounding Box Overlap Tests with Plücker Coordinates,"](http://www.tandfonline.com/doi/abs/10.1080/10867651.2004.10487597) *journal of graphics tools*, 9(1):35-46, 2004. [**Code**](Volume_09/Number_1/Mahovsky2004)
 
