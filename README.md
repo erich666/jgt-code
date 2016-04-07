@@ -45,7 +45,7 @@ The following articles have related code; look in the corresponding folder by Vo
 
 * Guigue, Philippe, and Olivier Devillers, ["Fast and Robust Triangle-Triangle Overlap Test Using Orientation Predicates,"](http://www.tandfonline.com/doi/abs/10.1080/10867651.2003.10487580) *journal of graphics tools*, 8(1):25-32, 2003. [**Code**](Volume_08/Number_1/Guigue2003)
 
-* Lewiner, Thomas, Hélio Lopes, Antônio Wilson Vieira, and Geovan Tavares, ["Efficient Implementation of Marching Cubes' Cases with Topological Guarantees,"](http://www.tandfonline.com/doi/abs/10.1080/10867651.2003.10487582) *journal of graphics tools*, 8(2):1-15, 2003. [**Only partial tables**](Volume_08/Number_2/Lewiner2003)
+* Lewiner, Thomas, Hélio Lopes, Antônio Wilson Vieira, and Geovan Tavares, ["Efficient Implementation of Marching Cubes' Cases with Topological Guarantees,"](http://www.tandfonline.com/doi/abs/10.1080/10867651.2003.10487582) *journal of graphics tools*, 8(2):1-15, 2003. [**Code, partial tables**](Volume_08/Number_2/Lewiner2003)
 
 * Telea, Alexandru, ["An Image Inpainting Technique Based on the Fast Marching Method,"](http://www.tandfonline.com/doi/abs/10.1080/10867651.2004.10487596) *journal of graphics tools*, 9(1):23-34, 2004. [**Code and executable**](Volume_09/Number_1/Telea2004)
 
@@ -146,8 +146,6 @@ Here are the articles where we know we don't have the code. There are others whe
 * ["Convolution Surfaces for Line Skeletons with Polynomial Weight Distributions"](https://web.archive.org/web/20080802204803/http://jgt.akpeters.com/papers/JinEtAl01/)
 
 * ["Fast and Accurate Circle-Circle and Circle-Line 3D Distance Computation"](https://web.archive.org/web/20120126131623/http://jgt.akpeters.com/papers/Vranek02/)
-
-* ["Efficient Implementation of Marching Cubes' Cases with Topological Guarantees"](https://web.archive.org/web/20120107070650/http://jgt.akpeters.com/papers/LewinerEtAl03/) - have only a set of tables, no code.
 
 * ["Efficient Splatting Using Modern Graphics Hardware"](https://web.archive.org/web/20080921114738/http://jgt.akpeters.com/papers/XueCrawfis03/)
 
