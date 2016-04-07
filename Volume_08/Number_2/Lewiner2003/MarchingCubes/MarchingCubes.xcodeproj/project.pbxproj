@@ -1,0 +1,280 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		0B07F98D0D2ED5230020D48E /* csg.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 0B07F97C0D2ED5230020D48E /* csg.h */; };
+		0B07F98E0D2ED5230020D48E /* fparser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0B07F97D0D2ED5230020D48E /* fparser.cpp */; };
+		0B07F98F0D2ED5230020D48E /* fparser.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 0B07F97E0D2ED5230020D48E /* fparser.h */; };
+		0B07F9900D2ED5230020D48E /* gl2ps.c in Sources */ = {isa = PBXBuildFile; fileRef = 0B07F97F0D2ED5230020D48E /* gl2ps.c */; };
+		0B07F9910D2ED5230020D48E /* gl2ps.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 0B07F9800D2ED5230020D48E /* gl2ps.h */; };
+		0B07F9920D2ED5230020D48E /* glui_cmdline.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0B07F9810D2ED5230020D48E /* glui_cmdline.cpp */; };
+		0B07F9930D2ED5230020D48E /* glui_controls.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0B07F9820D2ED5230020D48E /* glui_controls.cpp */; };
+		0B07F9940D2ED5230020D48E /* glui_defs.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 0B07F9830D2ED5230020D48E /* glui_defs.h */; };
+		0B07F9950D2ED5230020D48E /* glui_draws.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0B07F9840D2ED5230020D48E /* glui_draws.cpp */; };
+		0B07F9960D2ED5230020D48E /* glui_main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0B07F9850D2ED5230020D48E /* glui_main.cpp */; };
+		0B07F9970D2ED5230020D48E /* glui_mc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0B07F9860D2ED5230020D48E /* glui_mc.cpp */; };
+		0B07F9980D2ED5230020D48E /* glui_mouse.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0B07F9870D2ED5230020D48E /* glui_mouse.cpp */; };
+		0B07F9990D2ED5230020D48E /* LookUpTable.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 0B07F9880D2ED5230020D48E /* LookUpTable.h */; };
+		0B07F99A0D2ED5230020D48E /* MarchingCubes.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0B07F9890D2ED5230020D48E /* MarchingCubes.cpp */; };
+		0B07F99B0D2ED5230020D48E /* MarchingCubes.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 0B07F98A0D2ED5230020D48E /* MarchingCubes.h */; };
+		0B07F99C0D2ED5230020D48E /* ply.c in Sources */ = {isa = PBXBuildFile; fileRef = 0B07F98B0D2ED5230020D48E /* ply.c */; };
+		0B07F99D0D2ED5230020D48E /* ply.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 0B07F98C0D2ED5230020D48E /* ply.h */; };
+		0B753C430D367F2500CD9D8C /* GLUT.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0B753C420D367F2500CD9D8C /* GLUT.framework */; };
+		0B753C470D367F3200CD9D8C /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0B753C460D367F3200CD9D8C /* OpenGL.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		8DD76FAF0486AB0100D96B5E /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 8;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+				0B07F98D0D2ED5230020D48E /* csg.h in CopyFiles */,
+				0B07F98F0D2ED5230020D48E /* fparser.h in CopyFiles */,
+				0B07F9910D2ED5230020D48E /* gl2ps.h in CopyFiles */,
+				0B07F9940D2ED5230020D48E /* glui_defs.h in CopyFiles */,
+				0B07F9990D2ED5230020D48E /* LookUpTable.h in CopyFiles */,
+				0B07F99B0D2ED5230020D48E /* MarchingCubes.h in CopyFiles */,
+				0B07F99D0D2ED5230020D48E /* ply.h in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		0B07F97C0D2ED5230020D48E /* csg.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = csg.h; sourceTree = "<group>"; };
+		0B07F97D0D2ED5230020D48E /* fparser.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = fparser.cpp; sourceTree = "<group>"; };
+		0B07F97E0D2ED5230020D48E /* fparser.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = fparser.h; sourceTree = "<group>"; };
+		0B07F97F0D2ED5230020D48E /* gl2ps.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = gl2ps.c; sourceTree = "<group>"; };
+		0B07F9800D2ED5230020D48E /* gl2ps.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gl2ps.h; sourceTree = "<group>"; };
+		0B07F9810D2ED5230020D48E /* glui_cmdline.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = glui_cmdline.cpp; sourceTree = "<group>"; };
+		0B07F9820D2ED5230020D48E /* glui_controls.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = glui_controls.cpp; sourceTree = "<group>"; };
+		0B07F9830D2ED5230020D48E /* glui_defs.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = glui_defs.h; sourceTree = "<group>"; };
+		0B07F9840D2ED5230020D48E /* glui_draws.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = glui_draws.cpp; sourceTree = "<group>"; };
+		0B07F9850D2ED5230020D48E /* glui_main.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = glui_main.cpp; sourceTree = "<group>"; };
+		0B07F9860D2ED5230020D48E /* glui_mc.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = glui_mc.cpp; sourceTree = "<group>"; };
+		0B07F9870D2ED5230020D48E /* glui_mouse.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = glui_mouse.cpp; sourceTree = "<group>"; };
+		0B07F9880D2ED5230020D48E /* LookUpTable.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = LookUpTable.h; sourceTree = "<group>"; };
+		0B07F9890D2ED5230020D48E /* MarchingCubes.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = MarchingCubes.cpp; sourceTree = "<group>"; };
+		0B07F98A0D2ED5230020D48E /* MarchingCubes.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = MarchingCubes.h; sourceTree = "<group>"; };
+		0B07F98B0D2ED5230020D48E /* ply.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = ply.c; sourceTree = "<group>"; };
+		0B07F98C0D2ED5230020D48E /* ply.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = ply.h; sourceTree = "<group>"; };
+		0B07F9AC0D2ED5A20020D48E /* MarchingCubes */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = MarchingCubes; sourceTree = BUILT_PRODUCTS_DIR; };
+		0B753C420D367F2500CD9D8C /* GLUT.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLUT.framework; path = /System/Library/Frameworks/GLUT.framework; sourceTree = "<absolute>"; };
+		0B753C460D367F3200CD9D8C /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = /System/Library/Frameworks/OpenGL.framework; sourceTree = "<absolute>"; };
+		0B753C4F0D36818600CD9D8C /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o"; name = libz.dylib; path = SDKs/MacOSX10.5.sdk/usr/lib/libz.dylib; sourceTree = DEVELOPER_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		8DD76FAD0486AB0100D96B5E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0B753C430D367F2500CD9D8C /* GLUT.framework in Frameworks */,
+				0B753C470D367F3200CD9D8C /* OpenGL.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		08FB7794FE84155DC02AAC07 /* MarchingCubes */ = {
+			isa = PBXGroup;
+			children = (
+				0B753C4F0D36818600CD9D8C /* libz.dylib */,
+				0B753C460D367F3200CD9D8C /* OpenGL.framework */,
+				0B753C420D367F2500CD9D8C /* GLUT.framework */,
+				0B07F97C0D2ED5230020D48E /* csg.h */,
+				0B07F97D0D2ED5230020D48E /* fparser.cpp */,
+				0B07F97E0D2ED5230020D48E /* fparser.h */,
+				0B07F97F0D2ED5230020D48E /* gl2ps.c */,
+				0B07F9800D2ED5230020D48E /* gl2ps.h */,
+				0B07F9810D2ED5230020D48E /* glui_cmdline.cpp */,
+				0B07F9820D2ED5230020D48E /* glui_controls.cpp */,
+				0B07F9830D2ED5230020D48E /* glui_defs.h */,
+				0B07F9840D2ED5230020D48E /* glui_draws.cpp */,
+				0B07F9850D2ED5230020D48E /* glui_main.cpp */,
+				0B07F9860D2ED5230020D48E /* glui_mc.cpp */,
+				0B07F9870D2ED5230020D48E /* glui_mouse.cpp */,
+				0B07F9880D2ED5230020D48E /* LookUpTable.h */,
+				0B07F9890D2ED5230020D48E /* MarchingCubes.cpp */,
+				0B07F98A0D2ED5230020D48E /* MarchingCubes.h */,
+				0B07F98B0D2ED5230020D48E /* ply.c */,
+				0B07F98C0D2ED5230020D48E /* ply.h */,
+				08FB7795FE84155DC02AAC07 /* Source */,
+				C6A0FF2B0290797F04C91782 /* Documentation */,
+				1AB674ADFE9D54B511CA2CBB /* Products */,
+			);
+			name = MarchingCubes;
+			sourceTree = "<group>";
+		};
+		08FB7795FE84155DC02AAC07 /* Source */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Source;
+			sourceTree = "<group>";
+		};
+		1AB674ADFE9D54B511CA2CBB /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				0B07F9AC0D2ED5A20020D48E /* MarchingCubes */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		C6A0FF2B0290797F04C91782 /* Documentation */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Documentation;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		8DD76FA90486AB0100D96B5E /* MarchingCubes */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1DEB928508733DD80010E9CD /* Build configuration list for PBXNativeTarget "MarchingCubes" */;
+			buildPhases = (
+				8DD76FAB0486AB0100D96B5E /* Sources */,
+				8DD76FAD0486AB0100D96B5E /* Frameworks */,
+				8DD76FAF0486AB0100D96B5E /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = MarchingCubes;
+			productInstallPath = "$(HOME)/bin";
+			productName = MarchingCubes;
+			productReference = 0B07F9AC0D2ED5A20020D48E /* MarchingCubes */;
+			productType = "com.apple.product-type.tool";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		08FB7793FE84155DC02AAC07 /* Project object */ = {
+			isa = PBXProject;
+			buildConfigurationList = 1DEB928908733DD80010E9CD /* Build configuration list for PBXProject "MarchingCubes" */;
+			compatibilityVersion = "Xcode 3.2";
+			hasScannedForEncodings = 1;
+			mainGroup = 08FB7794FE84155DC02AAC07 /* MarchingCubes */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				8DD76FA90486AB0100D96B5E /* MarchingCubes */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		8DD76FAB0486AB0100D96B5E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0B07F98E0D2ED5230020D48E /* fparser.cpp in Sources */,
+				0B07F9900D2ED5230020D48E /* gl2ps.c in Sources */,
+				0B07F9920D2ED5230020D48E /* glui_cmdline.cpp in Sources */,
+				0B07F9930D2ED5230020D48E /* glui_controls.cpp in Sources */,
+				0B07F9950D2ED5230020D48E /* glui_draws.cpp in Sources */,
+				0B07F9960D2ED5230020D48E /* glui_main.cpp in Sources */,
+				0B07F9970D2ED5230020D48E /* glui_mc.cpp in Sources */,
+				0B07F9980D2ED5230020D48E /* glui_mouse.cpp in Sources */,
+				0B07F99A0D2ED5230020D48E /* MarchingCubes.cpp in Sources */,
+				0B07F99C0D2ED5230020D48E /* ply.c in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		1DEB928608733DD80010E9CD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				INSTALL_PATH = "$(HOME)/bin";
+				PRODUCT_NAME = MarchingCubes;
+				ZERO_LINK = YES;
+			};
+			name = Debug;
+		};
+		1DEB928708733DD80010E9CD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = (
+					ppc,
+					i386,
+				);
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_MODEL_TUNING = G5;
+				INSTALL_PATH = "$(HOME)/bin";
+				PRODUCT_NAME = MarchingCubes;
+			};
+			name = Release;
+		};
+		1DEB928A08733DD80010E9CD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(NATIVE_ARCH_ACTUAL)";
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = /opt/local/include;
+				LIBRARY_SEARCH_PATHS = /opt/local/lib;
+				ONLY_ACTIVE_ARCH = YES;
+				OTHER_LDFLAGS = "-lglui";
+				PREBINDING = NO;
+				SDKROOT = "";
+			};
+			name = Debug;
+		};
+		1DEB928B08733DD80010E9CD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(NATIVE_ARCH_ACTUAL)";
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = /opt/local/include;
+				LIBRARY_SEARCH_PATHS = /opt/local/lib;
+				ONLY_ACTIVE_ARCH = YES;
+				OTHER_LDFLAGS = "-lglui";
+				PREBINDING = NO;
+				SDKROOT = "";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		1DEB928508733DD80010E9CD /* Build configuration list for PBXNativeTarget "MarchingCubes" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1DEB928608733DD80010E9CD /* Debug */,
+				1DEB928708733DD80010E9CD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		1DEB928908733DD80010E9CD /* Build configuration list for PBXProject "MarchingCubes" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1DEB928A08733DD80010E9CD /* Debug */,
+				1DEB928B08733DD80010E9CD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 08FB7793FE84155DC02AAC07 /* Project object */;
+}
