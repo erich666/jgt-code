@@ -33,6 +33,8 @@ The following articles have related code; look in the corresponding folder by Vo
 
 * Stam, Jos, ["A Simple Fluid Solver Based on the FFT,"](http://www.tandfonline.com/doi/abs/10.1080/10867651.2001.10487540) *journal of graphics tools*, 6(2):43-52, 2001. [**Code**](Volume_06/Number_2/Stam2001)
 
+* Jin, Xiaogang, Chiew-Lan Tai, Jieqing Feng, and Qunsheng Peng, ["Convolution Surfaces for Line Skeletons with Polynomial Weight Distributions,"](http://www.tandfonline.com/doi/abs/10.1080/10867651.2001.10487542) *journal of graphics tools*, 6(3):17-28, 2001. [**Detailed Results**](Volume_06/Number_3/Jin2001)
+
 * Nakamaru, Koji, and Yoshio Ohno, ["Enhanced Breadth-First Ray Tracing,"](http://www.tandfonline.com/doi/abs/10.1080/10867651.2001.10487547) *journal of graphics tools*, 6(4):13-28, 2001. [**Detailed Results**](Volume_06/Number_4/Nakamaru2001)
 
 * Sunday, Daniel, ["Fast Polygon Area and Newell Normal Computation,"](http://www.tandfonline.com/doi/abs/10.1080/10867651.2002.10487556) *journal of graphics tools*, 7(2):9-13, 2002. [**Code**](Volume_07/Number_2/Sunday2002)
@@ -142,8 +144,6 @@ Here are the articles where we know we don't have the code. There are others whe
 * ["A Simple Recursive Tessellator for Adaptive Surface Triangulation"](https://web.archive.org/web/20081013105726/http://jgt.akpeters.com/papers/ChungField00/)
 
 * ["Fast and Accurate Parametric Curve Length Computation"](https://web.archive.org/web/20100120094229/http://jgt.akpeters.com/papers/VincentForsey01/) - have CurveLength.c, missing SurfaceArea.c
-
-* ["Convolution Surfaces for Line Skeletons with Polynomial Weight Distributions"](https://web.archive.org/web/20080802204803/http://jgt.akpeters.com/papers/JinEtAl01/)
 
 * ["Fast and Accurate Circle-Circle and Circle-Line 3D Distance Computation"](https://web.archive.org/web/20120126131623/http://jgt.akpeters.com/papers/Vranek02/)
 
