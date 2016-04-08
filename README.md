@@ -13,6 +13,8 @@ The following articles have related code; look in the corresponding folder by Vo
 
 * Mirtich, Brian, ["Fast and Accurate Computation of Polyhedral Mass Properties,"](http://www.tandfonline.com/doi/abs/10.1080/10867651.1996.10487451) *journal of graphics tools*, 1(2):31-50, 1996. [**Code**](Volume_01/Number_2/Mirtich1996)
 
+* Barzel, Ronen, ["Lighting Controls for Computer Cinematography,"](http://www.tandfonline.com/doi/abs/10.1080/10867651.1997.10487468) *journal of graphics tools*, 2(1):1-20, 1997. [**Images and follow-up**](Volume_02/Number_1/Barzel1997)
+
 * Möller, Tomas, and Ben Trumbore, ["Fast, Minimum Storage Ray-Triangle Intersection,"](http://www.tandfonline.com/doi/abs/10.1080/10867651.1997.10487468) *journal of graphics tools*, 2(1):21-28, 1997. [**Code**](Volume_02/Number_1/Moller1997a)
 
 * Wong, Tien-Tsin, Wai-Shing Luk and Pheng-Ann Heng, ["Sampling with Hammersley and Halton Points,"](http://www.tandfonline.com/doi/abs/10.1080/10867651.1997.10487471) *journal of graphics tools*, 2(2):9-24, 1997. [**Code and executables**](Volume_02/Number_2/Wong1997)
@@ -35,6 +37,8 @@ The following articles have related code; look in the corresponding folder by Vo
 
 * Jin, Xiaogang, Chiew-Lan Tai, Jieqing Feng, and Qunsheng Peng, ["Convolution Surfaces for Line Skeletons with Polynomial Weight Distributions,"](http://www.tandfonline.com/doi/abs/10.1080/10867651.2001.10487542) *journal of graphics tools*, 6(3):17-28, 2001. [**Detailed Results**](Volume_06/Number_3/Jin2001)
 
+* Andersen, Clark R., and William L. Buford, Jr., ["The Three-Dimensional Parametric Ellipse,"](http://www.tandfonline.com/doi/abs/10.1080/10867651.2001.10487545) *journal of graphics tools*, 6(3):45-48, 2001. [**Mathematica notebooks and document**](Volume_06/Number_3/Andersen2001)
+
 * Nakamaru, Koji, and Yoshio Ohno, ["Enhanced Breadth-First Ray Tracing,"](http://www.tandfonline.com/doi/abs/10.1080/10867651.2001.10487547) *journal of graphics tools*, 6(4):13-28, 2001. [**Detailed Results**](Volume_06/Number_4/Nakamaru2001)
 
 * Sunday, Daniel, ["Fast Polygon Area and Newell Normal Computation,"](http://www.tandfonline.com/doi/abs/10.1080/10867651.2002.10487556) *journal of graphics tools*, 7(2):9-13, 2002. [**Code**](Volume_07/Number_2/Sunday2002)
@@ -48,6 +52,8 @@ The following articles have related code; look in the corresponding folder by Vo
 * Guigue, Philippe, and Olivier Devillers, ["Fast and Robust Triangle-Triangle Overlap Test Using Orientation Predicates,"](http://www.tandfonline.com/doi/abs/10.1080/10867651.2003.10487580) *journal of graphics tools*, 8(1):25-32, 2003. [**Code**](Volume_08/Number_1/Guigue2003)
 
 * Lewiner, Thomas, Hélio Lopes, Antônio Wilson Vieira, and Geovan Tavares, ["Efficient Implementation of Marching Cubes' Cases with Topological Guarantees,"](http://www.tandfonline.com/doi/abs/10.1080/10867651.2003.10487582) *journal of graphics tools*, 8(2):1-15, 2003. [**Code, partial tables**](Volume_08/Number_2/Lewiner2003)
+
+* Xue, Daqing, and Roger Crawfis, ["Efficient Splatting Using Modern Graphics Hardware,"](http://www.tandfonline.com/doi/abs/10.1080/10867651.2003.10487586) *journal of graphics tools*, 8(3):1-21, 2003. [**Code and sample data**](Volume_08/Number_3/Xue2003)
 
 * Telea, Alexandru, ["An Image Inpainting Technique Based on the Fast Marching Method,"](http://www.tandfonline.com/doi/abs/10.1080/10867651.2004.10487596) *journal of graphics tools*, 9(1):23-34, 2004. [**Code and executable**](Volume_09/Number_1/Telea2004)
 

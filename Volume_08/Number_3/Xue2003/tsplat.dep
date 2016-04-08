@@ -1,0 +1,46 @@
+# Microsoft Developer Studio Generated Dependency File, included by tsplat.mak
+
+.\main.cpp : \
+	"..\..\..\..\..\program files\microsoft visual studio\vc98\include\gl\glut.h"\
+	".\Datatype.h"\
+	".\OSUmatrix.h"\
+	".\tsplat.h"\
+	".\viewer.h"\
+	".\volume.h"\
+	
+
+.\OSUmatrix.cpp : \
+	".\OSUmatrix.h"\
+	
+
+.\parser.cpp : \
+	"..\..\..\..\..\program files\microsoft visual studio\vc98\include\gl\glut.h"\
+	".\Datatype.h"\
+	".\OSUmatrix.h"\
+	".\parser.h"\
+	".\tsplat.h"\
+	".\viewer.h"\
+	".\volume.h"\
+	
+
+.\tsplat.cpp : \
+	"..\..\..\..\..\program files\microsoft visual studio\vc98\include\gl\glut.h"\
+	".\Datatype.h"\
+	".\tsplat.h"\
+	
+
+.\viewer.cpp : \
+	"..\..\..\..\..\program files\microsoft visual studio\vc98\include\gl\glut.h"\
+	".\Datatype.h"\
+	".\OSUmatrix.h"\
+	".\parser.h"\
+	".\tsplat.h"\
+	".\viewer.h"\
+	".\volume.h"\
+	
+
+.\volume.cpp : \
+	".\Datatype.h"\
+	".\OSUmatrix.h"\
+	".\volume.h"\
+	

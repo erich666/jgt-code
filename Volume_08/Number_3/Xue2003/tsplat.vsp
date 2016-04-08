@@ -1,0 +1,30 @@
+!!VSP1.0
+# Faster billboard
+# calculate the right and up vector
+# Pre:
+#    c[0]...c[3] contains the modelview matrix.
+#	 c[4]...c[7] contains the concatenation of modelview and projection matrix
+#    c[16]...c[19] contains the multiplier coefficent.
+
+# Post:
+#    c[20]...c[23] contains the billboard offset of a vertex
+
+
+#Move RIGHT and UP into R0, and R1. Mask w, so w remains 0.
+MOV R0.xyz,c[0];
+MOV R1.xyz,c[1];
+
+#Multiply right, by multiplier.
+MUL R3,R0,c[16].x;
+MAD c[20],R1,c[16].y,R3;
+
+MUL R3,R0,c[17].x;
+MAD c[21],R1,c[17].y,R3;
+
+MUL R3,R0,c[18].x;
+MAD c[22],R1,c[18].y,R3;
+
+MUL R3,R0,c[19].x;
+MAD c[23],R1,c[19].y,R3;
+
+END

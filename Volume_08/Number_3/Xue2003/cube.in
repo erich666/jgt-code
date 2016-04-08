@@ -1,0 +1,129 @@
+// image_dimension: 32 32
+// image_dimension: 64 64
+// image_dimension: 128 128
+// image_dimension: 256 256
+ image_dimension: 512 512
+// image_dimension: 1024 1024
+
+ambient: .4
+background: 0 .3 .3
+
+object_begin:
+// rectangle: 64 64 16
+// rectangle: 100 100 100
+// cube: 4
+ hipiph: hipiph.ascii
+//  fuel: ..\vol_data\fuel.raw
+//  hydrogen: ..\vol_data\hydrogenAtom.raw
+// cthead: ..\vol_data\3dhead.raw
+// cthead: ..\project\vol_data\ctHead.vol
+// cthead: ..\vol_data\3dHead.vol
+// foot: ..\vol_data\foot128.vol
+// skull: ..\project\vol_data\skull128.vol
+// foot2:  ..\project\vol_data\foot.vol
+// uncbrain:  ..\project\vol_data\uncBrain.vol
+// data_file: ..\vol_data\ctHead.vol
+// data_file: ..\project\vol_data\uncBrain.vol
+// data_file: ..\vol_data\ultrasound.vol
+// data_file: ..\vol_data\hipip.bin
+// data_file: ..\vol_data\3dhead.vol
+// data_file: ..\project\vol_data\nerve.vol
+
+material: 1 1 .5 2.0
+color: .2 .5 .8
+object_end:
+
+light_begin:
+light_position: 60 40 0
+intensity: 1.0
+light_end:
+
+
+view_begin:
+// volume is cube, splat is square, and viewport is square, view window is square
+// volume_size * splat_size * parallel_view_window/2 = viewport_size
+// 
+// type: parallel -.8 .8 -.8 .8
+ type: parallel -1 1 -1 1
+// type: parallel -1.5 1.5 -1.5 1.5
+// type: parallel -0.5 0.5 -0.5 0.5
+eye: 0 0 5
+coi: 0 0 0
+hither: 0.1
+yon: 5000
+view_angle: 60
+head_tilt: 0
+view_end:
+
+splat_begin:
+// for viewport 32x32
+// splat sizpe 7
+// kernel_radius: 0.21875
+
+// for viewport 64x64
+// splat sizpe 7
+// kernel_radius: 0.109375
+
+// for viewport 128x128
+// splat sizpe 7
+// kernel_radius: 0.0546875
+
+// for viewport 256x256
+// splat sizpe 7
+// kernel_radius: 0.02734375
+
+// for viewport 1024x1024
+// splat sizpe 7
+// kernel_radius: 0.0068359375
+
+
+// kernel_radius: 0.015625
+
+// for viewport 512x512
+// splat size 1
+// kernel_radius: 0.001953125
+// splat size 3
+// kernel_radius: 0.005859375
+// splat size 5
+// kernel_radius: 0.009765625
+// splat sizpe 7
+// kernel_radius: 0.013671875
+// splat sizpe 9
+ kernel_radius: 0.017578125
+// splat size 10
+// kernel_radius: 0.01953125
+// splat size 11
+// kernel_radius: 0.021484375
+// splat size 20
+// kernel_radius: 0.0390625
+// splat size 30
+// kernel_radius: 0.05859375
+// splat size 40
+// kernel_radius: 0.078125
+// splat size 50
+// kernel_radius: 0.09765625
+// splat size 60
+// kernel_radius: 0.1171875
+// splat size 70
+// kernel_radius: 0.13671875
+// splat size 80
+// kernel_radius: 0.15625
+// splat size 90
+// kernel_radius: 0.17578125
+// splat size 100
+// kernel_radius: 0.1953125 
+// splat size 110
+// kernel_radius: 0.21484375
+// splat size 120
+// kernel_radius: 0.234375 
+// splat size 130
+// kernel_radius: 0.25390625
+
+tsplat_size: 32
+attenuation_factor: .45
+slice_depth: .11
+splat_end:
+
+output: cube.ppm
+
+end:

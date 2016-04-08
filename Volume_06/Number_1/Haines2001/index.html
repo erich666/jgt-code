@@ -1,0 +1,59 @@
+<html>
+<head>
+<title>journal of graphics, gpu, and game tools - Papers - Soft Planar Shadows Using Plateaus</title> 
+</head>
+<body>
+
+<h1>Soft Planar Shadows Using Plateaus</h1>
+
+<p>Eric Haines<br/><em><a href="http://www.autodesk.com/">Autodesk, Inc.</a></em></p>
+
+<p>This paper appears in issue Volume 6, Number 1.<br/> <a href="http://www.tandfonline.com/doi/abs/10.1080/10867651.2001.10487534">Purchase this article from the akpeters.com web site.</a></p>
+
+
+<h2>Abstract</h2>
+
+<p class="intro">This paper presents an algorithm for rapidly creating and rendering soft shadows on a plane. It has the advantages of rapid generation on current hardware, as well as high quality and a realistic feel on a perceptual level. The algorithm renders the soft shadow to a texture. It begins with a hard drop shadow, then uses the object&#8217;s silhouette edges to generate penumbrae in a single pass. Though the shadows generated are physically inaccurate, this technique yields penumbrae that are smooth and perceptually convincing.</p>
+
+<h2>Author Information</h2>
+<p><a href="http://erichaines.com">Eric Haines</a>, Autodesk, Inc., <a href="mailto:erich@acm.org">erich@acm.org</a></p>
+  
+<h2>Images</h2>
+
+<p>The three images below show the results of three ways of generating shadows:</p>
+
+<div class="figure" style="width:500px">
+  <a href="hard_shadows.gif"><img src="hard_shadows.gif" width="500" height="412" alt="[Image illustrating hard shadows]" /></a>
+  <p class="caption">(a) Hard shadows cast onto a plane, applied as a texture</p>
+</div>
+
+<div class="figure" style="width:500px">  
+  <a href="plateau_shadows.gif"><img src="plateau_shadows.gif" width="500" height="412" alt="[Image illustrating hard shadows]" /></a>
+  <p>(b) Soft shadows, done in a single pass using the plateaus method described in this paper. (it's a GIF because the JPEG version shows speckling artifacts in some umbrae which are not truly there.)</p>
+</div>
+
+<div class="figure" style="width:500px">  
+  <a href="herf_shadows.jpg"><img src="herf_shadows.jpg" width="500" height="412" alt="[Image illustrating correct shadows]" /></a>
+  <p>(c) Physically correct shadows, using <a href="/web/20120119011952/http://www.stereopsis.com/shadow/">Heckbert and Herf's method</a>, 256&nbsp;passes</p>
+</div>
+
+<!--<h2>Citation</h2>-->
+
+<!--Eric Haines. &#8220;Soft Planar Shadows Using Plateaus.&#8221; <em>journal of graphics, gpu, and game tools</em> 6:1 (2001), 19&#8211;27.-->
+
+<h2>BibTeX Entry</h2>
+
+<pre style="">
+@article{Haines01,
+  author = &quot;Eric Haines&quot;,
+  title = &quot;Soft Planar Shadows Using Plateaus&quot;,
+  journal = &quot;journal of graphics, gpu, and game tools&quot;,
+  volume = &quot;6&quot;,
+  number = &quot;1&quot;,
+  pages = &quot;19-27&quot;,
+  year = &quot;2001&quot;,
+}
+</pre>
+
+</body>
+</html>

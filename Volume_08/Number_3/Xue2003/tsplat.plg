@@ -1,0 +1,122 @@
+<html>
+<body>
+<pre>
+<h1>Build Log</h1>
+<h3>
+--------------------Configuration: tsplat - Win32 Debug--------------------
+</h3>
+<h3>Command Lines</h3>
+Creating temporary file "C:\DOCUME~1\xue\LOCALS~1\Temp\RSP4E1.tmp" with contents
+[
+/nologo /MLd /W3 /Gm /GX /ZI /Od /I "C:\Program Files\NVIDIA Corporation\NVSDK\OpenGL\include\glh" /I "C:\Program Files\NVIDIA Corporation\NVSDK\OpenGL\include\shared" /D "WIN32" /D "_DEBUG" /D "_CONSOLE" /D "_MBCS" /FR"Debug/" /Fp"Debug/tsplat.pch" /YX /Fo"Debug/" /Fd"Debug/" /FD /GZ /c 
+"F:\xue\tsplat-jgt\data_path.cpp"
+"F:\xue\tsplat-jgt\HTimer.cpp"
+"F:\xue\tsplat-jgt\main.cpp"
+"F:\xue\tsplat-jgt\OSUmatrix.cpp"
+"F:\xue\tsplat-jgt\parser.cpp"
+"F:\xue\tsplat-jgt\pbuffer.cpp"
+"F:\xue\tsplat-jgt\read_text_file.cpp"
+"F:\xue\tsplat-jgt\tsplat.cpp"
+"F:\xue\tsplat-jgt\viewer.cpp"
+"F:\xue\tsplat-jgt\volume.cpp"
+]
+Creating command line "cl.exe @C:\DOCUME~1\xue\LOCALS~1\Temp\RSP4E1.tmp" 
+Creating temporary file "C:\DOCUME~1\xue\LOCALS~1\Temp\RSP4E2.tmp" with contents
+[
+nvparse.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /subsystem:console /incremental:yes /pdb:"Debug/tsplat.pdb" /debug /machine:I386 /out:"Debug/tsplat.exe" /pdbtype:sept /libpath:"C:\Program Files\NVIDIA Corporation\NVSDK\OpenGL\lib\release" 
+".\Debug\data_path.obj"
+".\Debug\HTimer.obj"
+".\Debug\main.obj"
+".\Debug\OSUmatrix.obj"
+".\Debug\parser.obj"
+".\Debug\pbuffer.obj"
+".\Debug\read_text_file.obj"
+".\Debug\tsplat.obj"
+".\Debug\viewer.obj"
+".\Debug\volume.obj"
+]
+Creating command line "link.exe @C:\DOCUME~1\xue\LOCALS~1\Temp\RSP4E2.tmp"
+<h3>Output Window</h3>
+Compiling...
+data_path.cpp
+HTimer.cpp
+main.cpp
+c:\program files\microsoft visual studio\vc98\include\list(176) : warning C4786: '?rbegin@?$list@PAVglut_interactor@glh@@V?$allocator@PAVglut_interactor@glh@@@std@@@std@@QAE?AV?$reverse_bidirectional_iterator@Viterator@?$list@PAVglut_interactor@glh@@V?$allocator@PAVglut_interactor@glh@@@std@@@std@@PAVglut_interactor@glh@@AAPAV45@PAPAV45@H@2@XZ' : identifier was truncated to '255' characters in the browser information
+        c:\program files\nvidia corporation\nvsdk\opengl\include\glh\glh_glut.h(82) : see reference to class template instantiation 'std::list<class glh::glut_interactor *,class std::allocator<class glh::glut_interactor *> >' being compiled
+c:\program files\microsoft visual studio\vc98\include\list(178) : warning C4786: '?rbegin@?$list@PAVglut_interactor@glh@@V?$allocator@PAVglut_interactor@glh@@@std@@@std@@QBE?AV?$reverse_bidirectional_iterator@Vconst_iterator@?$list@PAVglut_interactor@glh@@V?$allocator@PAVglut_interactor@glh@@@std@@@std@@PAVglut_interactor@glh@@ABQAV45@PBQAV45@H@2@XZ' : identifier was truncated to '255' characters in the browser information
+        c:\program files\nvidia corporation\nvsdk\opengl\include\glh\glh_glut.h(82) : see reference to class template instantiation 'std::list<class glh::glut_interactor *,class std::allocator<class glh::glut_interactor *> >' being compiled
+c:\program files\microsoft visual studio\vc98\include\list(180) : warning C4786: '?rend@?$list@PAVglut_interactor@glh@@V?$allocator@PAVglut_interactor@glh@@@std@@@std@@QAE?AV?$reverse_bidirectional_iterator@Viterator@?$list@PAVglut_interactor@glh@@V?$allocator@PAVglut_interactor@glh@@@std@@@std@@PAVglut_interactor@glh@@AAPAV45@PAPAV45@H@2@XZ' : identifier was truncated to '255' characters in the browser information
+        c:\program files\nvidia corporation\nvsdk\opengl\include\glh\glh_glut.h(82) : see reference to class template instantiation 'std::list<class glh::glut_interactor *,class std::allocator<class glh::glut_interactor *> >' being compiled
+c:\program files\microsoft visual studio\vc98\include\list(181) : warning C4786: '?rend@?$list@PAVglut_interactor@glh@@V?$allocator@PAVglut_interactor@glh@@@std@@@std@@QBE?AV?$reverse_bidirectional_iterator@Vconst_iterator@?$list@PAVglut_interactor@glh@@V?$allocator@PAVglut_interactor@glh@@@std@@@std@@PAVglut_interactor@glh@@ABQAV45@PBQAV45@H@2@XZ' : identifier was truncated to '255' characters in the browser information
+        c:\program files\nvidia corporation\nvsdk\opengl\include\glh\glh_glut.h(82) : see reference to class template instantiation 'std::list<class glh::glut_interactor *,class std::allocator<class glh::glut_interactor *> >' being compiled
+OSUmatrix.cpp
+parser.cpp
+pbuffer.cpp
+read_text_file.cpp
+tsplat.cpp
+viewer.cpp
+f:\xue\tsplat-jgt\viewer.cpp(779) : warning C4101: 'time2' : unreferenced local variable
+volume.cpp
+f:\xue\tsplat-jgt\volume.cpp(530) : warning C4305: 'initializing' : truncation from 'const double' to 'float'
+f:\xue\tsplat-jgt\volume.cpp(531) : warning C4305: 'initializing' : truncation from 'const double' to 'float'
+f:\xue\tsplat-jgt\volume.cpp(559) : warning C4305: '=' : truncation from 'const double' to 'float'
+f:\xue\tsplat-jgt\volume.cpp(560) : warning C4305: '=' : truncation from 'const double' to 'float'
+f:\xue\tsplat-jgt\volume.cpp(683) : warning C4305: '=' : truncation from 'const double' to 'float'
+f:\xue\tsplat-jgt\volume.cpp(808) : warning C4305: '=' : truncation from 'const double' to 'float'
+f:\xue\tsplat-jgt\volume.cpp(814) : warning C4305: '=' : truncation from 'const double' to 'float'
+f:\xue\tsplat-jgt\volume.cpp(820) : warning C4305: '=' : truncation from 'const double' to 'float'
+f:\xue\tsplat-jgt\volume.cpp(1038) : warning C4305: '=' : truncation from 'const double' to 'float'
+f:\xue\tsplat-jgt\volume.cpp(1045) : warning C4305: '=' : truncation from 'const double' to 'float'
+f:\xue\tsplat-jgt\volume.cpp(1046) : warning C4305: '=' : truncation from 'const double' to 'float'
+f:\xue\tsplat-jgt\volume.cpp(1047) : warning C4305: '=' : truncation from 'const double' to 'float'
+f:\xue\tsplat-jgt\volume.cpp(1048) : warning C4305: '=' : truncation from 'const double' to 'float'
+f:\xue\tsplat-jgt\volume.cpp(1051) : warning C4305: '=' : truncation from 'const double' to 'float'
+f:\xue\tsplat-jgt\volume.cpp(1052) : warning C4305: '=' : truncation from 'const double' to 'float'
+f:\xue\tsplat-jgt\volume.cpp(1053) : warning C4305: '=' : truncation from 'const double' to 'float'
+f:\xue\tsplat-jgt\volume.cpp(1054) : warning C4305: '=' : truncation from 'const double' to 'float'
+f:\xue\tsplat-jgt\volume.cpp(1148) : warning C4305: '=' : truncation from 'const double' to 'float'
+f:\xue\tsplat-jgt\volume.cpp(1155) : warning C4305: '=' : truncation from 'const double' to 'float'
+f:\xue\tsplat-jgt\volume.cpp(1156) : warning C4305: '=' : truncation from 'const double' to 'float'
+f:\xue\tsplat-jgt\volume.cpp(1157) : warning C4305: '=' : truncation from 'const double' to 'float'
+f:\xue\tsplat-jgt\volume.cpp(1158) : warning C4305: '=' : truncation from 'const double' to 'float'
+f:\xue\tsplat-jgt\volume.cpp(1161) : warning C4305: '=' : truncation from 'const double' to 'float'
+f:\xue\tsplat-jgt\volume.cpp(1162) : warning C4305: '=' : truncation from 'const double' to 'float'
+f:\xue\tsplat-jgt\volume.cpp(1163) : warning C4305: '=' : truncation from 'const double' to 'float'
+f:\xue\tsplat-jgt\volume.cpp(1164) : warning C4305: '=' : truncation from 'const double' to 'float'
+f:\xue\tsplat-jgt\volume.cpp(1255) : warning C4305: '=' : truncation from 'const double' to 'float'
+f:\xue\tsplat-jgt\volume.cpp(1262) : warning C4305: '=' : truncation from 'const double' to 'float'
+f:\xue\tsplat-jgt\volume.cpp(1263) : warning C4305: '=' : truncation from 'const double' to 'float'
+f:\xue\tsplat-jgt\volume.cpp(1264) : warning C4305: '=' : truncation from 'const double' to 'float'
+f:\xue\tsplat-jgt\volume.cpp(1265) : warning C4305: '=' : truncation from 'const double' to 'float'
+f:\xue\tsplat-jgt\volume.cpp(1268) : warning C4305: '=' : truncation from 'const double' to 'float'
+f:\xue\tsplat-jgt\volume.cpp(1269) : warning C4305: '=' : truncation from 'const double' to 'float'
+f:\xue\tsplat-jgt\volume.cpp(1270) : warning C4305: '=' : truncation from 'const double' to 'float'
+f:\xue\tsplat-jgt\volume.cpp(1271) : warning C4305: '=' : truncation from 'const double' to 'float'
+f:\xue\tsplat-jgt\volume.cpp(1371) : warning C4305: '=' : truncation from 'const double' to 'float'
+Linking...
+   Creating library Debug/tsplat.lib and object Debug/tsplat.exp
+LINK : warning LNK4098: defaultlib "LIBC" conflicts with use of other libs; use /NODEFAULTLIB:library
+Creating temporary file "C:\DOCUME~1\xue\LOCALS~1\Temp\RSP4E6.tmp" with contents
+[
+/nologo /o"Debug/tsplat.bsc" 
+".\Debug\data_path.sbr"
+".\Debug\HTimer.sbr"
+".\Debug\main.sbr"
+".\Debug\OSUmatrix.sbr"
+".\Debug\parser.sbr"
+".\Debug\pbuffer.sbr"
+".\Debug\read_text_file.sbr"
+".\Debug\tsplat.sbr"
+".\Debug\viewer.sbr"
+".\Debug\volume.sbr"]
+Creating command line "bscmake.exe @C:\DOCUME~1\xue\LOCALS~1\Temp\RSP4E6.tmp"
+Creating browse info file...
+<h3>Output Window</h3>
+
+
+
+<h3>Results</h3>
+tsplat.exe - 0 error(s), 42 warning(s)
+</pre>
+</body>
+</html>

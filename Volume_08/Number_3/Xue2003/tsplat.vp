@@ -1,0 +1,35 @@
+!!VP1.0
+# This is the vertex program to do transformation for billboard.
+#  c[0]...c[3] contains the modelview matrix.
+#  c[4]...c[7] contains the concatenation of the modelview and projection matrices.
+#  c[24]...c[27] contains texture coordinates 
+#  v[1] contains the per-vertex position
+#  v[0] 
+#  v[TEX0] contains the per-vertex texture coordinate 0
+#  o[HPOS] output register for homogeneous position
+#  o[TEX0] output register for texture coordinate 0
+#  o[COL0] output register for primary color
+#  R0...R11 temporary registers
+
+ARL A0.x,v[0].x;
+
+MOV R0,c[A0.x+20];
+MAD R1, R0, c[8], v[1];
+
+
+#Convert new position into clip space, with concatenation of modelview and projection matrix.
+ DP4 o[HPOS].x,R1,c[4];
+ DP4 o[HPOS].y,R1,c[5];
+ DP4 o[HPOS].z,R1,c[6];
+ DP4 o[HPOS].w,R1,c[7];
+
+#Calulate color
+MOV o[COL0],v[COL0];
+#MOV o[COL0],v[COL0].xxxx;
+#MOV o[COL0].yw,v[COL0].xxxx;
+
+#Calculate texture coords.
+MOV o[TEX0].xy,c[A0.x+24];
+
+
+END
