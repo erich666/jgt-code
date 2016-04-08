@@ -1,7 +1,9 @@
-
-
-
-
+//
+//         Stephen Vincent and David Forsey.
+//         Fast and accurate parametric curve length computation.
+//         Journal of graphics tools, 6(4):29-40, 2001
+//              
+//
 
 static double SurfaceArea
     ( double min_u ,
