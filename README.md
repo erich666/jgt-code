@@ -41,6 +41,8 @@ The following articles have related code; look in the corresponding folder by Vo
 
 * Nakamaru, Koji, and Yoshio Ohno, ["Enhanced Breadth-First Ray Tracing,"](http://www.tandfonline.com/doi/abs/10.1080/10867651.2001.10487547) *journal of graphics tools*, 6(4):13-28, 2001. [**Detailed Results**](Volume_06/Number_4/Nakamaru2001)
 
+* Vincent, Stephen, and David Forsey, ["Fast and Accurate Parametric Curve Length Computation,"](http://www.tandfonline.com/doi/abs/10.1080/10867651.2001.10487548) *journal of graphics tools*, 6(4):29-40, 2001. [**Code**](Volume_06/Number_4/Vincent2001)
+
 * Sunday, Daniel, ["Fast Polygon Area and Newell Normal Computation,"](http://www.tandfonline.com/doi/abs/10.1080/10867651.2002.10487556) *journal of graphics tools*, 7(2):9-13, 2002. [**Code**](Volume_07/Number_2/Sunday2002)
 
 * Ganovelli, Fabio, Frederico Ponchio, and Claudio Rocchini, ["Fast Tetrahedron-Tetrahedron Overlap Algorithm,"](http://www.tandfonline.com/doi/abs/10.1080/10867651.2002.10487557) *journal of graphics tools*, 7(2):17-26, 2002. [**Code**](Volume_07/Number_2/Ganovelli2002)
@@ -148,8 +150,6 @@ Here are the articles where we know we don't have the code. There are others whe
 * ["Practical Parameterization of Rotations Using the Exponential Map"](https://web.archive.org/web/20061203032056/http://jgt.akpeters.com/papers/Grassia98/)
 
 * ["A Simple Recursive Tessellator for Adaptive Surface Triangulation"](https://web.archive.org/web/20081013105726/http://jgt.akpeters.com/papers/ChungField00/)
-
-* ["Fast and Accurate Parametric Curve Length Computation"](https://web.archive.org/web/20100120094229/http://jgt.akpeters.com/papers/VincentForsey01/) - have CurveLength.c, missing SurfaceArea.c
 
 * ["Fast and Accurate Circle-Circle and Circle-Line 3D Distance Computation"](https://web.archive.org/web/20120126131623/http://jgt.akpeters.com/papers/Vranek02/)
 
