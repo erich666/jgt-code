@@ -51,6 +51,10 @@ The following articles have related code; look in the corresponding folder by Vo
 
 * Steed, Anthony, ["Pseudo-Shadowed Cursors for 3D Interaction,"](http://www.tandfonline.com/doi/abs/10.1080/10867651.2002.10487562) *journal of graphics tools*, 7(3):19-25, 2002. [**Code**](Volume_07/Number_3/Steed2002)
 
+* Low, Kok-Lim, and Adrian Ilie, ["Computing a View Frustum to Maximize an Object's Image Area,"](http://www.tandfonline.com/doi/abs/10.1080/10867651.2003.10487578) *journal of graphics tools*, 8(1):3-15, 2003. [**Code**](Volume_08/Number_1/Low2003)
+
+* Shen, Hao, Pheng Ann Heng, and Zesheng Tang, ["A Fast Triangle-Triangle Overlap Test Using Signed Distances,"](http://www.tandfonline.com/doi/abs/10.1080/10867651.2003.10487579) *journal of graphics tools*, 8(1):17-24, 2003. [**Code**](Volume_08/Number_1/Shen2003)
+
 * Guigue, Philippe, and Olivier Devillers, ["Fast and Robust Triangle-Triangle Overlap Test Using Orientation Predicates,"](http://www.tandfonline.com/doi/abs/10.1080/10867651.2003.10487580) *journal of graphics tools*, 8(1):25-32, 2003. [**Code**](Volume_08/Number_1/Guigue2003)
 
 * Lewiner, Thomas, Hélio Lopes, Antônio Wilson Vieira, and Geovan Tavares, ["Efficient Implementation of Marching Cubes' Cases with Topological Guarantees,"](http://www.tandfonline.com/doi/abs/10.1080/10867651.2003.10487582) *journal of graphics tools*, 8(2):1-15, 2003. [**Code, partial tables**](Volume_08/Number_2/Lewiner2003)

@@ -1,0 +1,225 @@
+<html>
+<head>
+<title>
+Fast Ray-Triangle Intersection Test using Orientation Determinants</title>
+</head>
+<body bgcolor="#ffffff">
+
+<h1>
+<center>Fast Ray-Triangle Intersection Test Using Orientation Determinants</center></h1>
+<center>Philippe Guigue, Olivier Devillers</center><br>
+<center>
+<i>
+Addendum to 
+<a href="readme.txt">Fast and robust triangle-triangle overlap test using orientation predicates.</a> jgt 8(1), 2003
+</i>
+</center>
+<hr>
+<!-- Created: Sat May 28 15:08:50 MET 2005 -->
+<h3>Abstract:</h3>
+<p>
+We describe in the following how the value of orientation determinants
+can be used to obtain an efficient solution for the ray/triangle intersection problem.
+<p>
+This problem can be stated as follow: given a triangle <b>abc</b>, and a
+ray <b>r</b>(<em>t</em>) = <b>o</b> + <em>t</em><b>dir</b> defined by its
+origin point <b>o</b>, and a direction vector <b>dir</b>, decide whether
+the ray and the triangle intersect, and if so, compute the barycentric
+coordinates (<em>u</em>,<em>v</em>) of the intersection point,
+<b>r</b>(<em>t</em>) = (1 - <em>u</em> - v)<b>a</b> + <em>u</em><b>b</b>+ <em>v</em><b>c</b>.
+<p>
+The structure of the algorithm is identical to the algorithm 
+presented by Möller and Trumbore (<a href="../../../Volume_02/Number_2/Moller1997b/">Fast, Minimum
+Storage Ray-Triangle Intersection</a>, Journal of graphics tools, 2(1):21--28, 1997), 
+i.e. it performs in the same order the same rejection
+tests on the barycentric coordinates of the intersection point between the ray and 
+the supporting plane of the triangle. 
+The algorithms differ only in the way these barycentric coordinates are calculated. 
+
+<h3>Source Code:</h3><a href="tri_tri_intersect.c">Downloadable 
+C code</a> contains the routine:<br><br>
+<table>
+<tbody>
+ <td nowrap="nowrap" valign="top"><dd><tt>int ray_triangle_intersection(</td>
+<td><tt> double orig[3], double dir[3],
+<br>
+<tt>double a[3], double b[3], double c[3],<br>
+double *t, double *u, double *v)</pre></tt>
+</center>
+</tbody>
+</table>
+<br>
+The routine returns 1 if the ray defined by its 
+origin point <tt>orig</tt> and a direction vector <tt>dir</tt>
+intersects the triangle having vertices <tt>a</tt>, <tt>b</tt> and
+<tt>c</tt>.
+If an intersection exists, the triplet <tt>(t,u,v)</tt>, such that
+<nobr><tt>orig + t*dir = (1-u-v)*a + u*b + v*c</tt></nobr>
+is returned. The code includes two versions of the intersection test: one that culls efficiently all backfacing triangles, and one that performs the test on two-sided triangles.
+<br><br><b><em>Revision history:</em></b> 
+<dl>
+  <dd>
+  <table>
+    <tbody>
+    <tr>
+    </tr><tr>
+      <td nowrap="nowrap" valign="top"><em>May 2005</em></td>
+      <td>Program creation.</td>
+    </tr>
+ </tbody></table></dd></dl><br>
+
+<h3><b>Preliminaries:</b></h3>
+Given four three-dimensional points
+<nobr><b>a</b><i>=(a_x,a_y,a_z)</i></nobr>,
+<nobr><b>b</b><i>=(b_x,b_y,b_z)</i></nobr>,
+<nobr><b>c</b><i>=(c_x,c_y,c_z)</i></nobr>, and
+<nobr><b>p</b><i>=(p_x,p_y,p_z)</i></nobr>, we define the determinant
+<br>
+<br>
+
+<center>
+ <table>
+    <tbody>
+    <tr>
+      <td nowrap="nowrap" valign="center">[<b>a,b,c,p</b>] := - </td>
+      <td nowrap="nowrap" valign="center"> </td>
+      <td><table>
+      <tr><td>|</td><td><i>a_x</i></td><td><i>b_x</i></td><td><i>c_x</i></td><td><i>p_x</i></td><td>|</td></tr>
+      <tr><td>|</td><td><i>a_y</i></td><td><i>b_y</i></td><td><i>c_y</i></td><td><i>p_y</i></td><td>|</td></tr>
+      <tr><td>|</td><td><i>a_z</i></td><td><i>b_z</i></td><td><i>c_z</i></td><td><i>p_z</i></td><td>|</td></tr>
+      <tr><td>|</td><td>1</td><td>1</td><td>1</td><td>1</td><td>|</td></tr>
+      </table></td>
+      <td nowrap="nowrap" valign="center">= (<b>p</b> - <b>a</b>).((<b>b</b>-<b>a</b>) x (<b>c</b> - <b>a</b>))</td>
+    </tr>
+ </tbody></table>
+<br>
+</center>
+The sign of [<b>a</b>,<b>b</b>,<b>c</b>,<b>d</b>] has two geometric interpretations, each correponding to a right-hand rule. It tells whether vertex <b>d</b> is above, below, or on a plane through <b>a</b>, <b>b</b>, and <b>c</b>, where <em>above</em> is the direction of a right-handed screw at a that turns from <b>b</b> toward <b>c</b>. 
+Equivalently, it tells whether a screw directed along the ray <b>ab</b> turns in the direction of <b>cd</b>. 
+In either interpretation, the result is zero iff the four points are coplanar.
+<p> 
+The value of  [<b>a</b>,<b>b</b>,<b>c</b>,<b>d</b>] gives 6 times the signed volume of the tetrahedron <b>abcd</b>. <br>
+<p>
+Given a triangle <b>abc</b> and a point <b>p</b> that belongs to the plane of <b>abc</b>,
+the barycentric coordinates  of <b>p</b>
+are the three scalar values (<em>u,v,w</em>) such that 
+<br>
+<br>
+<center>
+<b>p</b>=<em>w</em><b>a</b> + <em>u</em><b>b</b> + <em>v</em><b>c</b>.</center>
+<br>
+It is well known that the signed areas of the triangles <b>abp</b>, <b>acp</b> , and  <b>bcp</b> are proportional to the barycentric coordinates <em>v</em>, <em>u</em>, and <em>w</em> of <b>p</b> (cf.  Mathworld, <a href="http://mathworld.wolfram.com/BarycentricCoordinates.html">Barycentric Coordinates</a>).
+The proportionality factor for all three values is then given by the area of the triangle <b>abc</b>. 
+If A(<b>abc</b>) denotes the signed area of the triangle <b>abc</b>, we then have<br><br>
+<center><em>u</em> = A(<b>cap</b>) / A(<b>abc</b>)</center><br>
+<center><em>v</em> = A(<b>abp</b>) / A(<b>abc</b>)</center><br> 
+<center><em>w</em> = A(<b>bcp</b>) / A(<b>abc</b>)</center><br> 
+<br>
+Moreover, if <b>p</b> belongs to the triangle <b>abc</b>, its barycentric coordinates must fulfill
+<em>u</em>&ge;0, <em>v</em>&ge;0, <em>w</em>&ge;0 and <em>u</em>+<em>v</em>+<em>w</em>=1, which is equivalent
+to  <em>u</em>&ge; 0, <em>v</em>&ge;0  and <em>u</em>+<em>v</em>&le;1. 
+<br>
+<br>
+
+<br>
+<br>
+<h3><b>Description of the Algorithm:</b></h3>
+
+Given a triangle <b>abc</b>, and a ray <b>r</b>(<em>t</em>) = <b>o</b> +
+<em>t</em><b>dir</b>, defined by its origin point <b>o</b> and a direction vector <b>dir</b>, 
+let <b>i</b> be the intersection point between the ray and the triangle's supporting plane.
+The cases where the ray direction is coplanar with the plane of <b>abc</b> 
+is not handled by the algorithm. It can however be easily detected (see Step 1 of the algorithm) and handled by a specialized two-dimensional routine.<br>
+<br>
+
+Let <b>q</b> be any point on the ray. The volume 
+of the three tetrahedra <b>oqab</b>, <b>oqac</b>, and
+<b>oqbc</b> are proportional to the areas of the triangles <b>abi</b>,
+<b>aci</b>, and <b>bci</b>, and therefore give the unnormalized 
+barycentric coordinates of <b>i</b> (cf. Ray Jones, <a href="http://raytracingnews.org/rtnv13n1.html">Intersecting a Ray and a Triangle with Plucker Coordinates</a>, Ray Tracing News, 13(1), July 2000 ).
+<br>
+More precisely, if V(<b>abcd</b>) denotes the signed volume of the tetrahedron <b>abcd</b>, we have  <br><br>
+<center>V(<b>oqac</b>) = 1 / 3 . A(<b>cai</b>) .  (h<b>o</b> - h<b>q</b>)</center><br>
+<center>V(<b>oqab</b>) = - 1 / 3 . A(<b>abi</b>) .  (h<b>o</b> - h<b>q</b>)</center><br> 
+where h<b>p</b> denotes the signed distance from <b>p</b> to the plane of <b>abc</b>.<br><br>
+
+
+Hence, since the value of the determinant [<b>abcd</b>] gives 6 times the signed volume of the tetrahedron <b>abcd</b>,
+the barycentric coordinates <em>u</em> and <em>v</em> of the point <b>i</b> are respectively equal to<br><br>
+
+<center><em>u</em> = [<b>o,q,a,c</b>] /   ( 2 . (h<b>o</b> - h<b>q</b>) . A(<b>abc</b>))</center>
+and  
+<center><em>v</em> = -[<b>o,q,a,b</b>] /  ( 2 . (h<b>o</b> - h<b>q</b>) . A(<b>abc</b>)).</center>
+<br>
+<br>
+With, <b>q</b> = <b>o</b> + <b>dir</b>, and 2 . (h<b>o</b> - h<b>q</b>) . A(<b>abc</b>) = 6 ( V(<b>abco</b>) - V(<b>abcq</b>) ) =  
+ [<b>a,b,c,o</b>] -  [<b>a,b,c,q</b>] =  - [<b>a,b,c,dir</b>], we finally obtain  
+<br>
+<br>
+<center><em>u</em>= [<b>o,q,a,c</b>] /  - [<b>a,b,c,dir</b>]</center>
+and  
+<center><em>v</em>= -[<b>o,q,a,b</b>] /  - [<b>a,b,c,dir</b>].</center>
+<br>
+<br>  
+The value ray parameter <em>t</em> such that <b>r</b>(<em>t</em>) =
+<b>i</b> is also proportional to the volume of the tetrahedron <b>abco</b>
+with the same proportionality factor, that is <nobr><em>t</em> =
+V(<b>abco</b) / ( V(><b>abco</b>) - V(<b>abcq</b>) ) = [<b>a,b,c,o</b>] / -
+[<b>a,b,c,dir</b>]</b>.</nobr>
+
+
+<br>
+<br>
+<br>
+The step of the algorithm are as follows:
+
+
+<br>
+<br>
+<b>Step 1:</b> &nbsp; Compute the normalizing factor D =&nbsp;-<b>dir</b> . N, where 
+N = (<b>c</b> - <b>a</b>) x (<b>b</b> - <b>a</b>),  is the non-normalized normal of the triangle <b>abc</b>. 
+If its value is zero, the ray is parallel to the plane of the triangle.
+If its value is positive, the ray's origin sees the front face of the triangle, if it is negative
+the ray's origin sees its back face. 
+We assume wlog in the following that D &gt; 0 (the case where D &lt; 0 is handled similarly but with opposite signs, 
+the case where <nobr>D = 0</nobr> is rejected by the current implementation of the algorithm). 
+<br>
+<br>
+<b>Step 2:</b> &nbsp; Compute the non-normalized V coordinate and test bounds.
+To do so, the algorithm computes the determinant V = -[<b>o,o + dir,a,b</b>]. 
+If V &lt; 0 or V &gt; D, the ray misses the triangle.     
+<br>
+<br>
+<b>Step 3:</b> &nbsp; Compute the non-normalized U coordinate and test bounds.
+This is done by computing the determinant U = [<b>o,o + dir,a,c</b>]. 
+If U &lt; 0 or U + V &gt; D, the ray misses the triangle.    
+<br>
+<br>
+<b>Step 4:</b> &nbsp; Return the normalized values.
+In this last step, the algorithm computes the determinant T = [<b>a,b,c,o</b>].
+If T / D &ge; 0, the algorithm then returns the triplet ( U / D, V / D, T / D),
+otherwise, the ray misses the triangle.  
+<br>
+<br>
+
+
+<h3><b>Implementation:</b></h3>
+
+The computation of the two first determinants [<b>o,o + dir,a,b</b>] and [<b>o,o + dir,a,c</b>]
+can be optimized by computing the invariant parts consisting of 2 x 2 subdeterminants only once.
+<p>
+For [<b>o, o + dir,a,X</b>], expansion by 2 x 2 determinants gives the vector   
+<b>dir</b> x (<b>a</b> - <b>o</b>), and reduces the two determinants to a cross-product and
+a dot product.  <br>
+Since [<b>a,b,c,o</b>] = <b>o</b> . N, the computation of the last determinant reduces 
+to a dot product.<br>
+The whole intersection algorithm thus computes, as in [jgt97], two cross-product and four dot products 
+in the worst case (i.e. when the ray intersect the triangle).
+<p>
+Nevertheless, our implementation yields to an optimized version of the algorithm described in [jgt97]
+ in the case when the triangle normal is known. 
+Indeed, a cross-product can be saved if the normal is supplied.   
+This normal must however be non normalized, that is, it must equal the cross-product 
+of (<b>c</b> - <b>a</b>) and  (<b>b</b> - <b>a</b>).
+</body>
+</html>

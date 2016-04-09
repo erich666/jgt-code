@@ -1,0 +1,15 @@
+Errata
+
+The following errors were introduced during the typesetting process:
+
+Page 11, section 3, sentence 1: The reference to [O’Rourke98] is spurious; the sentence should only cite [Goldman94].
+
+Page 11, section 3, sentence 3: The sentence starting with "We improve this..." should read:
+
+"We improve this by using the fact that projecting the polygon to two dimensions reduces its area by a constant factor; for example, projection onto the xy-plane reduces the area by nz."
+Page 12, top line: The two numbers "1 sqrt(3)" are incorrect; the first should be "1/sqrt(3)" and the second "sqrt(3)". Thus the sentence should read:
+
+"...for this is 1 / sqrt(3), the largest factor by which one multiplies is sqrt(3); hence ..."
+Page 12, third paragraph, first sentence: The sentence starting with "We call this normal vector..." should read:
+
+We call this normal vector, nw = (nwx, nwy, nwz), with the projected areas ...
