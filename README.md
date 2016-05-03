@@ -157,8 +157,6 @@ Here are the articles where we know we don't have the code. There are others whe
 
 * ["Fast and Accurate Circle-Circle and Circle-Line 3D Distance Computation"](https://web.archive.org/web/20120126131623/http://jgt.akpeters.com/papers/Vranek02/)
 
-* ["Efficient Splatting Using Modern Graphics Hardware"](https://web.archive.org/web/20080921114738/http://jgt.akpeters.com/papers/XueCrawfis03/)
-
 * ["Observations on Silhouette Sizes"](https://web.archive.org/web/20101110220338/http://jgt.akpeters.com/papers/McGuire04/) - Spreadsheets; author does not have them.
 
 * ["Fast Distance Computation Between a Point and Cylinders, Cones, Line-Swept Spheres and Cone-Spheres"](https://web.archive.org/web/20120126111839/http://jgt.akpeters.com/papers/BarbierGalin04/) - missing Cone-Sphere.zip and documentation Cone-Sphere
