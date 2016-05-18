@@ -25,6 +25,8 @@ The following articles have related code; look in the corresponding folder by Vo
 
 * Havran, Vlastimil, Tomas Kopal, Jirí Bittner, and Jirí Žára, ["Fast Robust BSP Tree Traversal Algorithm for Ray Tracing,"](http://www.tandfonline.com/doi/abs/10.1080/10867651.1997.10487481) *journal of graphics tools*, 2(4):15-23, 1997. [**Code**](Volume_02/Number_4/Havran1997)
 
+* Grassia, F. Sebastian, ["Practical Parameterization of Rotations Using the Exponential Map,"](http://www.tandfonline.com/doi/abs/10.1080/10867651.1998.10487493) *journal of graphics tools*, 3(3):29-48, 1998. [**Code**](Volume_03/Number_3/Grassia1998)
+
 * Karabassi, Evaggelia-Aggeliki, Georgios Papaioannou, Theoharis Theoharis, and Alexander Boehm, ["Intersection Test for Collision Detection in Particle Systems,"](http://www.tandfonline.com/doi/abs/10.1080/10867651.1999.10487499) *journal of graphics tools*, 4(1):25-37, 1999. [**Code**](Volume_04/Number_1/Karabassi1999)
 
 * Schmalstieg, Dieter, and Robert F. Tobler, ["Fast Projected Area Computation for Three-Dimensional Bounding Boxes,"](http://www.tandfonline.com/doi/abs/10.1080/10867651.1999.10487504) *journal of graphics tools*, 4(2):37-43, 1999. [**Code**](Volume_04/Number_2/Schmalstieg1999)
@@ -150,8 +152,6 @@ Here are the articles where we know we don't have the code. There are others whe
 * ["High Quality Hardware Line Antialiasing"](https://web.archive.org/web/20120126105354/http://jgt.akpeters.com/papers/Nelson97/)
 
 * (["ERIT: A Collection of Efficient and Reliable Intersection Tests"](https://web.archive.org/web/20120506232036/http://jgt.akpeters.com/papers/Held97/)) - code was "available on request," not at JGT site.
-
-* ["Practical Parameterization of Rotations Using the Exponential Map"](https://web.archive.org/web/20061203032056/http://jgt.akpeters.com/papers/Grassia98/)
 
 * ["A Simple Recursive Tessellator for Adaptive Surface Triangulation"](https://web.archive.org/web/20081013105726/http://jgt.akpeters.com/papers/ChungField00/)
 
