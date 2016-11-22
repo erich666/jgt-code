@@ -63,6 +63,8 @@ The following articles have related code; look in the corresponding folder by Vo
 
 * Xue, Daqing, and Roger Crawfis, ["Efficient Splatting Using Modern Graphics Hardware,"](http://www.tandfonline.com/doi/abs/10.1080/10867651.2003.10487586) *journal of graphics tools*, 8(3):1-21, 2003. [**Code and sample data**](Volume_08/Number_3/Xue2003)
 
+* Platis, Nikos, and Theoharis Theoharis, ["Fast Ray-Tetrahedron Intersection Using Plücker Coordinates,"](http://www.tandfonline.com/doi/abs/10.1080/10867651.2003.10487593) *journal of graphics tools*, 8(4):37-48, 2003. [**Code and sample data**](Volume_08/Number_4/Platis2003)
+
 * Telea, Alexandru, ["An Image Inpainting Technique Based on the Fast Marching Method,"](http://www.tandfonline.com/doi/abs/10.1080/10867651.2004.10487596) *journal of graphics tools*, 9(1):23-34, 2004. [**Code and executable**](Volume_09/Number_1/Telea2004)
 
 * Mahovsky, Jeffrey, and Brian Wyvill, ["Fast Ray-Axis Aligned Bounding Box Overlap Tests with Plücker Coordinates,"](http://www.tandfonline.com/doi/abs/10.1080/10867651.2004.10487597) *journal of graphics tools*, 9(1):35-46, 2004. [**Code**](Volume_09/Number_1/Mahovsky2004)
