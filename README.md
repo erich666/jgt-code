@@ -69,6 +69,8 @@ The following articles have related code; look in the corresponding folder by Vo
 
 * Mahovsky, Jeffrey, and Brian Wyvill, ["Fast Ray-Axis Aligned Bounding Box Overlap Tests with Plücker Coordinates,"](http://www.tandfonline.com/doi/abs/10.1080/10867651.2004.10487597) *journal of graphics tools*, 9(1):35-46, 2004. [**Code**](Volume_09/Number_1/Mahovsky2004)
 
+* Barbier, Aurélien, and Eric Galin, ["Fast Distance Computation Between a Point and Cylinders, Cones, Line-Swept Spheres and Cone-Spheres,"](https://web.archive.org/web/20120126111839/http://jgt.akpeters.com/papers/BarbierGalin04/) *journal of graphics tools*, 9(2):11-19, 2004. [**Code**](Volume_09/Number_2/https://web.archive.org/web/20120126111839/http://jgt.akpeters.com/papers/BarbierGalin04/2004)
+
 * Wang, Niniane, ["Realistic and Fast Cloud Rendering,"](http://www.tandfonline.com/doi/abs/10.1080/10867651.2004.10504901) *journal of graphics tools*, 9(3):21-40, 2004. [**Images and video**](Volume_09/Number_3/Wang2004)
 
 * Piponi, Dan, ["Automatic Differentiation, C++ Templates, and Photogrammetry,"](http://www.tandfonline.com/doi/abs/10.1080/10867651.2004.10504901) *journal of graphics tools*, 9(4):41-55, 2004. [**Code and errata**](Volume_09/Number_4/Piponi2004)
@@ -161,7 +163,6 @@ Here are the articles where we know we don't have the code. There are others whe
 
 * ["Observations on Silhouette Sizes"](https://web.archive.org/web/20101110220338/http://jgt.akpeters.com/papers/McGuire04/) - Spreadsheets; author does not have them.
 
-* ["Fast Distance Computation Between a Point and Cylinders, Cones, Line-Swept Spheres and Cone-Spheres"](https://web.archive.org/web/20120126111839/http://jgt.akpeters.com/papers/BarbierGalin04/) - missing Cone-Sphere.zip and documentation Cone-Sphere
 
 ```
 Copyright (c) <year> <copyright holders>

@@ -1,0 +1,125 @@
+# Doxyfile 1.2.2
+
+# General configuration options
+
+ALPHABETICAL_INDEX     = NO
+PROJECT_NAME           = Cone-Sphere
+PROJECT_NUMBER         = 
+OUTPUT_DIRECTORY       = .
+OUTPUT_LANGUAGE        = English
+EXTRACT_ALL            = NO
+EXTRACT_PRIVATE        = YES
+EXTRACT_STATIC         = NO
+HIDE_UNDOC_MEMBERS     = YES
+HIDE_UNDOC_CLASSES     = YES
+BRIEF_MEMBER_DESC      = YES
+REPEAT_BRIEF           = YES
+ALWAYS_DETAILED_SEC    = NO
+FULL_PATH_NAMES        = NO
+STRIP_FROM_PATH        = 
+INTERNAL_DOCS          = NO
+CLASS_DIAGRAMS         = YES
+SOURCE_BROWSER         = YES
+INLINE_SOURCES         = YES
+STRIP_CODE_COMMENTS    = YES
+CASE_SENSE_NAMES       = NO
+HIDE_SCOPE_NAMES       = NO
+VERBATIM_HEADERS       = NO
+SHOW_INCLUDE_FILES     = NO
+JAVADOC_AUTOBRIEF      = NO
+INHERIT_DOCS           = YES
+INLINE_INFO            = YES
+SORT_MEMBER_DOCS       = YES
+DISTRIBUTE_GROUP_DOC   = NO
+TAB_SIZE               = 8
+ENABLED_SECTIONS       = 
+GENERATE_TODOLIST      = YES
+GENERATE_TESTLIST      = YES
+ALIASES                = 
+
+# configuration options related to warning and progress messages
+
+QUIET                  = YES
+WARNINGS               = YES
+WARN_IF_UNDOCUMENTED   = YES
+WARN_FORMAT            = "$file:$line: $text"
+
+# configuration options related to the input files
+
+INPUT                  = .
+FILE_PATTERNS          = *.c \
+                         *.h \
+RECURSIVE              = NO
+EXCLUDE                = 
+EXCLUDE_PATTERNS       = 
+EXAMPLE_PATH           = 
+EXAMPLE_PATTERNS       = 
+IMAGE_PATH             = 
+INPUT_FILTER           = 
+
+# configuration options related to the alphabetical class index
+
+ALPHABETICAL_INDEX     = NO
+COLS_IN_ALPHA_INDEX    = 5
+IGNORE_PREFIX          = 
+
+# configuration options related to the HTML output
+
+GENERATE_HTML          = YES
+HTML_OUTPUT            = Html
+HTML_HEADER            = 
+HTML_FOOTER            = 
+HTML_STYLESHEET        = 
+HTML_ALIGN_MEMBERS     = YES
+GENERATE_HTMLHELP      = NO
+DISABLE_INDEX          = NO
+
+# configuration options related to the LaTeX output
+
+GENERATE_LATEX         = NO
+
+# configuration options related to the RTF output
+
+GENERATE_RTF           = NO
+
+# configuration options related to the man page output
+
+GENERATE_MAN           = NO
+
+# configuration options related to the XML output
+
+GENERATE_XML           = NO
+
+# Configuration options related to the preprocessor   
+
+ENABLE_PREPROCESSING   = YES
+MACRO_EXPANSION        = NO
+EXPAND_ONLY_PREDEF     = NO
+SEARCH_INCLUDES        = YES
+INCLUDE_PATH           = 
+INCLUDE_FILE_PATTERNS  = 
+PREDEFINED             = 
+EXPAND_AS_DEFINED      = 
+
+# Configuration::addtions related to external references   
+
+TAGFILES               = 
+GENERATE_TAGFILE       = 
+ALLEXTERNALS           = NO
+PERL_PATH              = /usr/bin/perl
+
+# Configuration options related to the dot tool   
+
+HAVE_DOT               = NO
+CLASS_GRAPH            = YES
+COLLABORATION_GRAPH    = YES
+INCLUDE_GRAPH          = YES
+INCLUDED_BY_GRAPH      = YES
+GRAPHICAL_HIERARCHY    = YES
+DOT_PATH               = 
+MAX_DOT_GRAPH_WIDTH    = 1024
+MAX_DOT_GRAPH_HEIGHT   = 1024
+
+# Configuration::addtions related to the search engine   
+
+SEARCHENGINE           = NO
