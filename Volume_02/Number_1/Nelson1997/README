@@ -1,0 +1,13 @@
+Sample code to draw antialiased lines as described in the Journal of
+Graphic Tools article High Quality Hardware Line Antialiasing by
+Scott R. Nelson of Sun Microsystems.
+
+The code is written in C and designed to run on any machine with the
+addition of a proper "display" module.  Currently, display modules
+exist for Macintosh, Unix, and Wintel machines.  Thanks to Sanjay Gupta
+(sanjay.gupta@eng.sun.com) for the Unix X11 display code and Chris
+Babcock (babcock@rtp.idt.com) for the Windows code.
+
+This code is not 100% bug free and is definitely not optimized for
+performance.  It does, however, illustrate all of the points made in
+the JGT article.

@@ -17,6 +17,8 @@ The following articles have related code; look in the corresponding folder by Vo
 
 * Möller, Tomas, and Ben Trumbore, ["Fast, Minimum Storage Ray-Triangle Intersection,"](http://www.tandfonline.com/doi/abs/10.1080/10867651.1997.10487468) *journal of graphics tools*, 2(1):21-28, 1997. [**Code**](Volume_02/Number_1/Moller1997a)
 
+* Nelson, Scott R., ["High Quality Hardware Line Antialiasing,"](http://www.tandfonline.com/doi/abs/10.1080/10867651.1997.10487469) *journal of graphics tools*, 2(1):29-46, 1997. [**Code**](Volume_02/Number_1/Nelson1997)
+
 * Wong, Tien-Tsin, Wai-Shing Luk and Pheng-Ann Heng, ["Sampling with Hammersley and Halton Points,"](http://www.tandfonline.com/doi/abs/10.1080/10867651.1997.10487471) *journal of graphics tools*, 2(2):9-24, 1997. [**Code and executables**](Volume_02/Number_2/Wong1997)
 
 * Möller, Tomas, ["A Fast Triangle-Triangle Intersection Test,"](http://www.tandfonline.com/doi/abs/10.1080/10867651.1997.10487472) *journal of graphics tools*, 2(2):25-30, 1997. [**Code**](Volume_02/Number_2/Moller1997b)
@@ -32,6 +34,10 @@ The following articles have related code; look in the corresponding folder by Vo
 * Schmalstieg, Dieter, and Robert F. Tobler, ["Fast Projected Area Computation for Three-Dimensional Bounding Boxes,"](http://www.tandfonline.com/doi/abs/10.1080/10867651.1999.10487504) *journal of graphics tools*, 4(2):37-43, 1999. [**Code**](Volume_04/Number_2/Schmalstieg1999)
 
 * Möller, Tomas, and John F. Hughes, ["Efficiently Building a Matrix to Rotate One Vector to Another,"](http://www.tandfonline.com/doi/abs/10.1080/10867651.1999.10487509) *journal of graphics tools*, 4(4):1-4, 1999. [**Code**](Volume_04/Number_4/Moller1999)
+
+* Haines, Eric, ["A Shaft Culling Tool,"](http://www.tandfonline.com/doi/abs/10.1080/10867651.2000.10487518) *journal of graphics tools*, 5(1):23-26, 2000. [**Code**](Volume_05/Number_1/Haines2000)
+
+* Chung, A. J., and A. J. Field, ["A Simple Recursive Tessellator for Adaptive Surface Triangulation,"](http://www.tandfonline.com/doi/abs/10.1080/10867651.2000.10487524) *journal of graphics tools*, 5(3):1-9, 2000. [**Code**](Volume_05/Number_3/Chung2000)
 
 * Haines, Eric, ["Soft Planar Shadows Using Plateaus,"](http://www.tandfonline.com/doi/abs/10.1080/10867651.2001.10487534) *journal of graphics tools*, 6(1):19-27, 2001. [**Images**](Volume_06/Number_1/Haines2001)
 
@@ -72,6 +78,8 @@ The following articles have related code; look in the corresponding folder by Vo
 * Barbier, Aurélien, and Eric Galin, ["Fast Distance Computation Between a Point and Cylinders, Cones, Line-Swept Spheres and Cone-Spheres,"](https://web.archive.org/web/20120126111839/http://jgt.akpeters.com/papers/BarbierGalin04/) *journal of graphics tools*, 9(2):11-19, 2004. [**Code**](Volume_09/Number_2/Barbier2004)
 
 * Wang, Niniane, ["Realistic and Fast Cloud Rendering,"](http://www.tandfonline.com/doi/abs/10.1080/10867651.2004.10504901) *journal of graphics tools*, 9(3):21-40, 2004. [**Images and video**](Volume_09/Number_3/Wang2004)
+
+* Ramsey, Shaun D., Kristin Potter, and Charles Hansen, ["Ray Bilinear Patch Intersections,"](http://www.tandfonline.com/doi/abs/10.1080/10867651.2004.10504896) *journal of graphics tools*, 9(3):41-47, 2004. [**Code**](Volume_09/Number_3/Ramsey2004)
 
 * Piponi, Dan, ["Automatic Differentiation, C++ Templates, and Photogrammetry,"](http://www.tandfonline.com/doi/abs/10.1080/10867651.2004.10504901) *journal of graphics tools*, 9(4):41-55, 2004. [**Code and errata**](Volume_09/Number_4/Piponi2004)
 
@@ -123,7 +131,7 @@ The following articles have related code; look in the corresponding folder by Vo
 
 * Mikkelsen, Morten S., ["Separating-Plane Perspective Shadow Mapping,"](http://www.tandfonline.com/doi/abs/10.1080/2151237X.2007.10129246) *journal of graphics tools*, 12(3):43-54, 2007. [**Supplements**](Volume_12/Number_3/Mikkelsen2007)
 
-* Hawkins, Amy, and Cindy M. Grimm, "Camera Keyframing using Linear Interpolation of Matrices," (note: currently missing from [the journal issue's page](http://www.tandfonline.com/toc/ujgt20/12/3) - reported to Taylor & Francis) *journal of graphics tools*, 12(3):55-69, 2007. [**Code**](Volume_12/Number_3/Hawkins2007)
+* Hawkins, Amy, and Cindy M. Grimm, ["Camera Keyframing using Linear Interpolation of Matrices,"](http://www.tandfonline.com/doi/abs/10.1080/2151237X.2007.11674149) *journal of graphics tools*, 12(3):55-69, 2007. [**Code**](Volume_12/Number_3/Hawkins2007)
 
 * Grimm, Cindy M., and Bill Niebruegge, ["Continuous Cube Mapping,"](http://www.tandfonline.com/doi/abs/10.1080/2151237X.2007.10129250) *journal of graphics tools*, 12(4):25-34, 2007. [**Appendix**](Volume_12/Number_4/Grimm2007)
 
@@ -153,15 +161,11 @@ Code in this repository is under this form of the [MIT License](https://en.wikip
 
 Here are the articles where we know we don't have the code. There are others where we don't know if the article even had code; the [Wayback Machine](https://web.archive.org/web/20121208215031/http://jgt.akpeters.com/issues/?volume=1) has no page stored for some articles. Please [let me know](mailto:erich@acm.org) if you can provide any code or know who could.
 
-* ["High Quality Hardware Line Antialiasing"](https://web.archive.org/web/20120126105354/http://jgt.akpeters.com/papers/Nelson97/)
-
 * (["ERIT: A Collection of Efficient and Reliable Intersection Tests"](https://web.archive.org/web/20120506232036/http://jgt.akpeters.com/papers/Held97/)) - code was "available on request," not at JGT site.
-
-* ["A Simple Recursive Tessellator for Adaptive Surface Triangulation"](https://web.archive.org/web/20081013105726/http://jgt.akpeters.com/papers/ChungField00/)
 
 * ["Fast and Accurate Circle-Circle and Circle-Line 3D Distance Computation"](https://web.archive.org/web/20120126131623/http://jgt.akpeters.com/papers/Vranek02/)
 
-* ["Observations on Silhouette Sizes"](https://web.archive.org/web/20101110220338/http://jgt.akpeters.com/papers/McGuire04/) - Spreadsheets; author does not have them.
+* ["Observations on Silhouette Sizes"](https://web.archive.org/web/20101110220338/http://jgt.akpeters.com/papers/McGuire04/) - Spreadsheets; author does not have them. Models used can be found [here](https://web.archive.org/web/20051103044849/http://graphics.cs.brown.edu:80/games/brown-mesh-set/index.html).
 
 
 ```

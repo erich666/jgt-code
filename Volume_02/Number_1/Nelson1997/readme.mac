@@ -1,0 +1,31 @@
+Instructions for compiling the Macintosh version of aaline (written by
+a Unix hacker who can just barely get a program to run on a Mac).
+This program was tested using Metrowerks CodeWarrior 9.  Other compilers
+may need slightly different methods.  The program has been tested on a
+Macintosh Performa 630CD, which has a 640 x 480 screen and offers both
+8-bit and 16-bit color.  Hopefully it will still run on other machines.
+
+ 1) Create a project (File->New Project) using MacOS C for the Project
+    Stationery.  Name it something like aaline.<mu>  (the mu character
+    is created by holding down the option key and pressing "m"). Be
+    sure that you use 4-byte integers (4i) and not 2-byte (2i), which
+    will not work right for this code.
+    
+ 2) Create a window resource using ResEdit
+        File->New		aaline.rsrc
+        Resource->Create New Resource		WIND
+        Change the following four fields:
+        	Top: 0
+        	Height: 480
+        	Left: 0
+        	Width: 640
+
+ 3) Add all of the C files to the Sources list except the Unix and Windows
+    files (duh!).  Add the new resource file to the Resources list.
+    
+ 4) Edit->Preferences and set the preferred heap size (Project, 68K/PPC
+    Project) to at least 3000 so that the frame buffer array can be allocated.
+   
+ 5) Compile and run.
+
+ 6) Click the mouse to exit the program.

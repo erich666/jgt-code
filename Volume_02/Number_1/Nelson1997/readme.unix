@@ -1,0 +1,11 @@
+Instructions for compiling the Unix version of aaline.
+
+ 1) Type "make".
+
+ 2) Type "aaline".
+
+ 3) Enjoy the image.
+
+If that doesn't work, look into display_unix.c.  The lines look excellent
+on a properly gamma corrected Sun Ultra1 Creator3D.  You may have to add
+gamma correction to the draw_pixel routine to get proper behavior.

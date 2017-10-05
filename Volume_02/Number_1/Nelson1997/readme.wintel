@@ -1,0 +1,9 @@
+Instructions for creating the Windows version of aaline.
+
+The file AALINE.EXE is an executable for Win32, kindly created by Chris
+Babcock (babcock@rtp.idt.com).  It was compiled using Visual C++ 4.2.
+He stated: "It may be compiled by [...] loading AALINE.MAK into Visual
+C++ and doing a BUILD.  Left mouse button will exit."  Chris compiled
+it with a gamma setting of 1.8.
+
+The author appreciates how quickly Chris whipped this together.
