@@ -165,7 +165,7 @@ Here are the articles where we know we don't have the code. There are others whe
 
 * ["Fast and Accurate Circle-Circle and Circle-Line 3D Distance Computation"](https://web.archive.org/web/20120126131623/http://jgt.akpeters.com/papers/Vranek02/)
 
-* ["Observations on Silhouette Sizes"](https://web.archive.org/web/20101110220338/http://jgt.akpeters.com/papers/McGuire04/) - Spreadsheets; author does not have them. Models used can be found [here](https://web.archive.org/web/20051103044849/http://graphics.cs.brown.edu:80/games/brown-mesh-set/index.html).
+* ["Observations on Silhouette Sizes"](https://web.archive.org/web/20101110220338/http://jgt.akpeters.com/papers/McGuire04/) - Spreadsheets; author does not have them. Models used can be found [here](http://graphics.cs.brown.edu/games/brown-mesh-set/index.html).
 
 
 ```
