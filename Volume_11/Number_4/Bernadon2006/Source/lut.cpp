@@ -70,8 +70,6 @@ void LUT1D::readTransferFunction2(char *filename, int dummystr1, int dummystr2,
     _tf[i][2] = v[2];
     _tf[i][3] = v[3];
   }
-
-  fclose(fd);
 }
 
 
