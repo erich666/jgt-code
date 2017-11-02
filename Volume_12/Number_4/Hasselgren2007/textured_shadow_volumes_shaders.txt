@@ -1,0 +1,162 @@
+// Code for article: Hasselgren, Jon, and Tomas Akenine-Möller, "Textured Shadow Volumes," journal of graphics tools, 12(4):59-72, 2007.
+//A. Vertex Program
+// Application to vertex program data
+struct A2V {
+	float4 pos		:POSITION;	// Position of this vertex (object space)
+
+	float3 oPos		:TEXCOORD1;	// Position of the first vertex (origin) of the triangle (object space)
+	float3 xVec		:TEXCOORD2;	// First edge vector (2nd - 1st vertex position) (object space)
+	float3 yVec		:TEXCOORD3;	// Second edge vector (3nd - 1st vertex position) (object space)
+
+	float2 oTCPos	:TEXCOORD4;	// Texture coordinate of the first vertex of the triangle
+	float2 xTCVec	:TEXCOORD5;	// First edge texture vector
+	float2 yTCVec	:TEXCOORD6;	// Second edge texture vector
+};
+
+// Vertex program to fragment program interpolators (See fragment program for details)
+struct V2F {
+	float4 clipPos		:POSITION;
+
+	float4 vecPlane		:TEXCOORD1;
+	float4 camPosPlane	:TEXCOORD2;
+
+	float3 vecTC		:TEXCOORD3;
+	float3 camPosTC		:TEXCOORD4;
+
+	float col			:COLOR;
+};
+
+// Shadow volume push-back term.
+# define LIGHT_PUSH_FACTOR 40000.0f
+// Small bias term to avoid self-shadowing of transparent shadow casters
+# define SHADOW_BIAS 0.0125f
+
+V2F main (A2V a2v,
+		uniform float4 lightPos_objectspace,	// Light posiion in object space
+		uniform float4 camPos_objectspace,		// Camera position in object space
+		uniform float2 windowSize,				// Width and height of the rendering window (in pixels )
+		uniform float4x4 modelViewProj			// Concatenation of model, view and projection matrices
+		) {
+
+	V2F v2f;
+
+	// Compute the plane through the triangle this vertex belongs to.
+	float4 polyPlane;
+	polyPlane.xyz = normalize(cross(a2v.xVec,a2v.yVec));
+	polyPlane.w = -dot(a2v.oPos.xyz,polyPlane.xyz);
+
+	float4 vtxPos = a2v.pos;
+	// Flip the push back flags if the polygon face away from the light
+	if ( dot(lightPos_objectspace,polyPlane) < 0)
+		vtxPos.w = 1-vtxPos.w;
+
+
+	// If ( this vertex should be pushed back from the light) then push it back
+	if (vtxPos.w == 0) {
+		float3 vec = normalize(vtxPos.xyz - lightPos_objectspace.xyz);
+		vtxPos = float4(vec*LIGHT_PUSH_FACTOR + lightPos_objectspace.xyz, 1);
+	}
+
+	// Setup the 4 x4 matrix that transforms a point from object space to the plane space from
+	// section 3.2
+	float4x4 planeMatrix;
+	planeMatrix._m00_m01_m02 = polyPlane.xyz;
+	planeMatrix._m10_m11_m12 = (cross(a2v.xVec, lightPos_objectspace.xyz - a2v.oPos));
+	planeMatrix._m20_m21_m22 = (cross(a2v.yVec - a2v.xVec
+									, lightPos_objectspace.xyz - a2v.oPos - a2v.xVec));
+	planeMatrix._m30_m31_m32 = (cross(-a2v.yVec,lightPos_objectspace.xyz - a2v.oPos));
+
+	// Flip the sign of all planes if this polygon face away from the light
+	if ( dot(lightPos_objectspace,polyPlane) < 0) {
+		planeMatrix._m00_m01_m02 = -planeMatrix._m00_m01_m02;
+		planeMatrix._m10_m11_m12 = -planeMatrix._m10_m11_m12;
+		planeMatrix._m20_m21_m22 = -planeMatrix._m20_m21_m22;
+		planeMatrix._m30_m31_m32 = -planeMatrix._m30_m31_m32;
+	}
+
+	planeMatrix._m03 = -dot(a2v.oPos, planeMatrix._m00_m01_m02) + SHADOW_BIAS;
+	planeMatrix._m13 = -dot(lightPos_objectspace.xyz, planeMatrix._m10_m11_m12);
+	planeMatrix._m23 = -dot(lightPos_objectspace.xyz, planeMatrix._m20_m21_m22);
+	planeMatrix._m33 = -dot(lightPos_objectspace.xyz, planeMatrix._m30_m31_m32);
+
+	// Transform the q-c vector and c position to plane space
+	v2f.camPosPlane = mul(planeMatrix, camPos_objectspace);
+	v2f.vecPlane = mul(planeMatrix, vtxPos) - v2f.camPosPlane;
+
+	// Setup the 3 x3 matrix that transforms a point from object space to the unprojected texture space
+	// from section 3.3
+	float3x3 tcBaseMatrix;
+
+	// Compute homogeneous light space matrix : x,y axes are given by the triangle edges, z by the triangle
+	// normal. The light source is the projective origin. The code computes the following inverse matrix:
+	// [ a2v.xVec.x, a2v.yVec.x, -polyPlane.x ]-1
+	// [ a2v.xVec.y, a2v.yVec.y, -polyPlane.y ]
+	// [ a2v.xVec.z, a2v.yVec.z, -polyPlane.z ]
+	float yDotx = dot(a2v.yVec,a2v.xVec) / dot(a2v.xVec,a2v.xVec);	// The length of y projected on x
+	float3 yRejx = a2v.yVec - yDotx*a2v.xVec;						// y’s rejection on x
+	yRejx /= dot(yRejx,yRejx);
+
+	tcBaseMatrix._m00_m01_m02 = a2v.xVec / dot(a2v.xVec,a2v.xVec) - yDotx*yRejx;
+	tcBaseMatrix._m10_m11_m12 = yRejx;
+	tcBaseMatrix._m20_m21_m22 = -polyPlane.xyz / dot(polyPlane,lightPos_objectspace);
+
+	// Add a translation in the plane to place the triangle origin (a2v.oPos) in (0,0,1). This could be
+	// caled the homogeneous barycentric space. The following code pre-multiplies by the sparse matrix
+	// [1 0 - offsetVec.x]
+	// [0 1 - offsetVec.y]
+	// [0 0        1     ]
+	float3 offsetVec_objectspace = a2v.oPos - lightPos_objectspace.xyz;
+	float2 offsetVec = mul(tcBaseMatrix, offsetVec_objectspace ).xy;
+	tcBaseMatrix._m00_m01_m02 -= offsetVec.x*tcBaseMatrix._m20_m21_m22;
+	tcBaseMatrix._m10_m11_m12 -= offsetVec.y*tcBaseMatrix._m20_m21_m22;
+
+	// Finally transform to unprojected texture space by applying the texture origin and vectors.
+	// This code pre - multiplies by the matrix
+	// [ a2v.sVec.x a2v.tVec.x a2v.tPos.x]
+	// [ a2v.sVec.y a2v.tVec.y a2v.tPos.y]
+	// [     0          0          1 ]
+	float3 tcBaseMatrix_firstRow = tcBaseMatrix._m00_m01_m02;
+	tcBaseMatrix._m00_m01_m02 = a2v.xTCVec.x*tcBaseMatrix._m00_m01_m02
+		+ a2v.yTCVec.x*tcBaseMatrix._m10_m11_m12 + a2v.oTCPos.x*tcBaseMatrix._m20_m21_m22;
+	tcBaseMatrix._m10_m11_m12 = a2v.xTCVec.y*tcBaseMatrix_firstRow
+		+ a2v.yTCVec.y*tcBaseMatrix._m10_m11_m12 + a2v.oTCPos.y*tcBaseMatrix._m20_m21_m22;
+
+	// Transform the q-c vector and c position to unprojected texture space.
+	v2f.camPosTC = mul(tcBaseMatrix, (camPos_objectspace - lightPos_objectspace).xyz);
+	v2f.vecTC = mul(tcBaseMatrix, (vtxPos - lightPos_objectspace).xyz) - v2f.camPosTC;
+
+	// Transform the vertex to camera clip - space
+	v2f.clipPos = mul(modelViewProj, vtxPos);
+
+	return v2f;
+}
+
+//B. Fragment program
+struct V2F {
+	// Window position, provided by the rasterizing hardware. Note that the w component contains
+	// -1/z for the fragment.
+	float4 wPos			:WPOS;
+
+	// The camera position in "plane function space", and the vector from the camera position to
+	// the position on the shadow volume
+	float4 vecPlane		:TEXCOORD1;
+	float4 camPosPlane	:TEXCOORD2;
+
+	// Camera position and vector in "unprojected texture space"
+	float3 vecTC		:TEXCOORD3;
+	float3 camPosTC		:TEXCOORD4;
+};
+
+float4 main (V2F v2f, uniform sampler2D transmittanceTexture, uniform samplerRECT depthValues) : COLOR {
+
+	// Compute t = pz/qz (v2f.wPos.w = 1/qz Assuming w = -z projection)
+	float t = f1texRECT(depthValues, v2f.wPos.xy) * v2f.wPos.w;
+
+	// Interpolate the plane functions and discard if outside the shadow volume
+	float4 planeFuncs = v2f.vecPlane*t + v2f.camPosPlane;
+	discard (planeFuncs > 0);
+
+	// Compute the unprojected texture coordinate, project it, and access the transmittance texture
+	float3 texCoord = v2f.vecTC*t + v2f.camPosTC;
+	return f4tex2Dproj( transmittanceTexture, texCoord );
+}
