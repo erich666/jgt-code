@@ -87,7 +87,7 @@ The following articles have related code; look in the corresponding folder by Vo
 
 * Bærentzen, J. Andreas, ["Hardware-Accelerated Point Generation and Rendering of Point-Based Impostors,"](http://www.tandfonline.com/doi/abs/10.1080/2151237X.2005.10129197) *journal of graphics tools*, 10(2):1-12, 2005. [**Code**](Volume_10/Number_2/Baerentzen2005)
 
-* Löfsted, Marta, and Tomas Akenine-Möller, ["An Evaluation Framework for Ray-Triangle Intersection Algorithms,"](http://www.tandfonline.com/doi/abs/10.1080/2151237X.2005.10129195) *journal of graphics tools*, 10(2):13-26, 2005. [**Code**](Volume_10/Number_2/Lofsted2005)
+* Löfstedt, Marta, and Tomas Akenine-Möller, ["An Evaluation Framework for Ray-Triangle Intersection Algorithms,"](http://www.tandfonline.com/doi/abs/10.1080/2151237X.2005.10129195) *journal of graphics tools*, 10(2):13-26, 2005. [**Code**](Volume_10/Number_2/Lofstedt2005)
 
 * Reuter, Patrick, Johannes Behr, and Marc Alexa, ["An Improved Adjacency Data Structure for Fast Triangle Stripping,"](http://www.tandfonline.com/doi/abs/10.1080/2151237X.2005.10129196) *journal of graphics tools*, 10(2):41-50, 2005. [**Code**](Volume_10/Number_2/Reuter2005)
 
