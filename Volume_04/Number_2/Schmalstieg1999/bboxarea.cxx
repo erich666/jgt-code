@@ -51,6 +51,10 @@
 //20 cases with 2 or 3 faces and a 6-vertex outline. a value of 0 indicates
 //an invalid case.
 
+//note: this table can be 27 entries, if space is a concern. See
+//"Game Math Case Studies," by Eric Lengyel,
+//http://www.terathon.com/gdc15_lengyel.pdf
+
 const
 int indexlist[64][7] = 
 {
@@ -141,6 +145,15 @@ float calculateBoxArea(
             + ((eye[1] > max[1]) ?  8 : 0)   // 8 = top
             + ((eye[2] < min[2]) ? 16 : 0)   // 16 = front
             + ((eye[2] > max[2]) ? 32 : 0);  // 32 = back
+
+    //note: for an orthographic camera, the view direction is used instead, the
+    //eye location is irrelevant. The test is along these lines:
+    //int pos = ((dir[0] > 0) ?  1 : 0)   // 1 = left
+    //        + ((dir[0] < 0) ?  2 : 0)   // 2 = right
+    //        + ((dir[1] > 0) ?  4 : 0)   // 4 = bottom
+    //        + ((dir[1] < 0) ?  8 : 0)   // 8 = top
+    //        + ((dir[2] > 0) ? 16 : 0)   // 16 = front
+    //        + ((dir[2] < 0) ? 32 : 0);  // 32 = back
 
     int num = indexlist[pos][6]; //look up number of vertices in outline
     if (!num) return -1.0;       //zero indicates invalid case, return -1
