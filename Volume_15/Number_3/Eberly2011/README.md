@@ -1,0 +1,6 @@
+David Eberly notes:
+
+Source code is available online at [http://www.geometrictools.com/JGT/FastSlerp.cpp](http://www.geometrictools.com/JGT/FastSlerp.cpp) and contains the FPU-
+based implementation and various Intel SSE2 implementations.
+
+The essence of the algorithm is evaluating f(t,A) = sin(t*A)/sin(A), whose official implementation based on the PDF is [https://www.geometrictools.com/GTEngine/Include/Mathematics/GteChebyshevRatio.h](https://www.geometrictools.com/GTEngine/Include/Mathematics/GteChebyshevRatio.h).  The error analysis in the paper is incorrect, and I have comments about that in the header file.  The comments include the accurate error bounds based on number of terms in the truncation.  Related files when using this for SLERP are [https://www.geometrictools.com/GTEngine/Include/Mathematics/GteSlerpEstimate.h](https://www.geometrictools.com/GTEngine/Include/Mathematics/GteSlerpEstimate.h) and [https://www.geometrictools.com/GTEngine/Include/Mathematics/GteQuaternion.h](https://www.geometrictools.com/GTEngine/Include/Mathematics/GteQuaternion.h).  These three headers do not have SIMD code.
