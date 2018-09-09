@@ -1,0 +1,3 @@
+//Maya 2008 Extension 2 Project Definition
+
+workspace -rt "textures" "textures";

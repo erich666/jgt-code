@@ -161,6 +161,8 @@ The following articles have related code; look in the corresponding folder by Vo
 
 * McGuire, Morgan, ["Efficient Triangle and Quadrilateral Clipping Within Shaders,"](https://www.tandfonline.com/doi/full/10.1080/2151237X.2011.619891) *journal of graphics tools*, 15(4):216-224, 2011. [**Code**](Volume_15/Number_4/McGuire2011)
 
+* Olsson, Ola, and Ulf Assarsson, ["Tiled Shading,"](https://www.tandfonline.com/doi/full/10.1080/2151237X.2011.621761) *journal of graphics tools*, 15(4):235-251, 2011. [**Code**](Volume_15/Number_4/Olsson2011)
+
 As a courtesy to the authors if possible, please cite their work when you use their code.
 
 Here are the articles where we know we don't have the code. There are others where we don't know if the article even had code; the [Wayback Machine](https://web.archive.org/web/20121208215031/http://jgt.akpeters.com/issues/?volume=1) has no page stored for some articles. Please [let me know](mailto:erich@acm.org) if you can provide any code or know who could.
@@ -180,8 +182,6 @@ Here are the articles where we know we don't have the code. There are others whe
 * ["Integer Ray Tracing"](https://www.tandfonline.com/doi/abs/10.1080/2151237X.2009.10129289)
 
 * ["A GPU-Based Method to Approximate Acoustical Reflectivity"](https://www.tandfonline.com/doi/full/10.1080/2151237X.2011.619888)
-
-* ["Tiled Shading"](https://www.tandfonline.com/doi/full/10.1080/2151237X.2011.621761)
 
 * ["Golden Ratio Sequences for Low-Discrepancy Sampling"](https://www.tandfonline.com/doi/full/10.1080/2165347X.2012.679555)
 

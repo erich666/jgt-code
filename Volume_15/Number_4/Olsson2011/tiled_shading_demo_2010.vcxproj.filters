@@ -1,0 +1,194 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="utils">
+      <UniqueIdentifier>{a7b11af9-a231-4804-9798-04b524aab479}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="shaders">
+      <UniqueIdentifier>{9fae2d66-6336-4b63-b5ea-43829c14e0d6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="linmath">
+      <UniqueIdentifier>{1b0dff5a-e6b0-4f50-88be-f22665cc3a17}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="utils\Assert.cpp">
+      <Filter>utils</Filter>
+    </ClCompile>
+    <ClCompile Include="utils\CheckGLError.cpp">
+      <Filter>utils</Filter>
+    </ClCompile>
+    <ClCompile Include="utils\GLTimerQuery.cpp">
+      <Filter>utils</Filter>
+    </ClCompile>
+    <ClCompile Include="utils\PerformanceTimer.cpp">
+      <Filter>utils</Filter>
+    </ClCompile>
+    <ClCompile Include="utils\Random.cpp">
+      <Filter>utils</Filter>
+    </ClCompile>
+    <ClCompile Include="utils\SimpleCamera.cpp">
+      <Filter>utils</Filter>
+    </ClCompile>
+    <ClCompile Include="utils\SimpleShader.cpp">
+      <Filter>utils</Filter>
+    </ClCompile>
+    <ClCompile Include="linmath\Aabb.cpp">
+      <Filter>linmath</Filter>
+    </ClCompile>
+    <ClCompile Include="linmath\float2.cpp">
+      <Filter>linmath</Filter>
+    </ClCompile>
+    <ClCompile Include="linmath\float3.cpp">
+      <Filter>linmath</Filter>
+    </ClCompile>
+    <ClCompile Include="linmath\float3x3.cpp">
+      <Filter>linmath</Filter>
+    </ClCompile>
+    <ClCompile Include="linmath\float4.cpp">
+      <Filter>linmath</Filter>
+    </ClCompile>
+    <ClCompile Include="linmath\float4x4.cpp">
+      <Filter>linmath</Filter>
+    </ClCompile>
+    <ClCompile Include="linmath\int2.cpp">
+      <Filter>linmath</Filter>
+    </ClCompile>
+    <ClCompile Include="linmath\int3.cpp">
+      <Filter>linmath</Filter>
+    </ClCompile>
+    <ClCompile Include="linmath\int4.cpp">
+      <Filter>linmath</Filter>
+    </ClCompile>
+    <ClCompile Include="LightGrid.cpp" />
+    <ClCompile Include="OBJModel.cpp" />
+    <ClCompile Include="tiled_shading_demo.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="utils\Assert.h">
+      <Filter>utils</Filter>
+    </ClInclude>
+    <ClInclude Include="utils\CheckGLError.h">
+      <Filter>utils</Filter>
+    </ClInclude>
+    <ClInclude Include="utils\GlBufferObject.h">
+      <Filter>utils</Filter>
+    </ClInclude>
+    <ClInclude Include="utils\GLTimerQuery.h">
+      <Filter>utils</Filter>
+    </ClInclude>
+    <ClInclude Include="utils\IntTypes.h">
+      <Filter>utils</Filter>
+    </ClInclude>
+    <ClInclude Include="utils\Math.h">
+      <Filter>utils</Filter>
+    </ClInclude>
+    <ClInclude Include="utils\Path.h">
+      <Filter>utils</Filter>
+    </ClInclude>
+    <ClInclude Include="utils\PerformanceTimer.h">
+      <Filter>utils</Filter>
+    </ClInclude>
+    <ClInclude Include="utils\Random.h">
+      <Filter>utils</Filter>
+    </ClInclude>
+    <ClInclude Include="utils\Rendering.h">
+      <Filter>utils</Filter>
+    </ClInclude>
+    <ClInclude Include="utils\SimpleCamera.h">
+      <Filter>utils</Filter>
+    </ClInclude>
+    <ClInclude Include="utils\SimpleShader.h">
+      <Filter>utils</Filter>
+    </ClInclude>
+    <ClInclude Include="utils\Win32ApiWrapper.h">
+      <Filter>utils</Filter>
+    </ClInclude>
+    <ClInclude Include="linmath\Aabb.h">
+      <Filter>linmath</Filter>
+    </ClInclude>
+    <ClInclude Include="linmath\Common.h">
+      <Filter>linmath</Filter>
+    </ClInclude>
+    <ClInclude Include="linmath\float2.h">
+      <Filter>linmath</Filter>
+    </ClInclude>
+    <ClInclude Include="linmath\float3.h">
+      <Filter>linmath</Filter>
+    </ClInclude>
+    <ClInclude Include="linmath\float3x3.h">
+      <Filter>linmath</Filter>
+    </ClInclude>
+    <ClInclude Include="linmath\float4.h">
+      <Filter>linmath</Filter>
+    </ClInclude>
+    <ClInclude Include="linmath\float4x4.h">
+      <Filter>linmath</Filter>
+    </ClInclude>
+    <ClInclude Include="linmath\int2.h">
+      <Filter>linmath</Filter>
+    </ClInclude>
+    <ClInclude Include="linmath\int3.h">
+      <Filter>linmath</Filter>
+    </ClInclude>
+    <ClInclude Include="linmath\int4.h">
+      <Filter>linmath</Filter>
+    </ClInclude>
+    <ClInclude Include="linmath\SmallVector2.h">
+      <Filter>linmath</Filter>
+    </ClInclude>
+    <ClInclude Include="linmath\SmallVector3.h">
+      <Filter>linmath</Filter>
+    </ClInclude>
+    <ClInclude Include="linmath\SmallVector4.h">
+      <Filter>linmath</Filter>
+    </ClInclude>
+    <ClInclude Include="ClipRegion.h" />
+    <ClInclude Include="Config.h" />
+    <ClInclude Include="Light.h" />
+    <ClInclude Include="LightGrid.h" />
+    <ClInclude Include="OBJModel.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="shaders\deferred_fragment.glsl">
+      <Filter>shaders</Filter>
+    </None>
+    <None Include="shaders\deferred_vertex.glsl">
+      <Filter>shaders</Filter>
+    </None>
+    <None Include="shaders\simple_fragment.glsl">
+      <Filter>shaders</Filter>
+    </None>
+    <None Include="shaders\simple_vertex.glsl">
+      <Filter>shaders</Filter>
+    </None>
+    <None Include="shaders\srgb.glsl">
+      <Filter>shaders</Filter>
+    </None>
+    <None Include="shaders\tiled_deferred_fragment.glsl">
+      <Filter>shaders</Filter>
+    </None>
+    <None Include="shaders\tiled_deferred_vertex.glsl">
+      <Filter>shaders</Filter>
+    </None>
+    <None Include="shaders\tiled_forward_fragment.glsl">
+      <Filter>shaders</Filter>
+    </None>
+    <None Include="shaders\tiled_forward_vertex.glsl">
+      <Filter>shaders</Filter>
+    </None>
+    <None Include="shaders\tiledShading.glsl">
+      <Filter>shaders</Filter>
+    </None>
+    <None Include="linmath\SmallVector2.inl">
+      <Filter>linmath</Filter>
+    </None>
+    <None Include="linmath\SmallVector3.inl">
+      <Filter>linmath</Filter>
+    </None>
+    <None Include="linmath\SmallVector4.inl">
+      <Filter>linmath</Filter>
+    </None>
+    <None Include="ReadMe.txt" />
+  </ItemGroup>
+</Project>
