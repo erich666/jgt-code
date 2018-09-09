@@ -12,7 +12,8 @@ published in the journal of graphics, gpu, and game tools, in 2011.
 
 BibTex entry:
 ---------------
-@article{OlssonAssarsson2011,
+
+    @article{OlssonAssarsson2011,
     author = {Ola Olsson and Ulf Assarsson},
     title = {Tiled Shading},
     journal = {journal of graphics, gpu, and game tools},
@@ -20,7 +21,12 @@ BibTex entry:
     number = {4},
     pages = {235–-251},
     year = {2011},
-    abstract = {In this article we describe and investigate tiled shading. The tiled techniques, though simple, enable substantial improvements to both deferred and forward shading. Tiled Shading has been previously discussed only in terms of deferred shading (tiled deferred shading). We contribute a more detailed description of the technique, introduce tiled forward shading (a generalization of tiled deferred shading to also apply to forward shading), and a thorough performance evaluation.}
+    abstract = {In this article we describe and investigate tiled shading. The tiled techniques,
+	though simple, enable substantial improvements to both deferred and forward shading.
+	Tiled Shading has been previously discussed only in terms of deferred shading (tiled deferred
+	shading). We contribute a more detailed description of the technique, introduce tiled forward
+	shading (a generalization of tiled deferred shading to also apply to forward shading), and a
+	thorough performance evaluation.}
 
 Tiled Forward Shading has many of the advantages of deferred shading, for example, scene management and light management are decoupled. At the same time, unlike traditional deferred and tiled deferred shading, full screen antialiasing and transparency are trivially supported.
 
