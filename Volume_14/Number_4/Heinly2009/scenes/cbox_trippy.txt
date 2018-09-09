@@ -1,0 +1,12 @@
+
+# luxjr
+
+256
+
+1024 1024
+
+(156 125 94)
+(0.1 0.09 0.07)
+
+cbox_trippy.view
+cbox_trippy.obj

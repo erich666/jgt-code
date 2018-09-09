@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "vissim library", "vissim\vissim.vcproj", "{49D89EC7-14D5-4182-A1E6-6323A0231DF0}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "tangere", "tangere\tangere.vcproj", "{1ABABDA3-1E0A-4D5F-9413-706D0E383A93}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{49D89EC7-14D5-4182-A1E6-6323A0231DF0}.Debug|Win32.ActiveCfg = Debug|Win32
+		{49D89EC7-14D5-4182-A1E6-6323A0231DF0}.Debug|Win32.Build.0 = Debug|Win32
+		{49D89EC7-14D5-4182-A1E6-6323A0231DF0}.Release|Win32.ActiveCfg = Release|Win32
+		{49D89EC7-14D5-4182-A1E6-6323A0231DF0}.Release|Win32.Build.0 = Release|Win32
+		{1ABABDA3-1E0A-4D5F-9413-706D0E383A93}.Debug|Win32.ActiveCfg = Debug|Win32
+		{1ABABDA3-1E0A-4D5F-9413-706D0E383A93}.Debug|Win32.Build.0 = Debug|Win32
+		{1ABABDA3-1E0A-4D5F-9413-706D0E383A93}.Release|Win32.ActiveCfg = Release|Win32
+		{1ABABDA3-1E0A-4D5F-9413-706D0E383A93}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

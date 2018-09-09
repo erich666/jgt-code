@@ -15,17 +15,17 @@ The following articles have related code; look in the corresponding folder by Vo
 
 * Barzel, Ronen, ["Lighting Controls for Computer Cinematography,"](https://www.tandfonline.com/doi/abs/10.1080/10867651.1997.10487468) *journal of graphics tools*, 2(1):1-20, 1997. [**Images and follow-up**](Volume_02/Number_1/Barzel1997)
 
-* M�ller, Tomas, and Ben Trumbore, ["Fast, Minimum Storage Ray-Triangle Intersection,"](https://www.tandfonline.com/doi/abs/10.1080/10867651.1997.10487468) *journal of graphics tools*, 2(1):21-28, 1997. [**Code**](Volume_02/Number_1/Moller1997a)
+* Möller, Tomas, and Ben Trumbore, ["Fast, Minimum Storage Ray-Triangle Intersection,"](https://www.tandfonline.com/doi/abs/10.1080/10867651.1997.10487468) *journal of graphics tools*, 2(1):21-28, 1997. [**Code**](Volume_02/Number_1/Moller1997a)
 
 * Nelson, Scott R., ["High Quality Hardware Line Antialiasing,"](https://www.tandfonline.com/doi/abs/10.1080/10867651.1997.10487469) *journal of graphics tools*, 2(1):29-46, 1997. [**Code**](Volume_02/Number_1/Nelson1997)
 
 * Wong, Tien-Tsin, Wai-Shing Luk and Pheng-Ann Heng, ["Sampling with Hammersley and Halton Points,"](https://www.tandfonline.com/doi/abs/10.1080/10867651.1997.10487471) *journal of graphics tools*, 2(2):9-24, 1997. [**Code and executables**](Volume_02/Number_2/Wong1997)
 
-* M�ller, Tomas, ["A Fast Triangle-Triangle Intersection Test,"](https://www.tandfonline.com/doi/abs/10.1080/10867651.1997.10487472) *journal of graphics tools*, 2(2):25-30, 1997. [**Code**](Volume_02/Number_2/Moller1997b)
+* Möller, Tomas, ["A Fast Triangle-Triangle Intersection Test,"](https://www.tandfonline.com/doi/abs/10.1080/10867651.1997.10487472) *journal of graphics tools*, 2(2):25-30, 1997. [**Code**](Volume_02/Number_2/Moller1997b)
 
 * Shirley, Peter, and Kenneth Chiu, ["A Low Distortion Map Between Disk and Square,"](https://www.tandfonline.com/doi/abs/10.1080/10867651.1997.10487479) *journal of graphics tools*, 2(3):45-52, 1997. [**Code**](Volume_02/Number_3/Shirley1997)
 
-* Havran, Vlastimil, Tomas Kopal, Jir� Bittner, and Jir� ��ra, ["Fast Robust BSP Tree Traversal Algorithm for Ray Tracing,"](https://www.tandfonline.com/doi/abs/10.1080/10867651.1997.10487481) *journal of graphics tools*, 2(4):15-23, 1997. [**Code**](Volume_02/Number_4/Havran1997)
+* Havran, Vlastimil, Tomas Kopal, Jiří Bittner, and Jiří Žára, ["Fast Robust BSP Tree Traversal Algorithm for Ray Tracing,"](https://www.tandfonline.com/doi/abs/10.1080/10867651.1997.10487481) *journal of graphics tools*, 2(4):15-23, 1997. [**Code**](Volume_02/Number_4/Havran1997)
 
 * Grassia, F. Sebastian, ["Practical Parameterization of Rotations Using the Exponential Map,"](https://www.tandfonline.com/doi/abs/10.1080/10867651.1998.10487493) *journal of graphics tools*, 3(3):29-48, 1998. [**Code**](Volume_03/Number_3/Grassia1998)
 
@@ -33,7 +33,7 @@ The following articles have related code; look in the corresponding folder by Vo
 
 * Schmalstieg, Dieter, and Robert F. Tobler, ["Fast Projected Area Computation for Three-Dimensional Bounding Boxes,"](https://www.tandfonline.com/doi/abs/10.1080/10867651.1999.10487504) *journal of graphics tools*, 4(2):37-43, 1999. [**Code**](Volume_04/Number_2/Schmalstieg1999)
 
-* M�ller, Tomas, and John F. Hughes, ["Efficiently Building a Matrix to Rotate One Vector to Another,"](https://www.tandfonline.com/doi/abs/10.1080/10867651.1999.10487509) *journal of graphics tools*, 4(4):1-4, 1999. [**Code**](Volume_04/Number_4/Moller1999)
+* Möller, Tomas, and John F. Hughes, ["Efficiently Building a Matrix to Rotate One Vector to Another,"](https://www.tandfonline.com/doi/abs/10.1080/10867651.1999.10487509) *journal of graphics tools*, 4(4):1-4, 1999. [**Code**](Volume_04/Number_4/Moller1999)
 
 * Haines, Eric, ["A Shaft Culling Tool,"](https://www.tandfonline.com/doi/abs/10.1080/10867651.2000.10487518) *journal of graphics tools*, 5(1):23-26, 2000. [**Code**](Volume_05/Number_1/Haines2000)
 
@@ -69,13 +69,13 @@ The following articles have related code; look in the corresponding folder by Vo
 
 * Xue, Daqing, and Roger Crawfis, ["Efficient Splatting Using Modern Graphics Hardware,"](https://www.tandfonline.com/doi/abs/10.1080/10867651.2003.10487586) *journal of graphics tools*, 8(3):1-21, 2003. [**Code and sample data**](Volume_08/Number_3/Xue2003)
 
-* Platis, Nikos, and Theoharis Theoharis, ["Fast Ray-Tetrahedron Intersection Using Pl�cker Coordinates,"](https://www.tandfonline.com/doi/abs/10.1080/10867651.2003.10487593) *journal of graphics tools*, 8(4):37-48, 2003. [**Code and sample data**](Volume_08/Number_4/Platis2003)
+* Platis, Nikos, and Theoharis Theoharis, ["Fast Ray-Tetrahedron Intersection Using Plücker Coordinates,"](https://www.tandfonline.com/doi/abs/10.1080/10867651.2003.10487593) *journal of graphics tools*, 8(4):37-48, 2003. [**Code and sample data**](Volume_08/Number_4/Platis2003)
 
 * Telea, Alexandru, ["An Image Inpainting Technique Based on the Fast Marching Method,"](https://www.tandfonline.com/doi/abs/10.1080/10867651.2004.10487596) *journal of graphics tools*, 9(1):23-34, 2004. [**Code and executable**](Volume_09/Number_1/Telea2004)
 
-* Mahovsky, Jeffrey, and Brian Wyvill, ["Fast Ray-Axis Aligned Bounding Box Overlap Tests with Pl�cker Coordinates,"](https://www.tandfonline.com/doi/abs/10.1080/10867651.2004.10487597) *journal of graphics tools*, 9(1):35-46, 2004. [**Code**](Volume_09/Number_1/Mahovsky2004)
+* Mahovsky, Jeffrey, and Brian Wyvill, ["Fast Ray-Axis Aligned Bounding Box Overlap Tests with Plücker Coordinates,"](https://www.tandfonline.com/doi/abs/10.1080/10867651.2004.10487597) *journal of graphics tools*, 9(1):35-46, 2004. [**Code**](Volume_09/Number_1/Mahovsky2004)
 
-* Barbier, Aur�lien, and Eric Galin, ["Fast Distance Computation Between a Point and Cylinders, Cones, Line-Swept Spheres and Cone-Spheres,"](https://web.archive.org/web/20120126111839/http://jgt.akpeters.com/papers/BarbierGalin04/) *journal of graphics tools*, 9(2):11-19, 2004. [**Code**](Volume_09/Number_2/Barbier2004)
+* Barbier, Aurélien, and Eric Galin, ["Fast Distance Computation Between a Point and Cylinders, Cones, Line-Swept Spheres and Cone-Spheres,"](https://www.tandfonline.com/doi/abs/10.1080/10867651.2004.10504892) *journal of graphics tools*, 9(2):11-19, 2004. [**Code**](Volume_09/Number_2/Barbier2004)
 
 * Wang, Niniane, ["Realistic and Fast Cloud Rendering,"](https://www.tandfonline.com/doi/abs/10.1080/10867651.2004.10504901) *journal of graphics tools*, 9(3):21-40, 2004. [**Images and video**](Volume_09/Number_3/Wang2004)
 
@@ -85,9 +85,9 @@ The following articles have related code; look in the corresponding folder by Vo
 
 * Williams, Amy, Steve Barrus, R. Keith Morley, and Peter Shirley, ["An Efficient and Robust Ray-Box Intersection Algorithm,"](https://www.tandfonline.com/doi/abs/10.1080/2151237X.2005.10129188) *journal of graphics tools*, 10(1):49-54, 2005. [**Code**](Volume_10/Number_1/Williams2005)
 
-* B�rentzen, J. Andreas, ["Hardware-Accelerated Point Generation and Rendering of Point-Based Impostors,"](https://www.tandfonline.com/doi/abs/10.1080/2151237X.2005.10129197) *journal of graphics tools*, 10(2):1-12, 2005. [**Code**](Volume_10/Number_2/Baerentzen2005)
+* Bærentzen, J. Andreas, ["Hardware-Accelerated Point Generation and Rendering of Point-Based Impostors,"](https://www.tandfonline.com/doi/abs/10.1080/2151237X.2005.10129197) *journal of graphics tools*, 10(2):1-12, 2005. [**Code**](Volume_10/Number_2/Baerentzen2005)
 
-* L�fstedt, Marta, and Tomas Akenine-M�ller, ["An Evaluation Framework for Ray-Triangle Intersection Algorithms,"](https://www.tandfonline.com/doi/abs/10.1080/2151237X.2005.10129195) *journal of graphics tools*, 10(2):13-26, 2005. [**Code**](Volume_10/Number_2/Lofstedt2005)
+* Löfstedt, Marta, and Tomas Akenine-Möller, ["An Evaluation Framework for Ray-Triangle Intersection Algorithms,"](https://www.tandfonline.com/doi/abs/10.1080/2151237X.2005.10129195) *journal of graphics tools*, 10(2):13-26, 2005. [**Code**](Volume_10/Number_2/Lofstedt2005)
 
 * Reuter, Patrick, Johannes Behr, and Marc Alexa, ["An Improved Adjacency Data Structure for Fast Triangle Stripping,"](https://www.tandfonline.com/doi/abs/10.1080/2151237X.2005.10129196) *journal of graphics tools*, 10(2):41-50, 2005. [**Code**](Volume_10/Number_2/Reuter2005)
 
@@ -99,7 +99,7 @@ The following articles have related code; look in the corresponding folder by Vo
 
 * Singh, Karan, and Cindy Grimm, ["Implementing the IBar Camera Widget,"](https://www.tandfonline.com/doi/abs/10.1080/2151237X.2005.10129205) *journal of graphics tools*, 10(3):51-64, 2005. [**Code**](Volume_10/Number_3/Singh2005)
 
-* Lagae, Ares, and Philip Dutr�, ["An Efficient Ray-Quadrilateral Intersection Test,"](https://www.tandfonline.com/doi/abs/10.1080/2151237X.2005.10129208) *journal of graphics tools*, 10(4):23-32, 2005. [**Code**](Volume_10/Number_4/Lagae2005)
+* Lagae, Ares, and Philip Dutré, ["An Efficient Ray-Quadrilateral Intersection Test,"](https://www.tandfonline.com/doi/abs/10.1080/2151237X.2005.10129208) *journal of graphics tools*, 10(4):23-32, 2005. [**Code**](Volume_10/Number_4/Lagae2005)
 
 * Mousa, M., R. Chaine, and S. Akkouche, ["Direct Spherical Harmonic Transform of a Triangulated Mesh,"](https://www.tandfonline.com/doi/abs/10.1080/2151237X.2006.10129219) *journal of graphics tools*, 11(2):17-26, 2006. [**Code**](Volume_11/Number_2/Mousa2006)
 
@@ -115,11 +115,11 @@ The following articles have related code; look in the corresponding folder by Vo
 
 * Sanderson, Allen R., Robert M. Kirby, Chris R. Johnson, and Lingfa Yang, ["Advanced Reaction-Diffusion Models for Texture Synthesis,"](https://www.tandfonline.com/doi/abs/10.1080/2151237X.2006.10129222) *journal of graphics tools*, 11(3):47-71, 2006. [**Code**](Volume_11/Number_3/Sanderson2006)
 
-* Bernadon, F�bio F., Christian A. Pagot, Jo�o L. D. Comba, and Cl�udio T. Silva, ["GPU-Based Tiled Ray Casting using Depth Peeling,"](https://www.tandfonline.com/doi/abs/10.1080/2151237X.2006.10129227) *journal of graphics tools*, 11(4):1-16, 2006. [**Code**](Volume_11/Number_4/Bernadon2006)
+* Bernadon, Fábio F., Christian A. Pagot, João L. D. Comba, and Cláudio T. Silva, ["GPU-Based Tiled Ray Casting using Depth Peeling,"](https://www.tandfonline.com/doi/abs/10.1080/2151237X.2006.10129227) *journal of graphics tools*, 11(4):1-16, 2006. [**Code**](Volume_11/Number_4/Bernadon2006)
 
 * Cline, David, Kevin Steele, and Parris Egbert, ["Lightweight Bounding Volumes for Ray Tracing,"](https://www.tandfonline.com/doi/abs/10.1080/2151237X.2006.10129226) *journal of graphics tools*, 11(4):61-71, 2006. [**Code**](Volume_11/Number_4/Cline2006)
 
-* Larsson, Thomas, Tomas Akenine-M�ller, and Eric Lengyel, ["On Faster Sphere-Box Overlap Testing,"](https://www.tandfonline.com/doi/abs/10.1080/2151237X.2007.10129232) *journal of graphics tools*, 12(1):3-8, 2007. [**Code**](Volume_12/Number_1/Larsson2007)
+* Larsson, Thomas, Tomas Akenine-Möller, and Eric Lengyel, ["On Faster Sphere-Box Overlap Testing,"](https://www.tandfonline.com/doi/abs/10.1080/2151237X.2007.10129232) *journal of graphics tools*, 12(1):3-8, 2007. [**Code**](Volume_12/Number_1/Larsson2007)
 
 * Bradley, Derek, ["Adaptive Thresholding using the Integral Image,"](https://www.tandfonline.com/doi/abs/10.1080/2151237X.2007.10129236) *journal of graphics tools*, 12(2):13-21, 2007. [**Code**](Volume_12/Number_2/Bradley2007)
 
@@ -135,13 +135,13 @@ The following articles have related code; look in the corresponding folder by Vo
 
 * Grimm, Cindy M., and Bill Niebruegge, ["Continuous Cube Mapping,"](https://www.tandfonline.com/doi/abs/10.1080/2151237X.2007.10129250) *journal of graphics tools*, 12(4):25-34, 2007. [**Appendix**](Volume_12/Number_4/Grimm2007)
 
-* Eisemann, Martin, Marcus Magnor, Thorsten Grosch, and Stefan M�ller, ["Fast Ray/Axis-Aligned Bounding Box Overlap Tests using Ray Slopes,"](https://www.tandfonline.com/doi/abs/10.1080/2151237X.2007.10129248) *journal of graphics tools*, 12(4):35-46, 2007. [**Code**](Volume_12/Number_4/Eisemann2007)
+* Eisemann, Martin, Marcus Magnor, Thorsten Grosch, and Stefan Möller, ["Fast Ray/Axis-Aligned Bounding Box Overlap Tests using Ray Slopes,"](https://www.tandfonline.com/doi/abs/10.1080/2151237X.2007.10129248) *journal of graphics tools*, 12(4):35-46, 2007. [**Code**](Volume_12/Number_4/Eisemann2007)
 
-* Hasselgren, Jon, and Tomas Akenine-M�ller, ["Textured Shadow Volumes,"](https://www.tandfonline.com/doi/abs/10.1080/2151237X.2007.10129251) *journal of graphics tools*, 12(4):59-72, 2007. [**Code**](Volume_12/Number_4/Hasselgren2007)
+* Hasselgren, Jon, and Tomas Akenine-Möller, ["Textured Shadow Volumes,"](https://www.tandfonline.com/doi/abs/10.1080/2151237X.2007.10129251) *journal of graphics tools*, 12(4):59-72, 2007. [**Code**](Volume_12/Number_4/Hasselgren2007)
 
 * Wyman, Chris, and Carsten Dachsbacher, ["Reducing Noise in Image-Space Caustics with Variable-Sized Splatting,"](https://www.tandfonline.com/doi/abs/10.1080/2151237X.2008.10129252) *journal of graphics tools*, 13(1):1-17, 2008. [**Code**](Volume_13/Number_1/Wyman2008)
 
-* Bavoil, Louis, Steven P. Callahan, and Cl�udio T. Silva, ["Robust Soft Shadow Mapping with Backprojection and Depth Peeling,"](https://www.tandfonline.com/doi/abs/10.1080/2151237X.2008.10129254) *journal of graphics tools*, 13(1):19-30, 2008. [**Code**](Volume_13/Number_1/Bavoil2008)
+* Bavoil, Louis, Steven P. Callahan, and Cláudio T. Silva, ["Robust Soft Shadow Mapping with Backprojection and Depth Peeling,"](https://www.tandfonline.com/doi/abs/10.1080/2151237X.2008.10129254) *journal of graphics tools*, 13(1):19-30, 2008. [**Code**](Volume_13/Number_1/Bavoil2008)
 
 * Frisken, Sarah F., ["Efficient Curve Fitting,"](https://www.tandfonline.com/doi/abs/10.1080/2151237X.2008.10129260) *journal of graphics tools*, 13(2):37-54, 2008. [**Code**](Volume_13/Number_2/Frisken2008)
 
@@ -154,6 +154,8 @@ The following articles have related code; look in the corresponding folder by Vo
 * Rousseau, Pierre, Vincent Jolivet, and Djamchid Ghazanfarpour, ["GPU Rainfall,"](https://www.tandfonline.com/doi/abs/10.1080/2151237X.2008.10129270) *journal of graphics tools*, 13(4):17-33, 2008. [**Code**](Volume_13/Number_4/Rousseau2008)
 
 * Ruijters, Daniel, Bart M. ter Haar Romeny, and Paul Suetens, ["Efficient GPU-Based Texture Interpolation using Uniform B-Splines,"](https://www.tandfonline.com/doi/abs/10.1080/2151237X.2008.10129269) *journal of graphics tools*, 13(4):61-69, 2008. [**Code**](Volume_13/Number_4/Ruijters2008)
+
+* Heinly, Jared, Shawn Recker, Kevin Bensema, Jesse Porch, and Christiaan Gribble, ["Integer Ray Tracing"](https://www.tandfonline.com/doi/abs/10.1080/2151237X.2009.10129289) *journal of graphics tools*, 14(4):31-56, 2009. [**Code**](Volume_14/Number_4/Heinly2009)
 
 * Strugar, Filip, ["Continuous Distance-Dependent Level of Detail for Rendering Heightmaps"](https://www.tandfonline.com/doi/abs/10.1080/2151237X.2009.10129287) *journal of graphics tools*, 14(4):57-74, 2009. [**Code**](Volume_14/Number_4/Strugar2009)
 
@@ -178,8 +180,6 @@ Here are the articles where we know we don't have the code. There are others whe
 * ["Fast and Stable Conformal Mapping Between a Disc and a Square"](https://www.tandfonline.com/doi/abs/10.1080/2151237X.2009.10129277)
 
 * ["Real-Time Animation Using a Mix of Physical Simulation and Kinematics"](https://www.tandfonline.com/doi/abs/10.1080/2151237X.2009.10129288)
-
-* ["Integer Ray Tracing"](https://www.tandfonline.com/doi/abs/10.1080/2151237X.2009.10129289)
 
 * ["A GPU-Based Method to Approximate Acoustical Reflectivity"](https://www.tandfonline.com/doi/full/10.1080/2151237X.2011.619888)
 

@@ -1,0 +1,75 @@
+
+-----------
+  tangere
+-----------
+
+tangere is a cross-platform, template-based integer/floating-point ray
+tracing system that accompanies the paper "Integer Ray Tracing" by
+Heinly et al.
+
+tangere implements the techniques described in the text and is
+intended to serve as a testbed for additional enhancements and further
+experimentation with integer ray tracing techniques.
+
+Please see LICENSE for more information regarding the use of the
+tangere source code.
+
+
+---------------------------------------
+  Installation & usage - *NIX systems
+---------------------------------------
+
+tangere requires CMake version 2.6 or better to build on UNIX-like
+systems.
+
+Obtain the source distribution and move it to your top-level tangere
+directory.
+
+Extract the code from the tarball:
+
+  cd /Users/johndoe/tangere-dist
+  mv <download path>/tangere-dist.tgz .
+  tar zxvf tangere-dist.tgz
+
+Create a build directory, run CMake, and build the executable:
+
+  mkdir build-gnu
+  cd build-gnu
+  ccmake ../src/
+  make
+
+The executable file is placed in the CMake-generated "bin" directory
+within the build directory.  To execute the program, simply invoke it
+from the command line with the desired scene file.  For example, run:
+
+  bin/tangere ../src/scenes/cbox_trippy.txt
+
+to render the included scene.  Scene files and additional command line
+parameters can be used to control the run-time behavior of tangere.
+See the source code for additional options.
+
+
+----------------------------------------
+  Installation & usage - WIN32 systems
+----------------------------------------
+
+tangere will also build with Visual Studio 2008 or better on
+Windows-based systems.
+
+Obtain the source distribution and move it your top-level tangere
+directory.
+
+Extract the code from the tarball using a utility such as WinZip.
+
+Navigate to the "vs2008" subdirectory and double-click the
+"vissim.sln" file to launch Visual Studio 2008.
+
+tangere is now ready to build and run within the Visual Studio 2008
+development environment.  For example, set the command arguments in
+the Debugging properties pane to:
+
+  "..\..\scenes\cbox_trippy.txt"
+
+to render the included scene.  Scene files and additional command line
+parameters can be used to control the run-time behavior of tangere.
+See the source code for additional options.
