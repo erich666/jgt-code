@@ -1,0 +1,1 @@
+java -cp ./classes;lib/junit-4.4.jar org.junit.runner.JUnitCore hmi.math.MathSuite

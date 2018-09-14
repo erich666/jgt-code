@@ -3,7 +3,7 @@ JGT Code
 
 #### "journal of graphics tools" code repository ####
 
-This is a repository of code developed and some supplemental material for [articles](http://ftp.math.utah.edu/pub/tex/bib/toc/jgraphtools.html) in the [*journal of graphics tools*](https://www.tandfonline.com/loi/ujgt21) (JGT), as of Volume 14 known as the *journal of graphics, gpu, & game tools." N.b., this journal's title is normally not capitalized, though Taylor & Francis do so on their web pages.
+This is a repository of code developed and some supplemental material for [articles](http://ftp.math.utah.edu/pub/tex/bib/toc/jgraphtools.html) in the [*journal of graphics tools*](https://www.tandfonline.com/loi/ujgt21) (JGT), as of Volume 14 known as the *journal of graphics, gpu, & game tools" and Volume 16 on as the "Journal of Graphics Tools." N.b., this journal's title is normally not capitalized, though Taylor & Francis do so on their web pages.
 
 ##### Code in the repository
 
@@ -155,15 +155,17 @@ The following articles have related code; look in the corresponding folder by Vo
 
 * Ruijters, Daniel, Bart M. ter Haar Romeny, and Paul Suetens, ["Efficient GPU-Based Texture Interpolation using Uniform B-Splines,"](https://www.tandfonline.com/doi/abs/10.1080/2151237X.2008.10129269) *journal of graphics tools*, 13(4):61-69, 2008. [**Code**](Volume_13/Number_4/Ruijters2008)
 
-* Heinly, Jared, Shawn Recker, Kevin Bensema, Jesse Porch, and Christiaan Gribble, ["Integer Ray Tracing"](https://www.tandfonline.com/doi/abs/10.1080/2151237X.2009.10129289) *journal of graphics tools*, 14(4):31-56, 2009. [**Code**](Volume_14/Number_4/Heinly2009)
+* van Welbergen, Herwin, Job Zwiers, and Zsófia M. Ruttkay, ["Real-Time Animation Using a Mix of Physical Simulation and Kinematics"](https://www.tandfonline.com/doi/abs/10.1080/2151237X.2009.10129288), *journal of graphics, gpu, & game tools*, 14(4):1-21, 2009. [**Code**](Volume_14/Number_4/Welbergen2009)
 
-* Strugar, Filip, ["Continuous Distance-Dependent Level of Detail for Rendering Heightmaps"](https://www.tandfonline.com/doi/abs/10.1080/2151237X.2009.10129287) *journal of graphics tools*, 14(4):57-74, 2009. [**Code**](Volume_14/Number_4/Strugar2009)
+* Heinly, Jared, Shawn Recker, Kevin Bensema, Jesse Porch, and Christiaan Gribble, ["Integer Ray Tracing"](https://www.tandfonline.com/doi/abs/10.1080/2151237X.2009.10129289) *journal of graphics, gpu, & game tools*, 14(4):31-56, 2009. [**Code**](Volume_14/Number_4/Heinly2009)
 
-* Eberly, David, ["A Fast and Accurate Algorithm for Computing SLERP,"](https://www.tandfonline.com/doi/full/10.1080/2151237X.2011.610255) *journal of graphics tools*, 15(3):161-176, 2011. [**Code**](Volume_15/Number_3/Eberly2011)
+* Strugar, Filip, ["Continuous Distance-Dependent Level of Detail for Rendering Heightmaps"](https://www.tandfonline.com/doi/abs/10.1080/2151237X.2009.10129287) *journal of graphics, gpu, & game tools*, 14(4):57-74, 2009. [**Code**](Volume_14/Number_4/Strugar2009)
 
-* McGuire, Morgan, ["Efficient Triangle and Quadrilateral Clipping Within Shaders,"](https://www.tandfonline.com/doi/full/10.1080/2151237X.2011.619891) *journal of graphics tools*, 15(4):216-224, 2011. [**Code**](Volume_15/Number_4/McGuire2011)
+* Eberly, David, ["A Fast and Accurate Algorithm for Computing SLERP,"](https://www.tandfonline.com/doi/full/10.1080/2151237X.2011.610255) *journal of graphics, gpu, & game tools*, 15(3):161-176, 2011. [**Code**](Volume_15/Number_3/Eberly2011)
 
-* Olsson, Ola, and Ulf Assarsson, ["Tiled Shading,"](https://www.tandfonline.com/doi/full/10.1080/2151237X.2011.621761) *journal of graphics tools*, 15(4):235-251, 2011. [**Code**](Volume_15/Number_4/Olsson2011)
+* McGuire, Morgan, ["Efficient Triangle and Quadrilateral Clipping Within Shaders,"](https://www.tandfonline.com/doi/full/10.1080/2151237X.2011.619891) *journal of graphics, gpu, & game tools*, 15(4):216-224, 2011. [**Code**](Volume_15/Number_4/McGuire2011)
+
+* Olsson, Ola, and Ulf Assarsson, ["Tiled Shading,"](https://www.tandfonline.com/doi/full/10.1080/2151237X.2011.621761) *journal of graphics, gpu, & game tools*, 15(4):235-251, 2011. [**Code**](Volume_15/Number_4/Olsson2011)
 
 As a courtesy to the authors if possible, please cite their work when you use their code.
 
@@ -178,8 +180,6 @@ Here are the articles where we know we don't have the code. There are others whe
 * ["Efficient Construction of Perpendicular Vectors without Branching"](https://www.tandfonline.com/doi/abs/10.1080/2151237X.2009.10129274)
 
 * ["Fast and Stable Conformal Mapping Between a Disc and a Square"](https://www.tandfonline.com/doi/abs/10.1080/2151237X.2009.10129277)
-
-* ["Real-Time Animation Using a Mix of Physical Simulation and Kinematics"](https://www.tandfonline.com/doi/abs/10.1080/2151237X.2009.10129288)
 
 * ["A GPU-Based Method to Approximate Acoustical Reflectivity"](https://www.tandfonline.com/doi/full/10.1080/2151237X.2011.619888)
 

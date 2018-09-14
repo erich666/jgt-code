@@ -1,0 +1,1 @@
+javac src/hmi/math/*.java src/hmi/math/digitalfilter/*.java src/hmi/physics/inversedynamics/*.java test/hmi/math/*.java -cp lib/junit-4.4.jar -d classes
