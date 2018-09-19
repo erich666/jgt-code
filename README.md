@@ -163,6 +163,8 @@ The following articles have related code; look in the corresponding folder by Vo
 
 * Eberly, David, ["A Fast and Accurate Algorithm for Computing SLERP,"](https://www.tandfonline.com/doi/full/10.1080/2151237X.2011.610255) *journal of graphics, gpu, & game tools*, 15(3):161-176, 2011. [**Code**](Volume_15/Number_3/Eberly2011)
 
+* Cowan, Brent, and Bill Kapralos, ["A GPU-Based Method to Approximate Acoustical Reflectivity"](https://www.tandfonline.com/doi/full/10.1080/2151237X.2011.619888), *journal of graphics, gpu, & game tools*, 15(4):210-215, 2011. [**Code**](Volume_15/Number_4/Cowan2011)
+
 * McGuire, Morgan, ["Efficient Triangle and Quadrilateral Clipping Within Shaders,"](https://www.tandfonline.com/doi/full/10.1080/2151237X.2011.619891) *journal of graphics, gpu, & game tools*, 15(4):216-224, 2011. [**Code**](Volume_15/Number_4/McGuire2011)
 
 * Olsson, Ola, and Ulf Assarsson, ["Tiled Shading,"](https://www.tandfonline.com/doi/full/10.1080/2151237X.2011.621761) *journal of graphics, gpu, & game tools*, 15(4):235-251, 2011. [**Code**](Volume_15/Number_4/Olsson2011)
@@ -180,8 +182,6 @@ Here are the articles where we know we don't have the code. There are others whe
 * ["Efficient Construction of Perpendicular Vectors without Branching"](https://www.tandfonline.com/doi/abs/10.1080/2151237X.2009.10129274)
 
 * ["Fast and Stable Conformal Mapping Between a Disc and a Square"](https://www.tandfonline.com/doi/abs/10.1080/2151237X.2009.10129277)
-
-* ["A GPU-Based Method to Approximate Acoustical Reflectivity"](https://www.tandfonline.com/doi/full/10.1080/2151237X.2011.619888)
 
 * ["Golden Ratio Sequences for Low-Discrepancy Sampling"](https://www.tandfonline.com/doi/full/10.1080/2165347X.2012.679555)
 
