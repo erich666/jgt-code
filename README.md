@@ -3,7 +3,7 @@ JGT Code
 
 #### "journal of graphics tools" code repository ####
 
-This is a repository of code developed and some supplemental material for [articles](http://ftp.math.utah.edu/pub/tex/bib/toc/jgraphtools.html) in the [*journal of graphics tools*](https://www.tandfonline.com/loi/ujgt21) (JGT), as of Volume 14 known as the *journal of graphics, gpu, & game tools" and Volume 16 on as the "Journal of Graphics Tools." N.b., this journal's title is normally not capitalized, though Taylor & Francis do so on their web pages.
+This is a repository of code developed and some supplemental material for [articles](http://ftp.math.utah.edu/pub/tex/bib/toc/jgraphtools.html) in the [*journal of graphics tools*](https://www.tandfonline.com/loi/ujgt21) (JGT), as of Volume 14 known as the "journal of graphics, gpu, & game tools" and Volume 16 on as the "Journal of Graphics Tools." N.b., this journal's title is normally not capitalized, though Taylor & Francis do so on their web pages.
 
 ##### Code in the repository
 
