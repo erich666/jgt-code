@@ -83,7 +83,7 @@ The following articles have related code; look in the corresponding folder by Vo
 
 * Piponi, Dan, ["Automatic Differentiation, C++ Templates, and Photogrammetry,"](https://www.tandfonline.com/doi/abs/10.1080/10867651.2004.10504901) *journal of graphics tools*, 9(4):41-55, 2004. [**Code and errata**](Volume_09/Number_4/Piponi2004)
 
-* Williams, Amy, Steve Barrus, R. Keith Morley, and Peter Shirley, ["An Efficient and Robust Ray-Box Intersection Algorithm,"](https://www.tandfonline.com/doi/abs/10.1080/2151237X.2005.10129188) *journal of graphics tools*, 10(1):49-54, 2005. [**Code**](Volume_10/Number_1/Williams2005)
+* Williams, Amy, Steve Barrus, R. Keith Morley, and Peter Shirley, ["An Efficient and Robust Ray-Box Intersection Algorithm,"](https://www.tandfonline.com/doi/abs/10.1080/2151237X.2005.10129188) *journal of graphics tools*, 10(1):49-54, 2005. [**Code**](Volume_10/Number_1/Williams2005) [*ResearchGate version*] (https://www.researchgate.net/publication/220494140_An_Efficient_and_Robust_Ray-Box_Intersection_Algorithm)
 
 * Bærentzen, J. Andreas, ["Hardware-Accelerated Point Generation and Rendering of Point-Based Impostors,"](https://www.tandfonline.com/doi/abs/10.1080/2151237X.2005.10129197) *journal of graphics tools*, 10(2):1-12, 2005. [**Code**](Volume_10/Number_2/Baerentzen2005)
 
