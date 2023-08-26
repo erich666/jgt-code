@@ -11,7 +11,7 @@ The following articles have related code; look in the corresponding folder by Vo
 
 * Smith, Alvy Ray, and Eric Ray Lyons, ["HWB - A More Intuitive Hue-Based Color Model,"](https://www.tandfonline.com/doi/abs/10.1080/10867651.1996.10487451) *journal of graphics tools*, 1(1):3-17, 1996. [**Code**](Volume_01/Number_1/Smith1996)
 
-* Mirtich, Brian, ["Fast and Accurate Computation of Polyhedral Mass Properties,"](https://www.tandfonline.com/doi/abs/10.1080/10867651.1996.10487451) *journal of graphics tools*, 1(2):31-50, 1996. [**Code**](Volume_01/Number_2/Mirtich1996)
+* Mirtich, Brian, ["Fast and Accurate Computation of Polyhedral Mass Properties,"](https://www.tandfonline.com/doi/abs/10.1080/10867651.1996.10487458) *journal of graphics tools*, 1(2):31-50, 1996. [**Code**](Volume_01/Number_2/Mirtich1996)
 
 * Barzel, Ronen, ["Lighting Controls for Computer Cinematography,"](https://www.tandfonline.com/doi/abs/10.1080/10867651.1997.10487468) *journal of graphics tools*, 2(1):1-20, 1997. [**Images and follow-up**](Volume_02/Number_1/Barzel1997)
 
