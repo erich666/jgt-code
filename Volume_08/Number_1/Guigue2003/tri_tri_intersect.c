@@ -65,6 +65,18 @@ int tri_tri_overlap_test_2d(double p1[2], double q1[2], double r1[2],
 
 
 
+/* Epsilon coplanarity checks */
+
+#define USE_EPSILON_TEST false /* set to true to use coplanarity robustness checks */
+#define EPSILON 1e-16          /* you may also need to adjust this value according to your data */
+
+/* if USE_EPSILON_TEST is true then we do a check:
+         if |dv|<EPSILON then dv=0.0;
+   else no check is done (which may be less robust)
+*/
+
+#include <math.h>
+#define FABS(x) (fabs(x))       /* implement as is fastest on your machine */
 
 
 
@@ -163,6 +175,13 @@ int tri_tri_overlap_test_3d(double p1[3], double q1[3], double r1[3],
   SUB(v1,r1,r2)
   dr1 = DOT(v1,N2);
   
+  /* coplanarity robustness check */
+#if USE_EPSILON_TEST
+  if(FABS(dp1) < EPSILON) dp1=0.0;
+  if(FABS(dq1) < EPSILON) dq1=0.0;
+  if(FABS(dr1) < EPSILON) dr1=0.0;
+#endif
+
   if (((dp1 * dq1) > 0.0f) && ((dp1 * dr1) > 0.0f))  return 0; 
 
   /* Compute distance signs  of p2, q2 and r2 to the plane of
@@ -180,6 +199,12 @@ int tri_tri_overlap_test_3d(double p1[3], double q1[3], double r1[3],
   SUB(v1,r2,r1)
   dr2 = DOT(v1,N1);
   
+#if USE_EPSILON_TEST
+  if(FABS(dp2) < EPSILON) dp2=0.0;
+  if(FABS(dq2) < EPSILON) dq2=0.0;
+  if(FABS(dr2) < EPSILON) dr2=0.0;
+#endif
+
   if (((dp2 * dq2) > 0.0f) && ((dp2 * dr2) > 0.0f)) return 0;
 
   /* Permutation in a canonical form of T1's vertices */
@@ -421,6 +446,13 @@ int tri_tri_intersection_test_3d(double p1[3], double q1[3], double r1[3],
   SUB(v1,r1,r2)
   dr1 = DOT(v1,N2);
   
+  /* coplanarity robustness check */
+#if USE_EPSILON_TEST
+  if(FABS(dp1) < EPSILON) dp1=0.0;
+  if(FABS(dq1) < EPSILON) dq1=0.0;
+  if(FABS(dr1) < EPSILON) dr1=0.0;
+#endif
+
   if (((dp1 * dq1) > 0.0f) && ((dp1 * dr1) > 0.0f))  return 0; 
 
   // Compute distance signs  of p2, q2 and r2 
@@ -438,6 +470,12 @@ int tri_tri_intersection_test_3d(double p1[3], double q1[3], double r1[3],
   SUB(v1,r2,r1)
   dr2 = DOT(v1,N1);
   
+#if USE_EPSILON_TEST
+  if(FABS(dp2) < EPSILON) dp2=0.0;
+  if(FABS(dq2) < EPSILON) dq2=0.0;
+  if(FABS(dr2) < EPSILON) dr2=0.0;
+#endif
+
   if (((dp2 * dq2) > 0.0f) && ((dp2 * dr2) > 0.0f)) return 0;
 
   // Permutation in a canonical form of T1's vertices
