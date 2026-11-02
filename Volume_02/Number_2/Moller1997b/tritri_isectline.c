@@ -31,7 +31,7 @@
          if |dv|<EPSILON then dv=0.0;
    else no check is done (which is less robust)
 */
-#define USE_EPSILON_TEST TRUE  
+#define USE_EPSILON_TEST 1  /* 1 = on, 0 = off */  
 #define EPSILON 0.000001
 
 
@@ -660,8 +660,9 @@ int tri_tri_intersect_with_isectline(float V0[3],float V1[3],float V2[3],
 
 
   /* compute interval for triangle 2 */
-  compute_intervals_isectline(U0,U1,U2,up0,up1,up2,du0,du1,du2,
+  *coplanar=compute_intervals_isectline(U0,U1,U2,up0,up1,up2,du0,du1,du2,
 			      du0du1,du0du2,&isect2[0],&isect2[1],isectpointB1,isectpointB2);
+  if(*coplanar) return coplanar_tri_tri(N1,V0,V1,V2,U0,U1,U2);
 
   SORT2(isect1[0],isect1[1],smallest1);
   SORT2(isect2[0],isect2[1],smallest2);

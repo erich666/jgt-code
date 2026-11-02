@@ -1,8 +1,13 @@
-#define RETURN_HSV(h, w, b) {HSV.H = h; HSV.S = s; HSV.V = v; return HSV;}
+#include <math.h>
+
+#define RETURN_HSV(h, s, v) {HSV.H = h; HSV.S = s; HSV.V = v; return HSV;}
 
 #define RETURN_RGB(r, g, b) {RGB.R = r; RGB.G = g; RGB.B = b; return RGB;}
 
 #define UNDEFINED -1
+
+#define MIN3(a, b, c) ((a) < (b) ? ((a) < (c) ? (a) : (c)) : ((b) < (c) ? (b) : (c)))
+#define MAX3(a, b, c) ((a) > (b) ? ((a) > (c) ? (a) : (c)) : ((b) > (c) ? (b) : (c)))
 
 // Theoretically, hue 0 (pure red) is identical to hue 6 in these transforms. Pure
 
@@ -14,7 +19,7 @@ typedef struct {float R, G, B;} RGBType;
 
 typedef struct {float H, S, V;} HSVType;
 
-// HSVType
+HSVType
 
 RGB_to_HSV( RGBType RGB ) {
 
@@ -23,15 +28,15 @@ RGB_to_HSV( RGBType RGB ) {
 	float R = RGB.R, G = RGB.G, B = RGB.B, v, x, f;
 	int i;
 	HSVType HSV;
-	x = min(R, G, B);
-	v = max(R, G, B);
+	x = MIN3(R, G, B);
+	v = MAX3(R, G, B);
 	if(v == x) RETURN_HSV(UNDEFINED, 0, v);
 	f = (R == x) ? G - B : ((G == x) ? B - R : R - G);
 	i = (R == x) ? 3 : ((G == x) ? 5 : 1);
 	RETURN_HSV(i - f /(v - x), (v - x)/v, v);
 }
 
-// RGBType
+RGBType
 
 HSV_to_RGB( HSVType HSV ) {
 
@@ -50,9 +55,10 @@ HSV_to_RGB( HSVType HSV ) {
 		case 6:
 		case 0: RETURN_RGB(v, n, m);
 		case 1: RETURN_RGB(n, v, m);
-		case 2: RETURN_RGB(m, v, n)
+		case 2: RETURN_RGB(m, v, n);
 		case 3: RETURN_RGB(m, n, v);
 		case 4: RETURN_RGB(n, m, v);
 		case 5: RETURN_RGB(v, m, n);
 	}
+	RETURN_RGB(v, v, v); // H out of range; not reached for valid input
 }

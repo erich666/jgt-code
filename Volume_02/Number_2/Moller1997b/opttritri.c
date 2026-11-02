@@ -16,13 +16,13 @@
  */
 
 #include <math.h>
-#define FABS(x) (float(fabs(x)))        /* implement as is fastest on your machine */
+#define FABS(x) ((float)fabs(x))        /* implement as is fastest on your machine */
 
 /* if USE_EPSILON_TEST is true then we do a check:
          if |dv|<EPSILON then dv=0.0;
    else no check is done (which is less robust)
 */
-#define USE_EPSILON_TEST TRUE
+#define USE_EPSILON_TEST 1  /* 1 = on, 0 = off */
 #define EPSILON 0.000001
 
 

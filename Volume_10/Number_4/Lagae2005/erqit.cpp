@@ -177,7 +177,7 @@ bool image::write_ppm(std::ostream& os) const
     }
     os << '\n';
   }
-  return os;
+  return !os.fail();
 }
 
 bool intersect_quadrilateral_ray(const quadrilateral& q,

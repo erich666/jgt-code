@@ -60,7 +60,8 @@ typedef struct _qtCell {
     while ((cell)->children) {                                                    \
         unsigned int childBranchBit = 1 << (nextLevel);                           \
         unsigned int childIndex = ((((xLocCode) & childBranchBit) >> (nextLevel)) \
-        + (((yLocCode) & childBranchBit) >> (--(nextLevel))));                    \
+        + ((((yLocCode) & childBranchBit) >> (nextLevel)) << 1));                 \
+        (nextLevel)--;                                                            \
         (cell) = &(((cell)->children)[childIndex]);                               \
     }                                                                             \
 }
@@ -81,7 +82,8 @@ typedef struct _qtCell {
     while (n--) {                                                                 \
         unsigned int childBranchBit = 1 << (nextLevel);                           \
         unsigned int childIndex = ((((xLocCode) & childBranchBit) >> (nextLevel)) \
-        + (((yLocCode) & childBranchBit) >> (--(nextLevel))));                    \
+        + ((((yLocCode) & childBranchBit) >> (nextLevel)) << 1));                 \
+        (nextLevel)--;                                                            \
         (cell) = &(((cell)->children)[childIndex]);                               \
         if (!(cell)->children) break;                                             \
     }                                                                             \

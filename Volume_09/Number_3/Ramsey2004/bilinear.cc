@@ -27,7 +27,8 @@ DEALINGS IN THE SOFTWARE.
 */
 
 #include "bilinear.h"
-#include <iostream.h>
+#include <iostream>
+using namespace std;
 
 //+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+
 // Constructor
@@ -330,7 +331,7 @@ bool BilinearPatch::RayPatchIntersection(Vector r, Vector q, Vector &uv)
       if(uv.x() < 1+ray_epsilon && uv.x() > -ray_epsilon && uv.z() > 0)
 	{
 	  u = getu(vsol[1],A2,A1,B2,B1,C2,C1,D2,D1);
-	  if(u < 1+ray_epsilon && u > ray_epsilon)
+	  if(u < 1+ray_epsilon && u > -ray_epsilon)
 	    {
 	      pos2 = SrfEval(u,vsol[1]);
 	      t2 = computet(dir,orig,pos2);
@@ -391,7 +392,7 @@ int QuadraticRoot(double a, double b, double c,
     {
       if(d == 0.0) // close to 0
 	{
-	  u[0] = -b / a;
+	  u[0] = -b / (2.0 * a);
 	  if(u[0] > min && u[0] < max) // its in the interval
 	    return 1;
 	  else //its not in the interval

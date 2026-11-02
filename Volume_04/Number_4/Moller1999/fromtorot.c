@@ -1,12 +1,12 @@
-#include <math.h>  #define EPSILON 0.000001
+#include <math.h>
+#define EPSILON 0.000001
 
 #define CROSS(dest, v1, v2){                 \
           dest[0] = v1[1] * v2[2] - v1[2] * v2[1]; \
           dest[1] = v1[2] * v2[0] - v1[0] * v2[2]; \
           dest[2] = v1[0] * v2[1] - v1[1] * v2[0];}
 
-#define DOT(v1, v2) (v1[0] * v2[0] + v1[1] * v2[1] + v1[2] *
-v2[2])
+#define DOT(v1, v2) (v1[0] * v2[0] + v1[1] * v2[1] + v1[2] * v2[2])
 
 #define SUB(dest, v1, v2){       \
           dest[0] = v1[0] - v2[0]; \
@@ -17,7 +17,7 @@ v2[2])
  * A function for creating a rotation matrix that rotates a vector called
  * "from" into another vector called "to".
  * Input : from[3], to[3] which both must be *normalized* non-zero vectors
- * Output: mtx[3][3] -- a 3x3 matrix in colum-major form
+ * Output: mtx[3][3] -- a 3x3 matrix, indexed mtx[row][col]
  * Authors: Tomas Möller, John Hughes 1999
  */
 void fromToRotation(float from[3], float to[3], float mtx[3][3]) {

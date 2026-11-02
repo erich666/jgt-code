@@ -57,11 +57,11 @@ typedef struct
 //------------------------------------------------------------------------------
 
 
-void CopyBlob( BLOB blob1, BLOB blob2 )
-{ 
-	CopyVector( blob1.Centre, blob2.Centre );
-	CopyVector( blob1.PreviousCentre, blob2.PreviousCentre );
-	blob1.Radius = blob2.Radius;
+void CopyBlob( BLOB *blob1, const BLOB *blob2 )
+{
+	CopyVector( blob1->Centre, blob2->Centre );
+	CopyVector( blob1->PreviousCentre, blob2->PreviousCentre );
+	blob1->Radius = blob2->Radius;
 	
 } //CopyBlob
 
@@ -962,21 +962,28 @@ int CollisionDetection( MESH *M, BLOB B, VECTOR Q )
 		   Transformed_I;  
 	BLOB PrevBlob;
 	DBL d;
+	DBL best_d = DBL_MAX;  //Closest contact so far, used only for a stationary blob.
+	int moving = !IsEqual( B.Centre, B.PreviousCentre );
 
 	//Define a new coordinate system. The system is defined by the vector A, which
 	//is the normalized vector between the blob's current and previous centre.
-	Subtract( A, B.PreviousCentre, B.Centre );
-	ReduceToUnit( A );	    	
-	NewCoordinateSystem( A, U, V );
-	//Project the two centres in the new coordinate system.
-	ChangeCoordinates( B.PreviousCentre, Transformed_PC, A, U, V );
-	ChangeCoordinates( B.Centre, Transformed_C, A, U, V );
+	//A stationary blob has no direction of motion (A would be zero and the
+	//projections 0/0), so it is handled separately below.
+	if ( moving )
+	{
+		Subtract( A, B.PreviousCentre, B.Centre );
+		ReduceToUnit( A );
+		NewCoordinateSystem( A, U, V );
+		//Project the two centres in the new coordinate system.
+		ChangeCoordinates( B.PreviousCentre, Transformed_PC, A, U, V );
+		ChangeCoordinates( B.Centre, Transformed_C, A, U, V );
+	}
 	
 	//Initialize last known intersection vector, as the sphere's current position.
 	//In this way if another intersection point exists, it is certain that it will
 	//be closer to the old sphere's position.
 	CopyVector( I, B.Centre );
-	CopyBlob( PrevBlob, B );
+	CopyBlob( &PrevBlob, &B );
 	CopyVector( PrevBlob.Centre, PrevBlob.PreviousCentre );
 
 	
@@ -999,12 +1006,25 @@ int CollisionDetection( MESH *M, BLOB B, VECTOR Q )
 		  {	
 			// Compare new intersection point to last one, 
 		    // to find  which one is the first the blob meets.			
-			ChangeCoordinates( Q, Transformed_Q, A, U, V );
-			ChangeCoordinates( I, Transformed_I, A, U, V );
-			//"A" coordinate is the"X" coordinate.
-			if ( Transformed_Q[X] > Transformed_I[X] )
-			{  CopyVector( I, Q );	
-			   collision_num = i;
+			if ( moving )
+			{
+				ChangeCoordinates( Q, Transformed_Q, A, U, V );
+				ChangeCoordinates( I, Transformed_I, A, U, V );
+				//"A" coordinate is the"X" coordinate.
+				if ( Transformed_Q[X] > Transformed_I[X] )
+				{  CopyVector( I, Q );
+				   collision_num = i;
+				}
+			}
+			else
+			{
+				//Stationary blob: keep the contact point closest to the centre.
+				DBL dq = SqrDistance( Q, B.Centre );
+				if ( dq < best_d )
+				{  best_d = dq;
+				   CopyVector( I, Q );
+				   collision_num = i;
+				}
 			}
 	      }
 	    

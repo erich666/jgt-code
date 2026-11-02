@@ -1,8 +1,13 @@
+#include <math.h>
+
 #define RETURN_HWB(h, w, b) {HWB.H = h; HWB.W = w; HWB.B = b; return HWB;}
 
 #define RETURN_RGB(r, g, b) {RGB.R = r; RGB.G = g; RGB.B = b; return RGB;}
 
 #define UNDEFINED -1
+
+#define MIN3(a, b, c) ((a) < (b) ? ((a) < (c) ? (a) : (c)) : ((b) < (c) ? (b) : (c)))
+#define MAX3(a, b, c) ((a) > (b) ? ((a) > (c) ? (a) : (c)) : ((b) > (c) ? (b) : (c)))
 
 // Theoretically, hue 0 (pure red) is identical to hue 6 in these transforms. Pure
 
@@ -23,8 +28,8 @@ RGB_to_HWB( RGBType RGB ) {
 	float R = RGB.R, G = RGB.G, B = RGB.B, w, v, b, f;
 	int i;
 	HWBType HWB;
-	w = min(R, G, B);
-	v = max(R, G, B);
+	w = MIN3(R, G, B);
+	v = MAX3(R, G, B);
 	b = 1 - v;
 	if (v == w) RETURN_HWB(UNDEFINED, w, b);
 	f = (R == w) ? G - B : ((G == w) ? B - R : R - G);
@@ -56,4 +61,5 @@ HWB_to_RGB( HWBType HWB ) {
 		case 4: RETURN_RGB(n, w, v);
 		case 5: RETURN_RGB(v, w, n);
 	}
+	RETURN_RGB(v, v, v); // H out of range; not reached for valid input
 }

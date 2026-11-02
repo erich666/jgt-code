@@ -14,6 +14,7 @@
 //	The user must supply the routine GetPoint
 
 #include <stdio.h>
+#include <stdlib.h>
 #include <math.h>
 
 #define	Sqr(x)			((x) *(x))
@@ -159,8 +160,8 @@ double GetCurveLength ( double	min_t ,
 	if ( !Odd ( n_eval_pts ) )
 	  n_eval_pts++;
 	  
-	t = new double [ n_eval_pts ];
-	pt = new TPoint3 [ n_eval_pts ];
+	t = (double *) malloc ( n_eval_pts * sizeof ( double ) );
+	pt = (TPoint3 *) malloc ( n_eval_pts * sizeof ( TPoint3 ) );
 	
 	for ( i = 0 ; i < n_eval_pts ; ++i )
 	{
@@ -178,8 +179,8 @@ double GetCurveLength ( double	min_t ,
 								  pt [i] , pt [i+1] , pt [i+2] );	
 	}
 	
-	delete [] pt;
-	delete [] t;
+	free ( pt );
+	free ( t );
 	
 	return len;
 	
@@ -229,12 +230,12 @@ double GetCurveLengthSlidingWindow
 	
 	n_segs = n_eval_pts - 1;
 	
-	pt = new TPoint3 [ n_eval_pts ];
-	t = new double [ n_eval_pts ];
+	pt = (TPoint3 *) malloc ( n_eval_pts * sizeof ( TPoint3 ) );
+	t = (double *) malloc ( n_eval_pts * sizeof ( double ) );
 	
-	seg_len_a = new double [ n_segs ];
-	seg_len_b = new double [ n_segs ];
-	pt_distance = new double [ n_segs ];
+	seg_len_a = (double *) malloc ( n_segs * sizeof ( double ) );
+	seg_len_b = (double *) malloc ( n_segs * sizeof ( double ) );
+	pt_distance = (double *) malloc ( n_segs * sizeof ( double ) );
 	
 	//	Evaluate points along the curve. Horner's rule could usefully be
 	//	used here if the curve can be represented as a polynomial.
@@ -331,11 +332,11 @@ double GetCurveLengthSlidingWindow
 
 	}
 	
-	delete [] pt_distance;
-	delete [] seg_len_b;
-	delete [] seg_len_a;
-	delete [] t;
-	delete [] pt;
+	free ( pt_distance );
+	free ( seg_len_b );
+	free ( seg_len_a );
+	free ( t );
+	free ( pt );
 	
 	return len;
 	
