@@ -108,7 +108,7 @@ Dual<X,N> exp(const Dual<X,N> &a) {
     Dual<X,N> b;
     X d = exp(a.real);
     b.real = d;
-    transform(a.imag,a.imag+N,b.imag,bind1st(multiplies<X>(),d));
+    for (int i = 0; i<N; ++i) b.imag[i] = d*a.imag[i]; // bind1st was removed in C++17
     return b;
 }
 

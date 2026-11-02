@@ -67,7 +67,7 @@ int tri_tri_overlap_test_2d(double p1[2], double q1[2], double r1[2],
 
 /* Epsilon coplanarity checks */
 
-#define USE_EPSILON_TEST false /* set to true to use coplanarity robustness checks */
+#define USE_EPSILON_TEST 0     /* set to 1 to use coplanarity robustness checks (do not use true/false: in C, #if treats them as 0) */
 #define EPSILON 1e-16          /* you may also need to adjust this value according to your data */
 
 /* if USE_EPSILON_TEST is true then we do a check:
@@ -430,6 +430,8 @@ int tri_tri_intersection_test_3d(double p1[3], double q1[3], double r1[3],
   double v1[3], v2[3], v[3];
   double N1[3], N2[3], N[3];
   double alpha;
+
+  *coplanar = 0;
 
   // Compute distance signs  of p1, q1 and r1 
   // to the plane of triangle(p2,q2,r2)

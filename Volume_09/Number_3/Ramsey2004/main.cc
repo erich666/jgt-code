@@ -28,7 +28,8 @@ DEALINGS IN THE SOFTWARE.
 */
 
 #include "bilinear.h"
-#include <iostream.h>
+#include <iostream>
+using namespace std;
 
 
 int main()

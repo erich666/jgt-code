@@ -22,7 +22,7 @@
 
 #define IX(i,j) ((i)+(N+2)*(j))
 
-/* external definitions (from solver.c) */
+/* external definitions (from solver03.c) */
 
 extern void dens_step ( int N, float * x, float * x0, float * u, float * v, float diff, float dt );
 extern void vel_step ( int N, float * u, float * v, float * u0, float * v0, float visc, float dt );
@@ -231,9 +231,9 @@ static void key_func ( unsigned char key, int x, int y )
 static void mouse_func ( int button, int state, int x, int y )
 {
 	omx = mx = x;
-	omx = my = y;
+	omy = my = y;
 
-	mouse_down[button] = state == GLUT_DOWN;
+	if ( button >= 0 && button < 3 ) mouse_down[button] = state == GLUT_DOWN;
 }
 
 static void motion_func ( int x, int y )
@@ -313,7 +313,7 @@ int main ( int argc, char ** argv )
 {
 	glutInit ( &argc, argv );
 
-	if ( argc != 1 && argc != 6 ) {
+	if ( argc != 1 && argc != 7 ) {
 		fprintf ( stderr, "usage : %s N dt diff visc force source\n", argv[0] );
 		fprintf ( stderr, "where:\n" );\
 		fprintf ( stderr, "\t N      : grid resolution\n" );

@@ -165,12 +165,13 @@ void DrawQuadratic(CPoint p0,CPoint p1,CPoint p2,double w0,double w1,double w2)
 	CTime tend=CTime::GetCurrentTime();    // get finishing time 
 	CTimeSpan	elapse=tend-tstart;
 	CString str;
-	str.Format("elapsed time is: %d second!",elapse.GetSeconds());
+	str.Format("elapsed time is: %d second!",(int)elapse.GetTotalSeconds());
 	pDC->TextOut(300,30,str);
 }
 //    DrawCubic():
 void DrawCubic(CPoint p0,CPoint p1,CPoint p2,CPoint p3,double w0,double w1,double w2,double w3)
 {
+	CPoint pn,pp;
 	double Q,q,max1,min1,max2,min2,maxx,maxy,fd,gd;  
 	int n;
 	max1=w0>w1?w0:w1;
@@ -331,6 +332,6 @@ void DrawCubic(CPoint p0,CPoint p1,CPoint p2,CPoint p3,double w0,double w1,doubl
 	CTime tend=CTime::GetCurrentTime();    // get finishing time 
 	CTimeSpan	elapse=tend-tstart;
 	CString str;
-	str.Format("elapsed time is: %d second!",elapse.GetSeconds());
+	str.Format("elapsed time is: %d second!",(int)elapse.GetTotalSeconds());
 	pDC->TextOut(300,30,str);
 }

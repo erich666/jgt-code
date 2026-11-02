@@ -145,9 +145,9 @@ inline static bool EdgeA(const int & f0 , const int & f1)
 		return false;	      // included in (-,-) return false
 
 
-	maskf0 &= (maskf0 ^ maskf1);  // exclude the vertices in (+,+)
+	const int maskDiff = maskf0 ^ maskf1; maskf0 &= maskDiff;  // exclude the vertices in (+,+)
 
-	maskf1 &= (maskf0 ^ maskf1);
+	maskf1 &= maskDiff;
 
 	// edge 0: 0--1 
 
@@ -215,7 +215,7 @@ bool tet_a_tet(double V_1[4][3],double V_2[4][3] )
 {
 
 	V1 = V_1;
-	V2 = V_2
+	V2 = V_2;
 
 	SUB(P_V1[0] ,V2[0],V1[0]);	
 	SUB(P_V1[1] ,V2[1],V1[0]);	
