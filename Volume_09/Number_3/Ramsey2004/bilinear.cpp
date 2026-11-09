@@ -1,5 +1,5 @@
 // created by Shaun David Ramsey and Kristin Potter (c) 2003
-// email shaunramsey()gmail.com with questions/comments
+// email first author's first and last name at gmail with questions/comments
 /*
 The ray bilinear patch intersection software are "Open Source"
 according to the MIT License located at:

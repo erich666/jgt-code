@@ -1,13 +1,10 @@
 Ray Bilinear Patch Intersections
 
-Shaun Ramsey
+Shaun D. Ramsey
 Professor of Mathematics and Computer Science, Washington College
 
-Kristin Potter
+Kristin Potter and Charles Hansen
 University of Utah, School of Computing
-
-Charles Hansen
-University of Utah, School Of Computing
 
 This paper appears in issue Volume 9, Number 3.
 Purchase this issue from the akpeters.com web site.
