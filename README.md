@@ -79,7 +79,7 @@ The following articles have related code; look in the corresponding folder by Vo
 
 * Wang, Niniane, ["Realistic and Fast Cloud Rendering,"](https://www.tandfonline.com/doi/abs/10.1080/10867651.2004.10504901) *journal of graphics tools*, 9(3):21-40, 2004. [**Images and video**](Volume_09/Number_3/Wang2004)
 
-* Ramsey, Shaun D., Kristin Potter, and Charles Hansen, ["Ray Bilinear Patch Intersections,"](https://www.tandfonline.com/doi/abs/10.1080/10867651.2004.10504896) *journal of graphics tools*, 9(3):41-47, 2004. [**Code**](Volume_09/Number_3/Ramsey2004)
+* Ramsey, Shaun D., Kristin Potter, and Charles Hansen, ["Ray Bilinear Patch Intersections,"](https://www.tandfonline.com/doi/abs/10.1080/10867651.2004.10504896) *journal of graphics tools*, 9(3):41-47, 2004. [**Code**](Volume_09/Number_3/Ramsey2004) For a faster method, see Reshetov, Alexander, ["Cool Patches: A Geometric Approach to Ray/Bilinear Patch Intersections,"](https://research.nvidia.com/sites/default/files/pubs/2019-03_Cool-Patches%3A-A/Chapter_08.pdf) *Ray Tracing Gems*, 2019.
 
 * Piponi, Dan, ["Automatic Differentiation, C++ Templates, and Photogrammetry,"](https://www.tandfonline.com/doi/abs/10.1080/10867651.2004.10504901) *journal of graphics tools*, 9(4):41-55, 2004. [**Code and errata**](Volume_09/Number_4/Piponi2004)
 

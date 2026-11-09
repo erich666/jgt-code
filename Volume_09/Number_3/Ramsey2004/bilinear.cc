@@ -284,21 +284,32 @@ bool BilinearPatch::RayPatchIntersection(Vector r, Vector q, Vector &uv)
   double dz = P00.z() - r.z();
   
 
+  // Eliminate t using the ray direction's largest component (axis k) and keep
+  // the equations for the other two axes (i, j). Always eliminating with z
+  // made the two equations dependent when qz == 0 (A = B = C = 0, so every
+  // such ray missed) and ill-conditioned when qz is small. Ties keep k = z,
+  // which reproduces the original coefficients.
+  double a[3] = {ax, ay, az}, b[3] = {bx, by, bz}, c[3] = {cx, cy, cz};
+  double dd[3] = {dx, dy, dz}, qv[3] = {qx, qy, qz};
+  int k = (fabs(qx) > fabs(qy)) ? ((fabs(qx) > fabs(qz)) ? 0 : 2)
+                                : ((fabs(qy) > fabs(qz)) ? 1 : 2);
+  int i = (k + 1) % 3, j = (k + 2) % 3;
+
   // Find A1 and A2
-  double A1 = ax*qz - az*qx;
-  double A2 = ay*qz - az*qy;
+  double A1 = a[i]*qv[k] - a[k]*qv[i];
+  double A2 = a[j]*qv[k] - a[k]*qv[j];
 
   // Find B1 and B2
-  double B1 = bx*qz - bz*qx;
-  double B2 = by*qz - bz*qy;
+  double B1 = b[i]*qv[k] - b[k]*qv[i];
+  double B2 = b[j]*qv[k] - b[k]*qv[j];
 
   // Find C1 and C2
-  double C1 = cx*qz - cz*qx;
-  double C2 = cy*qz - cz*qy;
+  double C1 = c[i]*qv[k] - c[k]*qv[i];
+  double C2 = c[j]*qv[k] - c[k]*qv[j];
 
   // Find D1 and D2
-  double D1 = dx*qz - dz*qx;
-  double D2 = dy*qz - dz*qy;
+  double D1 = dd[i]*qv[k] - dd[k]*qv[i];
+  double D2 = dd[j]*qv[k] - dd[k]*qv[j];
  
   Vector dir(qx,qy,qz), orig(rx,ry,rz);
   double A = A2*C1 - A1*C2;
@@ -388,6 +399,10 @@ int QuadraticRoot(double a, double b, double c,
 	return 0;
     }
   double d = b*b - 4*a*c; //discriminant
+  // Rounding can push the discriminant of a tangent (grazing) ray slightly
+  // below zero; within this relative tolerance, treat it as a double root.
+  if(d < 0.0 && d >= -ray_epsilon * (b*b + fabs(4*a*c)))
+    d = 0.0;
   if(d <= 0.0) // single or no root
     {
       if(d == 0.0) // close to 0

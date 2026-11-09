@@ -4,8 +4,9 @@
 #define VECTOR_H 1
 
 #include <math.h>
-class ostream;
-class istream;
+#include <iostream>
+using std::ostream;
+using std::istream;
 
 class Vector {
     double d[3];
@@ -180,6 +181,32 @@ inline bool Vector::operator != (const Vector& v) const {
 
 inline bool Vector::operator == (const Vector& v) const {
    return d[0] == v.d[0] && d[1] == v.d[1] && d[2] == v.d[2];
+}
+
+// These three were declared above but never defined in the submission.
+inline Vector Vector::operator/(double s) const {
+    return Vector(d[0]/s, d[1]/s, d[2]/s);
+}
+
+inline Vector& Vector::operator-=(const Vector& v) {
+    d[0] -= v.d[0];
+    d[1] -= v.d[1];
+    d[2] -= v.d[2];
+    return *this;
+}
+
+inline Vector Vector::normal() const {   // unit-length copy
+    Vector v(*this);
+    v.normalize();
+    return v;
+}
+
+inline ostream& operator<<(ostream& os, const Vector& p) {
+    return os << "(" << p.d[0] << ", " << p.d[1] << ", " << p.d[2] << ")";
+}
+
+inline istream& operator>>(istream& is, Vector& p) {
+    return is >> p.d[0] >> p.d[1] >> p.d[2];
 }
 
 
