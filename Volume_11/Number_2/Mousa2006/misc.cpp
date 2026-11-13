@@ -27,8 +27,9 @@ int gettoken(char buffer[30], FILE *f){
   char ch;
   buffer[i]=0;
   while(fread(&ch,sizeof(char),sizeof(char),f)!=0){
-    if((ch!=10)&&(ch!=13)&&(ch!=32)&&(ch!='\t')&&(ch!='&')&&(ch!='(')&&(ch!=')'))
-      buffer[i++]=ch;
+    if((ch!=10)&&(ch!=13)&&(ch!=32)&&(ch!='\t')&&(ch!='&')&&(ch!='(')&&(ch!=')')){
+      if(i<29) buffer[i++]=ch; //buffer holds 30 chars including the terminator
+    }
     else if(i!=0){
       buffer[i]=0;
       return i; //return the length of the token
@@ -42,15 +43,18 @@ int gettoken(char buffer[30], FILE *f){
 }
 
 bool FileName(char fname[30], char *str){
-  int i=0;
+  int i, len, dot=-1;
   if(str==NULL)  return false;
-  while((str[i]!='.')&&(str[i]!=0)){
-    fname[i] = str[i];
-    i++;
+  //use the last '.' after the last path separator, so "../model.off" works
+  for(i=0; str[i]!=0; i++){
+    if(str[i]=='.') dot=i;
+    else if((str[i]=='/')||(str[i]=='\\')) dot=-1;
   }
-  fname[i]=0;
-  if(str[i]==0) return false;
-  return true;
+  len = (dot<0) ? i : dot;
+  if(len>29) len=29; //fname holds 30 chars including the terminator
+  for(i=0; i<len; i++) fname[i] = str[i];
+  fname[len]=0;
+  return (dot>=0);
 }
 
 void theta_phi_bounds(Triangle_3 tr, double *mintheta, double *maxtheta, double *minphi, double *maxphi){

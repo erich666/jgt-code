@@ -13,7 +13,7 @@
 
 #include <math.h>
 #include <assert.h>
-#include "exp.h"
+#include "exp-map.h"
 
 
 /* vector indices */
@@ -276,14 +276,14 @@ void Partial_Q_Partial_2V(double r[2], double s[3], double t[3], int i, Quat dqd
      * SHOULD compute 'dQdV' just once and cache it somewhere with the
      * EM rotation object. */
     EM2_To_EM3(r, s, t, v);
-    for (i=0; i<3; i++)
-      Partial_Q_Partial_3V(v, i, dQdV[i]);
+    for (j=0; j<3; j++)
+      Partial_Q_Partial_3V(v, j, dQdV[j]);
 
     /* this is just applying the chain rule: dQdri = dQdV * dvdri */
     for (j=0; j<4; j++)	
-      dqdx[j] = ((double*)&dQdV[0])[i]*dvdr[X] + 
-	        ((double*)&dQdV[1])[i]*dvdr[Y] +
-		((double*)&dQdV[2])[i]*dvdr[Z];
+      dqdx[j] = ((double*)&dQdV[0])[j]*dvdr[X] + 
+	        ((double*)&dQdV[1])[j]*dvdr[Y] +
+		((double*)&dQdV[2])[j]*dvdr[Z];
 }
 
 
@@ -355,7 +355,7 @@ void Vdot(double v[3], double omega[3], double vdot[3])
     if (theta < MIN_ANGLE){
 	gamma = (12.0 - theta*theta) / 6.0;
 	eta  = (v[X]*omega[X] + v[Y]*omega[Y] + v[Z]*omega[Z]) *
-	        (60.0 + theta*theta) / 360.0;
+	        -(60.0 + theta*theta) / 360.0;
     }
     else {
 	cotp = cosp/sinp;

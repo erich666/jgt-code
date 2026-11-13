@@ -1,11 +1,12 @@
-#include <fstream.h>
-#include <strstream.h>
+#include <fstream>
+#include <strstream>
 #include <my_io.h>
 #include <Manifold/manifold.h>
 
 #include "tessellate.h"
 #include "tessellate.cc"
 #include <stdlib.h>
+using namespace std;
 
 extern void set_dischack( Real );
 

@@ -19,7 +19,7 @@ void adaptiveThreshold(unsigned char* input, unsigned char* bin)
 	int s2 = S/2;
 
 	// create the integral image
-	integralImg = (unsigned long*)malloc(IMAGE_WIDTH*IMAGE_HEIGHT*sizeof(unsigned long*));
+	integralImg = (unsigned long*)malloc(IMAGE_WIDTH*IMAGE_HEIGHT*sizeof(unsigned long));
 
 	for (i=0; i<IMAGE_WIDTH; i++)
 	{

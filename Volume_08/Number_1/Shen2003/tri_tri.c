@@ -35,13 +35,13 @@
 
 #include <math.h>
 
-#define FABS(x) (x>=0?x:-x)        /* implement as is fastest on your machine */
+#define FABS(x) ((x)>=0?(x):-(x))        /* implement as is fastest on your machine */
 /* #define FABS(x) ((float)fabs(x)) */
 /* if   is true then we do a check: 
          if |dv|<EPSILON then dv=0.0;
    else no check is done (which is less robust)
 */
-#define USE_EPSILON_TEST TRUE
+#define USE_EPSILON_TEST 1  /* 1 = on, 0 = off */
 #define EPSILON 0.0000001
 
 
@@ -208,7 +208,7 @@ int tri_tri_intersect(float V0[3],float V1[3],float V2[3],
   dv2=DOT(N1,V2)+d1;
 
   /* coplanarity robustness check */
-#if USE_EPSILON_TEST==TRUE
+#if USE_EPSILON_TEST
   if(FABS(dv0)<EPSILON) dv0=0.0;
   if(FABS(dv1)<EPSILON) dv1=0.0;
   if(FABS(dv2)<EPSILON) dv2=0.0;
@@ -231,7 +231,7 @@ int tri_tri_intersect(float V0[3],float V1[3],float V2[3],
   du2=DOT(N2,U2)+d2;
 
   /* coplanarity robustness check */
-#if USE_EPSILON_TEST==TRUE
+#if USE_EPSILON_TEST
   if(FABS(du0)<EPSILON) du0=0.0;
   if(FABS(du1)<EPSILON) du1=0.0;
   if(FABS(du2)<EPSILON) du2=0.0;
@@ -286,7 +286,7 @@ int tri_tri_intersect(float V0[3],float V1[3],float V2[3],
       CROSS(N,E1,E2);
       SUB(tmp,UU0,VV0);
       du02=DOT(N,tmp);
-#if USE_EPSILON_TEST==TRUE
+#if USE_EPSILON_TEST
       if (du02>EPSILON)
 #else
       if (du02>0)
@@ -298,7 +298,7 @@ int tri_tri_intersect(float V0[3],float V1[3],float V2[3],
       CROSS(N,E1,E2);
       SUB(tmp,UU0,VV0);
       du01=DOT(N,tmp);
-#if USE_EPSILON_TEST==TRUE
+#if USE_EPSILON_TEST
       if (du01<-EPSILON)
 #else
       if (du01<0)
@@ -312,7 +312,7 @@ int tri_tri_intersect(float V0[3],float V1[3],float V2[3],
       CROSS(N,E1,E2);
       SUB(tmp,UU0,VV0);
       du02=DOT(N,tmp);
-#if USE_EPSILON_TEST==TRUE
+#if USE_EPSILON_TEST
       if (du02>EPSILON)
 #else
       if (du02>0)
@@ -324,7 +324,7 @@ int tri_tri_intersect(float V0[3],float V1[3],float V2[3],
       CROSS(N,E1,E2);
       SUB(tmp,UU0,VV0);
       du01=DOT(N,tmp);
-#if USE_EPSILON_TEST==TRUE
+#if USE_EPSILON_TEST
       if (du01<-EPSILON)
 #else
       if (du01<0)
@@ -341,7 +341,7 @@ int tri_tri_intersect(float V0[3],float V1[3],float V2[3],
       CROSS(N,E1,E2);
       SUB(tmp,UU0,VV0);
       du01=DOT(N,tmp);
-#if USE_EPSILON_TEST==TRUE
+#if USE_EPSILON_TEST
       if (du01>EPSILON)
 #else
       if (du01>0)
@@ -353,7 +353,7 @@ int tri_tri_intersect(float V0[3],float V1[3],float V2[3],
       CROSS(N,E1,E2);
       SUB(tmp,UU0,VV0);
       du02=DOT(N,tmp);
-#if USE_EPSILON_TEST==TRUE
+#if USE_EPSILON_TEST
       if (du02<-EPSILON)
 #else
       if (du02<0)
@@ -367,7 +367,7 @@ int tri_tri_intersect(float V0[3],float V1[3],float V2[3],
       CROSS(N,E1,E2);
       SUB(tmp,UU0,VV0);
       du01=DOT(N,tmp);
-#if USE_EPSILON_TEST==TRUE
+#if USE_EPSILON_TEST
       if (du01>EPSILON)
 #else
       if (du01>0)
@@ -379,7 +379,7 @@ int tri_tri_intersect(float V0[3],float V1[3],float V2[3],
       CROSS(N,E1,E2);
       SUB(tmp,UU0,VV0);
       du02=DOT(N,tmp);
-#if USE_EPSILON_TEST==TRUE
+#if USE_EPSILON_TEST
       if (du02<-EPSILON)
 #else
       if (du02<0)

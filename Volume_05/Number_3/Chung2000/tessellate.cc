@@ -172,7 +172,7 @@ int TriTile<T>::refine( Tessellate<T>* tess, TriTile<T>* res[4] ) {
     for( int i = 0; i<3; i++) {
       res[i] = new TriTile<T>();
       res[i]->set_vtx( 0, vt[i] );
-      res[i]->set_vtx( 1, vt[(i+1)%2] );
+      res[i]->set_vtx( 1, vt[(i+1)%3] );
       res[i]->set_vtx( 2, a );
     }
     return 3;
@@ -189,7 +189,7 @@ class TTPtr {
 public:
   TTPtr( TriTile<T>* x =0) : tp(x) {}
   TTPtr( const TTPtr<T>& x) : tp(x.tp) {};
-  TTPtr& operator= ( const TTPtr<T>& x) { tp = x.tp; }
+  TTPtr& operator= ( const TTPtr<T>& x) { tp = x.tp; return *this; }
   TriTile<T>* p() { return tp; }
   const TriTile<T>* p() const { return tp; }
 };
@@ -267,12 +267,12 @@ void TessTrim<T>::init_trimming_loops() {
       }
     }
 
-    list< TrimPoint<T> >::iterator x = lp.pts.begin();
+    typename list< TrimPoint<T> >::iterator x = lp.pts.begin();
     while( x != lp.pts.end() ) {
       TrimPoint<T>& p0 = *x;
       T u0 = p0.uval;
 
-      list< TrimPoint<T> >::iterator y = x;
+      typename list< TrimPoint<T> >::iterator y = x;
       y++;
 
       T u1;
@@ -337,9 +337,9 @@ int TessTrim<T>::inout_test( TriTile<T>* tile ) {
   for( int ilp = 0; ilp < num_loops; ilp++) {
     TrimLoop<T>& lp = loop[ilp];
 
-    for( list< TrimPoint<T> >::iterator ix = lp.pts.begin();
+    for( typename list< TrimPoint<T> >::iterator ix = lp.pts.begin();
 	 ix!=lp.pts.end(); ix++ ) {
-      list< TrimPoint<T> >::iterator iy = ix;
+      typename list< TrimPoint<T> >::iterator iy = ix;
       iy++;
       if (iy==lp.pts.end()) iy = lp.pts.begin();
 

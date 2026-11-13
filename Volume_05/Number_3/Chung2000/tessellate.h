@@ -2,7 +2,8 @@
 #define _TESSELLATE_
 
 #include <list>
-#include <iostream.h>
+#include <iostream>
+using namespace std;
 
 template < class T > class Tessellate;
 template < class T > class TessTrim;
@@ -47,6 +48,7 @@ public:
  ************************************************************/
 template < class T >
 class Tessellate {
+protected:
 
   static T edge_thresh; //for deciding when an edge short enough
 
@@ -141,7 +143,7 @@ public:
  Abstract base class for trimmed surface tesselation
  ************************************************************/
 template < class T >
-class TessTrim<T> : public Tessellate<T> {
+class TessTrim : public Tessellate<T> {
   int num_loops;
   TrimLoop<T>* loop;
 
@@ -153,14 +155,14 @@ public:
 
   ~TessTrim() { if (num_loops) delete[] loop; }
 
-  set_num_loops( int n ) {
+  void set_num_loops( int n ) {
     if (!num_loops && (n>num_loops)) {
       num_loops = n;
       loop = new TrimLoop<T>[n];
     }
   }
 
-  set_num_segs( int i, int n ) {
+  void set_num_segs( int i, int n ) {
     if ((i>=0) && (i<num_loops) && (n>0)) {
       loop[i].num_segs = n;
     }

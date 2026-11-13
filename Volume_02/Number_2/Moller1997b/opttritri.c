@@ -16,13 +16,13 @@
  */
 
 #include <math.h>
-#define FABS(x) (float(fabs(x)))        /* implement as is fastest on your machine */
+#define FABS(x) ((float)fabs(x))        /* implement as is fastest on your machine */
 
 /* if USE_EPSILON_TEST is true then we do a check:
          if |dv|<EPSILON then dv=0.0;
    else no check is done (which is less robust)
 */
-#define USE_EPSILON_TEST TRUE
+#define USE_EPSILON_TEST 1  /* 1 = on, 0 = off */
 #define EPSILON 0.000001
 
 
@@ -224,7 +224,7 @@ int NoDivTriTriIsect(float V0[3],float V1[3],float V2[3],
   du2=DOT(N1,U2)+d1;
 
   /* coplanarity robustness check */
-#if USE_EPSILON_TEST==TRUE
+#if USE_EPSILON_TEST
   if(FABS(du0)<EPSILON) du0=0.0;
   if(FABS(du1)<EPSILON) du1=0.0;
   if(FABS(du2)<EPSILON) du2=0.0;
@@ -247,7 +247,7 @@ int NoDivTriTriIsect(float V0[3],float V1[3],float V2[3],
   dv1=DOT(N2,V1)+d2;
   dv2=DOT(N2,V2)+d2;
 
-#if USE_EPSILON_TEST==TRUE
+#if USE_EPSILON_TEST
   if(FABS(dv0)<EPSILON) dv0=0.0;
   if(FABS(dv1)<EPSILON) dv1=0.0;
   if(FABS(dv2)<EPSILON) dv2=0.0;
