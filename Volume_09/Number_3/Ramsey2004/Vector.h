@@ -1,12 +1,12 @@
-//see main.cc for copyright notices
+//see main.cpp for copyright notices
 
 #ifndef VECTOR_H
 #define VECTOR_H 1
 
-#include <math.h>
-#include <iostream>
-using std::ostream;
-using std::istream;
+
+#include <cmath>
+#include <ostream>
+#include <istream>
 
 class Vector {
     double d[3];
@@ -41,8 +41,8 @@ public:
     inline void z(double zz) {	d[2]=zz;    }
     inline double z() const;
     inline double minComponent() const;
-    friend ostream& operator<<(ostream& os, const Vector& p);
-    friend istream& operator>>(istream& os, Vector& p);
+    friend std::ostream& operator<<(std::ostream& os, const Vector& p);
+    friend std::istream& operator>>(std::istream& os, Vector& p);
     inline bool operator != (const Vector& v) const;
     inline double* ptr() const {return (double*)&d[0];}
 
@@ -201,14 +201,12 @@ inline Vector Vector::normal() const {   // unit-length copy
     return v;
 }
 
-inline ostream& operator<<(ostream& os, const Vector& p) {
+inline std::ostream& operator<<(std::ostream& os, const Vector& p) {
     return os << "(" << p.d[0] << ", " << p.d[1] << ", " << p.d[2] << ")";
 }
 
-inline istream& operator>>(istream& is, Vector& p) {
+inline std::istream& operator>>(std::istream& is, Vector& p) {
     return is >> p.d[0] >> p.d[1] >> p.d[2];
 }
-
-
 
 #endif
